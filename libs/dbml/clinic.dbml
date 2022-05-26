@@ -1,0 +1,169 @@
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum PatientStatus {
+  OUTPATIENT
+  REFERRED
+}
+
+enum Role {
+  DOCTOR
+  ADMIN
+  NURSE
+}
+
+table users {
+  id uuid [pk]
+  email varchar
+  password varchar
+  role Role
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table patients {
+  id uuid [pk]
+  nik varchar 
+  phone varchar
+  address varchar
+  dob datetime
+  gender Gender
+  blood_type varchar
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table polyclinics {
+  id integer [pk]
+  name varchar
+}
+
+table doctors {
+  user_id uuid [pk]
+  polyclinic_id integer
+  nip varchar
+  sip varchar
+  address varchar
+  dob datetime
+  gender Gender
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table admins {
+  user_id uuid [pk]
+  name varchar
+  nip varchar
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table nurses {
+  id uuid [pk]
+  polyclinic_id integer
+  nip varchar
+  sip varchar
+  name varchar
+  address varchar
+  dob datetime
+  gender Gender
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table service_queues {
+  id uuid [pk]
+  doctor_id uuid
+  patient_id uuid 
+  patient_status PatientStatus
+  daily_queue_number integer
+  daily_queue_date date
+  service_done_at datetime [null]
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table medical_records {
+  id uuid [pk]
+  patient_id uuid
+  doctor_id uuid
+  polyclinic_id uuid
+  patient_status PatientStatus
+  symptoms varchar
+  icd10_code varchar
+  icd10_diagnose varchar
+  suggestions varchar [null]
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+table prescriptions {
+  medical_record_id uuid [pk]
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+enum MedicineType {
+  GENERIC
+  PATENT
+}
+
+table medicines {
+  id integer [pk]
+  name varchar
+  medicine_type MedicineType
+  created_at timestamp
+  updated_at datetime 
+  deleted_at datetime
+}
+
+enum MedicinePreparatory {
+  PULVIS
+  TABLET
+  SYRUP
+  
+}
+
+table medicine_prescription_pivots {
+  prescription_id uuid [pk]
+  medicine_id uuid [pk]
+  quantity integer
+  dosage varchar
+  preparatory varchar
+}
+
+Ref: "nurses"."polyclinic_id" < "polyclinics"."id"
+
+Ref: "doctors"."polyclinic_id" < "polyclinics"."id"
+
+Ref: "users"."id" - "admins"."user_id"
+
+Ref: "users"."id" - "nurses"."id"
+
+Ref: "users"."id" - "doctors"."user_id"
+
+Ref: "prescriptions"."medical_record_id" < "medical_records"."id"
+
+Ref: "medicine_prescription_pivots"."medicine_id" < "medicines"."id"
+
+Ref: "medicine_prescription_pivots"."prescription_id" < "prescriptions"."medical_record_id"
+
+Ref: "medical_records"."patient_id" < "patients"."id"
+
+Ref: "medical_records"."doctor_id" < "doctors"."user_id"
+
+Ref: "medical_records"."polyclinic_id" < "polyclinics"."id"
+
+Ref: "service_queues"."doctor_id" < "doctors"."user_id"
+
+Ref: "service_queues"."patient_id" < "patients"."id"
