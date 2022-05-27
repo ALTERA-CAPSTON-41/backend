@@ -26,6 +26,7 @@ table users {
 
 table patients {
   id uuid [pk]
+  name varchar
   nik varchar 
   phone varchar
   address varchar
@@ -45,6 +46,7 @@ table polyclinics {
 table doctors {
   user_id uuid [pk]
   polyclinic_id integer
+  name varchar
   nip varchar
   sip varchar
   address varchar
@@ -67,9 +69,9 @@ table admins {
 table nurses {
   id uuid [pk]
   polyclinic_id integer
+  name varchar
   nip varchar
   sip varchar
-  name varchar
   address varchar
   dob datetime
   gender Gender
