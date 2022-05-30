@@ -4,10 +4,15 @@ go 1.17
 
 require github.com/spf13/viper v1.12.0
 
-require github.com/labstack/echo/v4 v4.7.2
+require (
+	github.com/labstack/echo/v4 v4.7.2
+	gorm.io/driver/mysql v1.3.4
+	gorm.io/gorm v1.23.5
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
@@ -33,5 +38,4 @@ require (
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0 // indirect
-	gorm.io/gorm v1.23.5 // indirect
 )
