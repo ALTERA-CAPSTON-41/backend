@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"clinic-api/src/routes"
+)
 
 func main() {
-	fmt.Println("hello world")
+	app := routes.New()
+	app.Logger.Fatal(app.Start(":8000"))
 }
