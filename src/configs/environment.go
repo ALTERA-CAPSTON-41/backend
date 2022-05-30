@@ -7,6 +7,15 @@ type ServerConfig struct {
 	JWTsecret        string `mapstructure:"JWT_SECRET"`
 }
 
+// `path` variable stands for env location, which `.`
+// is indicated for env file was located in a same path
+// with main.go file.
+//
+// If you will made an integration test, which is they're
+// centralized, perhaps you made a testing environment
+// which is located at same folder with tests' folder. So,
+// you can argue to the `path` argument with `tests` value.
+// instead of `.`
 func LoadServerConfig(path string) (ServerConfig, error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigName("app")
