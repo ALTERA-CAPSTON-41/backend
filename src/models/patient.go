@@ -1,6 +1,7 @@
 package models
 
 import (
+	"clinic-api/src/utils"
 	"time"
 
 	"github.com/google/uuid"
@@ -48,7 +49,7 @@ type PatientResponse struct {
 	NIK       string     `json:"nik"`
 	Phone     string     `json:"phone"`
 	Address   string     `json:"address"`
-	DOB       time.Time  `json:"dob"`
+	DOB       string     `json:"dob"`
 	Gender    genderType `json:"gender"`
 	BloodType string     `json:"blood_type"`
 }
@@ -86,7 +87,7 @@ func MapToPatient(patient Patient) PatientResponse {
 		NIK:       patient.NIK,
 		Phone:     patient.Phone,
 		Address:   patient.Address,
-		DOB:       patient.DOB,
+		DOB:       utils.ConvertDate(patient.DOB),
 		Gender:    patient.Gender,
 		BloodType: patient.BloodType,
 	}
