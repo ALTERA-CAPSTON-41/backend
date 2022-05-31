@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	new(database.DBConf).InitDB().Migrate()
+	new(database.DBConf).InitDB().AutoMigrate()
 }
 
 func main() {
