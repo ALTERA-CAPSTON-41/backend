@@ -39,10 +39,7 @@ func GetAllPatientsHandler(c echo.Context) error {
 		query = fmt.Sprint("nik = ", nik)
 	}
 
-	err := models.DB.
-		Where(query).
-		Find(&patients).Error
-	if err != nil {
+	if err := models.DB.Where(query).Find(&patients).Error; err != nil {
 		status = http.StatusInternalServerError
 		return utils.CreateEchoResponse(c, status, nil)
 	}
