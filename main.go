@@ -2,11 +2,12 @@ package main
 
 import (
 	"clinic-api/src/database"
+	"clinic-api/src/models"
 	"clinic-api/src/routes"
 )
 
 func init() {
-	new(database.DBConf).InitDB().AutoMigrate()
+	new(database.DBConf).InitDB().AutoMigrate(models.Patient{})
 }
 
 func main() {
