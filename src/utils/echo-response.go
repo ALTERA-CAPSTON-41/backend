@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -12,10 +14,10 @@ type base struct {
 	Data interface{} `json:"data"`
 }
 
-func CreateEchoResponse(ectx echo.Context, httpCode int, reason string, data interface{}) error {
+func CreateEchoResponse(c echo.Context, httpCode int, data interface{}) error {
 	response := base{}
 	response.Meta.Status = httpCode
-	response.Meta.Message = reason
+	response.Meta.Message = http.StatusText(httpCode)
 	response.Data = data
-	return ectx.JSON(httpCode, response)
+	return c.JSON(httpCode, response)
 }
