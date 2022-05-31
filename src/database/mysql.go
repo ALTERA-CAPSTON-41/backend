@@ -16,11 +16,3 @@ func (DB *DBConf) InitDB() *DBConf {
 	conn, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	return &DBConf{conn}
 }
-
-func (DB *DBConf) Migrate() {
-	DB.AutoMigrate()
-}
-
-func (DB *DBConf) Demigrate() {
-	DB.Migrator().DropTable()
-}
