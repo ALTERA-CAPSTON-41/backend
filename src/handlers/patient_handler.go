@@ -13,14 +13,14 @@ import (
 
 func CreatePatientHandler(c echo.Context) error {
 	status := http.StatusCreated
-	patientRequest := models.Patient{}
+	patientRequest := models.PatientRequest{}
 	if err := c.Bind(&patientRequest); err != nil {
 		status = http.StatusBadRequest
 		return utils.CreateEchoResponse(c, status, nil)
 	}
 
 	newPatient := models.MapToNewPatient(patientRequest)
-	if err := models.DB.Create(&newPatient).Error; err != nil {
+	if err := models.DB.Table("patients").Create(&newPatient).Error; err != nil {
 		status = http.StatusInternalServerError
 		return utils.CreateEchoResponse(c, status, nil)
 	}
@@ -67,14 +67,14 @@ func GetPatientByIDHandler(c echo.Context) error {
 func EditDoctorByIDHandler(c echo.Context) error {
 	status := http.StatusNoContent
 	id := c.Param("id")
-	patientRequest := models.Patient{}
+	patientRequest := models.PatientRequest{}
 	if err := c.Bind(&patientRequest); err != nil {
 		status = http.StatusBadRequest
 		return utils.CreateEchoResponse(c, status, nil)
 	}
 
 	patient := models.MapToExistingPatient(patientRequest)
-	editAction := models.DB.Where("id", id).Updates(&patient)
+	editAction := models.DB.Table("patients").Where("id", id).Updates(&patient)
 	if editAction.RowsAffected < 1 {
 		status = http.StatusNotFound
 		return utils.CreateEchoResponse(c, status, nil)
