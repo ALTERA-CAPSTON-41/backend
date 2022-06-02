@@ -8,11 +8,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type genderType string
+type GenderType string
 
 const (
-	MALE   = "MALE"
-	FEMALE = "FEMALE"
+	MALE   GenderType = "MALE"
+	FEMALE GenderType = "FEMALE"
 )
 
 type Patient struct {
@@ -22,7 +22,7 @@ type Patient struct {
 	Phone     string         `json:"phone"`
 	Address   string         `json:"address"`
 	DOB       time.Time      `json:"dob"`
-	Gender    genderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
+	Gender    GenderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
 	BloodType string         `json:"blood_type"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -30,17 +30,13 @@ type Patient struct {
 }
 
 type PatientRequest struct {
-	ID        uuid.UUID      `gorm:"primaryKey" json:"id"`
-	Name      string         `json:"name"`
-	NIK       string         `json:"nik"`
-	Phone     string         `json:"phone"`
-	Address   string         `json:"address"`
-	DOB       string         `json:"dob"`
-	Gender    genderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
-	BloodType string         `json:"blood_type"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	Name      string `json:"name"`
+	NIK       string `json:"nik"`
+	Phone     string `json:"phone"`
+	Address   string `json:"address"`
+	DOB       string `json:"dob"`
+	Gender    string `json:"gender"`
+	BloodType string `json:"blood_type"`
 }
 
 type PatientResponse struct {
@@ -50,32 +46,32 @@ type PatientResponse struct {
 	Phone     string     `json:"phone"`
 	Address   string     `json:"address"`
 	DOB       string     `json:"dob"`
-	Gender    genderType `json:"gender"`
+	Gender    GenderType `json:"gender"`
 	BloodType string     `json:"blood_type"`
 }
 
-func MapToNewPatient(request PatientRequest) PatientRequest {
-	return PatientRequest{
+func MapToNewPatient(request PatientRequest) Patient {
+	return Patient{
 		ID:        uuid.Must(uuid.NewRandom()),
 		Name:      request.Name,
 		NIK:       request.NIK,
 		Phone:     request.Phone,
 		Address:   request.Address,
-		DOB:       request.DOB,
-		Gender:    request.Gender,
+		DOB:       utils.ConvertStringToDate(request.DOB),
+		Gender:    GenderType(request.Gender),
 		BloodType: request.BloodType,
 	}
 }
 
-func MapToExistingPatient(request PatientRequest) PatientRequest {
-	return PatientRequest{
-		ID:        request.ID,
+func MapToExistingPatient(request PatientRequest, id string) Patient {
+	return Patient{
+		ID:        uuid.MustParse(id),
 		Name:      request.Name,
 		NIK:       request.NIK,
 		Phone:     request.Phone,
 		Address:   request.Address,
-		DOB:       request.DOB,
-		Gender:    request.Gender,
+		DOB:       utils.ConvertStringToDate(request.DOB),
+		Gender:    GenderType(request.Gender),
 		BloodType: request.BloodType,
 	}
 }
@@ -87,7 +83,7 @@ func MapToPatient(patient Patient) PatientResponse {
 		NIK:       patient.NIK,
 		Phone:     patient.Phone,
 		Address:   patient.Address,
-		DOB:       utils.ConvertDate(patient.DOB),
+		DOB:       utils.ConvertDateToString(patient.DOB),
 		Gender:    patient.Gender,
 		BloodType: patient.BloodType,
 	}

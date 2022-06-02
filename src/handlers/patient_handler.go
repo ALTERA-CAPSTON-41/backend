@@ -20,7 +20,7 @@ func CreatePatientHandler(c echo.Context) error {
 	}
 
 	newPatient := models.MapToNewPatient(patientRequest)
-	if err := models.DB.Table("patients").Create(&newPatient).Error; err != nil {
+	if err := models.DB.Create(&newPatient).Error; err != nil {
 		status = http.StatusInternalServerError
 		return utils.CreateEchoResponse(c, status, nil)
 	}
@@ -73,8 +73,8 @@ func EditDoctorByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, status, nil)
 	}
 
-	patient := models.MapToExistingPatient(patientRequest)
-	editAction := models.DB.Table("patients").Where("id", id).Updates(&patient)
+	patient := models.MapToExistingPatient(patientRequest, id)
+	editAction := models.DB.Where("id", id).Updates(&patient)
 	if editAction.RowsAffected < 1 {
 		status = http.StatusNotFound
 		return utils.CreateEchoResponse(c, status, nil)
