@@ -7,7 +7,10 @@ import (
 )
 
 func init() {
-	new(database.DBConf).InitDB().AutoMigrate(models.Patient{})
+	new(database.DBConf).InitDB().AutoMigrate(
+		models.Patient{},
+		models.User{},
+	)
 }
 
 func main() {
