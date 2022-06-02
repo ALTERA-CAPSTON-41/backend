@@ -8,11 +8,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type genderType string
+type GenderType string
 
 const (
-	MALE   = "MALE"
-	FEMALE = "FEMALE"
+	MALE GenderType  = "MALE"
+	FEMALE GenderType = "FEMALE"
 )
 
 type Patient struct {
@@ -22,7 +22,7 @@ type Patient struct {
 	Phone     string         `json:"phone"`
 	Address   string         `json:"address"`
 	DOB       time.Time      `json:"dob"`
-	Gender    genderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
+	Gender    GenderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
 	BloodType string         `json:"blood_type"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -36,7 +36,7 @@ type PatientRequest struct {
 	Phone     string         `json:"phone"`
 	Address   string         `json:"address"`
 	DOB       string         `json:"dob"`
-	Gender    genderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
+	Gender    GenderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
 	BloodType string         `json:"blood_type"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -50,7 +50,7 @@ type PatientResponse struct {
 	Phone     string     `json:"phone"`
 	Address   string     `json:"address"`
 	DOB       string     `json:"dob"`
-	Gender    genderType `json:"gender"`
+	Gender    GenderType `json:"gender"`
 	BloodType string     `json:"blood_type"`
 }
 
@@ -62,7 +62,7 @@ func MapToNewPatient(request PatientRequest) PatientRequest {
 		Phone:     request.Phone,
 		Address:   request.Address,
 		DOB:       request.DOB,
-		Gender:    request.Gender,
+		Gender:    GenderType(request.Gender),
 		BloodType: request.BloodType,
 	}
 }
@@ -75,7 +75,7 @@ func MapToExistingPatient(request PatientRequest) PatientRequest {
 		Phone:     request.Phone,
 		Address:   request.Address,
 		DOB:       request.DOB,
-		Gender:    request.Gender,
+		Gender:    GenderType(request.Gender),
 		BloodType: request.BloodType,
 	}
 }
