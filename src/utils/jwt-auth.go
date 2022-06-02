@@ -37,7 +37,7 @@ func GenerateJwt(userId string, role UserRole) (token string, err error) {
 	return
 }
 
-func SetJwtCookie(ec echo.Context, token string) {
+func SetJwtCookie(c echo.Context, token string) {
 	authCookie := http.Cookie{
 		Name:     "token",
 		Value:    token,
@@ -45,7 +45,7 @@ func SetJwtCookie(ec echo.Context, token string) {
 		Path:     "/",
 		HttpOnly: true,
 	}
-	ec.SetCookie(&authCookie)
+	c.SetCookie(&authCookie)
 }
 
 func ExtractClaims(tokenStr string) (JwtCustomClaims, error) {
