@@ -5,6 +5,7 @@ go 1.17
 require github.com/spf13/viper v1.12.0
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0
 	github.com/labstack/echo/v4 v4.7.2
 	gorm.io/driver/mysql v1.3.4
