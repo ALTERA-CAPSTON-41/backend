@@ -25,5 +25,12 @@ func New() *echo.Echo {
 	route.PUT("/patients/:id", handlers.EditDoctorByIDHandler)
 	route.DELETE("/patients/:id", handlers.DeletePatientByIDHandler)
 
+	// polyclinic
+	route.POST("/polyclinics", handlers.CreatePolyclinicHandler)
+	route.GET("/polyclinics", handlers.GetAllPolyclinicHandler)
+	route.GET("/polyclinics/:id", handlers.GetPolyclinicByIDHandler)
+	route.PUT("/polyclinics/:id", handlers.EditPolyclinicByIDHandler)
+	route.DELETE("/polyclinics/:id", handlers.DeletePolyclinicByIDHandler)
+
 	return route
 }
