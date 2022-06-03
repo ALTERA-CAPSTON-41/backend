@@ -30,7 +30,10 @@ func GetAllPolyclinicHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
-	return utils.CreateEchoResponse(c, http.StatusOK, models.MapToPolyclinicBatch(polyclinics))
+	return utils.CreateEchoResponse(c,
+		http.StatusOK,
+		models.MapToPolyclinicBatchResponse(polyclinics),
+	)
 }
 
 func GetPolyclinicByIDHandler(c echo.Context) error {
@@ -44,7 +47,11 @@ func GetPolyclinicByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
-	return utils.CreateEchoResponse(c, http.StatusOK, models.MapToPolyclinic(polyclinic))
+	return utils.CreateEchoResponse(
+		c,
+		http.StatusOK,
+		models.MapToPolyclinicResponse(polyclinic),
+	)
 }
 
 func EditPolyclinicByIDHandler(c echo.Context) error {
