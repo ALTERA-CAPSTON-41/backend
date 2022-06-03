@@ -27,11 +27,11 @@ func MapToExistingPolyclinic(request PolyclinicRequest, id int) Polyclinic {
 	}
 }
 
-func MapToPolyclinic(polyclinic Polyclinic) PolyclinicResponse {
+func MapToPolyclinicResponse(polyclinic Polyclinic) PolyclinicResponse {
 	return PolyclinicResponse(polyclinic)
 }
 
-func MapToPolyclinicBatch(polyclinics []Polyclinic) []PolyclinicResponse {
+func MapToPolyclinicBatchResponse(polyclinics []Polyclinic) []PolyclinicResponse {
 	var response []PolyclinicResponse
 
 	for _, polyclinic := range polyclinics {
