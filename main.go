@@ -10,6 +10,7 @@ func init() {
 	new(database.DBConf).InitDB().AutoMigrate(
 		models.Patient{},
 		models.User{},
+		models.Polyclinic{},
 	)
 }
 
