@@ -64,7 +64,7 @@ func GetPatientByIDHandler(c echo.Context) error {
 	return utils.CreateEchoResponse(c, status, models.MapToPatient(patient))
 }
 
-func EditDoctorByIDHandler(c echo.Context) error {
+func EditPatientByIDHandler(c echo.Context) error {
 	status := http.StatusNoContent
 	id := c.Param("id")
 	patientRequest := models.PatientRequest{}

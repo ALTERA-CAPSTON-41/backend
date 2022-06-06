@@ -22,7 +22,7 @@ func New() *echo.Echo {
 	route.POST("/patients", handlers.CreatePatientHandler)
 	route.GET("/patients", handlers.GetAllPatientsHandler)
 	route.GET("/patients/:id", handlers.GetPatientByIDHandler)
-	route.PUT("/patients/:id", handlers.EditDoctorByIDHandler)
+	route.PUT("/patients/:id", handlers.EditPatientByIDHandler)
 	route.DELETE("/patients/:id", handlers.DeletePatientByIDHandler)
 
 	// polyclinic
