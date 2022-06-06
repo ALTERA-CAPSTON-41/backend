@@ -19,6 +19,7 @@ type User struct {
 	Email    string `gorm:"unique"`
 	Password string
 	Role     UserRole `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
+	Doctor   Doctor
 }
 
 type UserRequest struct {
@@ -57,5 +58,3 @@ func MapToExistingUserModel(request UserRequest, id string) User {
 		Role:     UserRole(request.Role),
 	}
 }
-
-// func Map
