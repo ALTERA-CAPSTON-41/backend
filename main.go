@@ -11,6 +11,7 @@ func init() {
 		models.Patient{},
 		models.User{},
 		models.Polyclinic{},
+		models.Doctor{},
 	)
 }
 

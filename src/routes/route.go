@@ -18,11 +18,14 @@ func New() *echo.Echo {
 		})
 	})
 
+	// login
+	route.POST("/login", handlers.AttemptLoginUser)
+
 	// patient
 	route.POST("/patients", handlers.CreatePatientHandler)
 	route.GET("/patients", handlers.GetAllPatientsHandler)
 	route.GET("/patients/:id", handlers.GetPatientByIDHandler)
-	route.PUT("/patients/:id", handlers.EditDoctorByIDHandler)
+	route.PUT("/patients/:id", handlers.EditPatientByIDHandler)
 	route.DELETE("/patients/:id", handlers.DeletePatientByIDHandler)
 
 	// polyclinic
@@ -31,6 +34,13 @@ func New() *echo.Echo {
 	route.GET("/polyclinics/:id", handlers.GetPolyclinicByIDHandler)
 	route.PUT("/polyclinics/:id", handlers.EditPolyclinicByIDHandler)
 	route.DELETE("/polyclinics/:id", handlers.DeletePolyclinicByIDHandler)
+
+	// doctor
+	route.POST("/doctors", handlers.CreateDoctorHandler)
+	route.GET("/doctors", handlers.GetAllDoctorsHandler)
+	route.GET("/doctors/:id", handlers.GetDoctorByIDHandler)
+	route.PUT("/doctors/:id", handlers.EditDoctorByIDHandler)
+	route.DELETE("/doctors/:id", handlers.DeleteDoctorByIDHandler)
 
 	return route
 }

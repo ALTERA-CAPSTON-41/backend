@@ -22,7 +22,7 @@ func AttemptLoginUser(c echo.Context) error {
 		})
 	}
 
-	if utils.ValidateHash(userRequest.Password, userRequest.Password) {
+	if utils.ValidateHash(userRequest.Password, userData.Password) {
 		token, _ := utils.GenerateJwt(userData.ID.String(), utils.UserRole(userData.Role))
 		utils.SetJwtCookie(c, token)
 		return utils.CreateEchoResponse(c, http.StatusCreated, models.AuthResponse{

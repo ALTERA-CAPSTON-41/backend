@@ -8,13 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type GenderType string
-
-const (
-	MALE   GenderType = "MALE"
-	FEMALE GenderType = "FEMALE"
-)
-
 type Patient struct {
 	ID        uuid.UUID      `gorm:"primaryKey" json:"id"`
 	Name      string         `json:"name"`

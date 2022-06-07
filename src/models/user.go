@@ -57,5 +57,3 @@ func MapToExistingUserModel(request UserRequest, id string) User {
 		Role:     UserRole(request.Role),
 	}
 }
-
-// func Map
