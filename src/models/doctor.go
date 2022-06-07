@@ -88,7 +88,7 @@ func MapToDoctorResponse(doctor Doctor) DoctorResponse {
 		Gender:  doctor.Gender,
 		Email:   doctor.User.Email,
 		Polyclinic: PolyclinicResponse{
-			doctor.PolyclinicID, doctor.Polyclinic.Name,
+			doctor.Polyclinic.ID, doctor.Polyclinic.Name,
 		},
 	}
 }

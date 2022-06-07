@@ -1,8 +1,11 @@
 package models
 
+import "gorm.io/gorm"
+
 type Polyclinic struct {
 	ID   int `gorm:"primaryKey"`
 	Name string
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 type PolyclinicRequest struct {
@@ -28,14 +31,17 @@ func MapToExistingPolyclinic(request PolyclinicRequest, id int) Polyclinic {
 }
 
 func MapToPolyclinicResponse(polyclinic Polyclinic) PolyclinicResponse {
-	return PolyclinicResponse(polyclinic)
+	return PolyclinicResponse{
+		ID: polyclinic.ID,
+		Name: polyclinic.Name,
+	}
 }
 
 func MapToPolyclinicBatchResponse(polyclinics []Polyclinic) []PolyclinicResponse {
 	var response []PolyclinicResponse
 
 	for _, polyclinic := range polyclinics {
-		response = append(response, PolyclinicResponse(polyclinic))
+		response = append(response, MapToPolyclinicResponse(polyclinic))
 	}
 	return response
 }
