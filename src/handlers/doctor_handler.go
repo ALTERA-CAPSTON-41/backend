@@ -30,7 +30,7 @@ func CreateDoctorHandler(c echo.Context) error {
 
 func GetAllDoctorsHandler(c echo.Context) error {
 	var doctors []models.Doctor
-	if err := models.DB.Find(&doctors).Error; err != nil {
+	if err := models.DB.Preload("Polyclinic").Find(&doctors).Error; err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

@@ -61,19 +61,21 @@ type DoctorDetailResponse struct {
 
 func MapToNewDoctor(request DoctorRequest) User {
 	password, _ := utils.CreateHash(request.Password)
+	userID := uuid.Must(uuid.NewRandom())
 	return User{
-		ID:       uuid.Must(uuid.NewRandom()),
+		ID:       userID,
 		Email:    request.Email,
 		Password: password,
 		Role:     UserRole("DOCTOR"),
 		Doctor: Doctor{
-			Name:       request.Name,
-			NIP:        request.NIP,
-			SIP:        request.SIP,
-			Address:    request.Address,
-			DOB:        utils.ConvertStringToDate(request.DOB),
-			Gender:     GenderType(request.Gender),
-			Polyclinic: Polyclinic{ID: request.PolyclinicID},
+			UserID:       userID,
+			Name:         request.Name,
+			NIP:          request.NIP,
+			SIP:          request.SIP,
+			Address:      request.Address,
+			DOB:          utils.ConvertStringToDate(request.DOB),
+			Gender:       GenderType(request.Gender),
+			PolyclinicID: request.PolyclinicID,
 		},
 	}
 }
@@ -121,10 +123,7 @@ func MapToDoctorDetailResponse(doctor Doctor) DoctorDetailResponse {
 		Address: doctor.Address,
 		DOB:     utils.ConvertDateToString(doctor.DOB),
 		Gender:  doctor.Gender,
-		Polyclinic: struct {
-			ID   int    `json:"id"`
-			Name string `json:"name"`
-		}{
+		Polyclinic: PolyclinicResponse{
 			ID:   doctor.Polyclinic.ID,
 			Name: doctor.Polyclinic.Name,
 		},
