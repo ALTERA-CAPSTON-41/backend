@@ -44,7 +44,10 @@ func GetAllDoctorsHandler(c echo.Context) error {
 func GetDoctorByIDHandler(c echo.Context) error {
 	id := c.Param("id")
 	doctor := models.Doctor{}
-	if err := models.DB.Where("user_id", id).First(&doctor).Error; err != nil {
+	if err := models.DB.
+		Preload("User").Preload("Polyclinic").
+		Where("user_id", id).
+		First(&doctor).Error; err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
@@ -52,20 +55,10 @@ func GetDoctorByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
-	polyclinic := models.Polyclinic{}
-	if err := models.DB.First(&polyclinic, doctor.PolyclinicID).Error; err != nil {
-		if strings.Contains(err.Error(), "not found") {
-			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
-		}
-
-		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
-	}
-
-	doctor.Polyclinic = polyclinic
 	return utils.CreateEchoResponse(
 		c,
 		http.StatusOK,
-		models.MapToDoctorDetailResponse(doctor),
+		models.MapToDoctorResponse(doctor),
 	)
 }
 

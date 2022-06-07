@@ -48,21 +48,6 @@ type DoctorResponse struct {
 	Polyclinic PolyclinicResponse `json:"polyclinic"`
 }
 
-type DoctorDetailResponse struct {
-	ID         uuid.UUID  `json:"id"`
-	Name       string     `json:"name"`
-	NIP        string     `json:"nip"`
-	SIP        string     `json:"sip"`
-	Address    string     `json:"address"`
-	DOB        string     `json:"dob"`
-	Gender     GenderType `json:"gender"`
-	Email      string     `json:"email"`
-	Polyclinic struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"polyclinic"`
-}
-
 func MapToNewDoctor(request DoctorRequest) Doctor {
 	password, _ := utils.CreateHash(request.Password)
 	userID := uuid.Must(uuid.NewRandom())
@@ -115,20 +100,4 @@ func MapToDoctorBatchResponse(doctors []Doctor) []DoctorResponse {
 		response = append(response, MapToDoctorResponse(doctor))
 	}
 	return response
-}
-
-func MapToDoctorDetailResponse(doctor Doctor) DoctorDetailResponse {
-	return DoctorDetailResponse{
-		ID:      doctor.UserID,
-		Name:    doctor.Name,
-		NIP:     doctor.NIP,
-		SIP:     doctor.SIP,
-		Address: doctor.Address,
-		DOB:     utils.ConvertDateToString(doctor.DOB),
-		Gender:  doctor.Gender,
-		Polyclinic: PolyclinicResponse{
-			ID:   doctor.Polyclinic.ID,
-			Name: doctor.Polyclinic.Name,
-		},
-	}
 }
