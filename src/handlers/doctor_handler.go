@@ -3,6 +3,7 @@ package handlers
 import (
 	"clinic-api/src/models"
 	"clinic-api/src/utils"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -30,7 +31,18 @@ func CreateDoctorHandler(c echo.Context) error {
 
 func GetAllDoctorsHandler(c echo.Context) error {
 	var doctors []models.Doctor
-	if err := models.DB.Preload("User").Preload("Polyclinic").Find(&doctors).Error; err != nil {
+	name := c.QueryParam("name")
+	nip := c.QueryParam("nip")
+
+	query := "UPPER(name) LIKE '%" + strings.ToUpper(name) + "%'"
+	if nip != "" {
+		query = fmt.Sprintf("nip = '%s'", nip)
+	}
+
+	if err := models.DB.
+		Preload("User").Preload("Polyclinic").
+		Where(query).
+		Find(&doctors).Error; err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
