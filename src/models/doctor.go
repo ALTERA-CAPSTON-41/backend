@@ -17,7 +17,7 @@ type Doctor struct {
 	DOB          time.Time
 	Gender       GenderType `gorm:"type:enum('MALE', 'FEMALE')"`
 	CreatedAt    time.Time
-	Updated      time.Time
+	UpdatedAt    time.Time
 	DeletedAt    gorm.DeletedAt `gorm:"index"`
 	PolyclinicID int
 	Polyclinic   Polyclinic
