@@ -19,7 +19,6 @@ type User struct {
 	Email    string `gorm:"unique"`
 	Password string
 	Role     UserRole `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
-	Doctor   Doctor
 }
 
 type UserRequest struct {

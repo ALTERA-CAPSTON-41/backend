@@ -24,7 +24,7 @@ func CreateDoctorHandler(c echo.Context) error {
 	return utils.CreateEchoResponse(
 		c,
 		http.StatusCreated,
-		map[string]uuid.UUID{"id": newDoctor.ID},
+		map[string]uuid.UUID{"id": newDoctor.UserID},
 	)
 }
 

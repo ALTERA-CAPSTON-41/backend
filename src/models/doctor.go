@@ -9,7 +9,7 @@ import (
 )
 
 type Doctor struct {
-	UserID       uuid.UUID `gorm:"primaryKey"`
+	UserID       uuid.UUID `gorm:"primaryKey;size:191"`
 	Name         string
 	NIP          string `gorm:"column:nip"`
 	SIP          string `gorm:"column:sip"`
@@ -21,6 +21,7 @@ type Doctor struct {
 	DeletedAt    gorm.DeletedAt `gorm:"index"`
 	PolyclinicID int
 	Polyclinic   Polyclinic
+	User         User
 }
 
 type DoctorRequest struct {
@@ -36,13 +37,14 @@ type DoctorRequest struct {
 }
 
 type DoctorResponse struct {
-	ID      uuid.UUID  `json:"id"`
-	Name    string     `json:"name"`
-	NIP     string     `json:"nip"`
-	SIP     string     `json:"sip"`
-	Address string     `json:"address"`
-	DOB     string     `json:"dob"`
-	Gender  GenderType `json:"gender"`
+	ID         uuid.UUID          `json:"id"`
+	Name       string             `json:"name"`
+	NIP        string             `json:"nip"`
+	SIP        string             `json:"sip"`
+	Address    string             `json:"address"`
+	DOB        string             `json:"dob"`
+	Gender     GenderType         `json:"gender"`
+	Polyclinic PolyclinicResponse `json:"polyclinic"`
 }
 
 type DoctorDetailResponse struct {
@@ -59,24 +61,19 @@ type DoctorDetailResponse struct {
 	} `json:"polyclinic"`
 }
 
-func MapToNewDoctor(request DoctorRequest) User {
+func MapToNewDoctor(request DoctorRequest) Doctor {
 	password, _ := utils.CreateHash(request.Password)
 	userID := uuid.Must(uuid.NewRandom())
-	return User{
-		ID:       userID,
-		Email:    request.Email,
-		Password: password,
-		Role:     UserRole("DOCTOR"),
-		Doctor: Doctor{
-			UserID:       userID,
-			Name:         request.Name,
-			NIP:          request.NIP,
-			SIP:          request.SIP,
-			Address:      request.Address,
-			DOB:          utils.ConvertStringToDate(request.DOB),
-			Gender:       GenderType(request.Gender),
-			PolyclinicID: request.PolyclinicID,
-		},
+	return Doctor{
+		User:         User{ID: userID, Email: request.Email, Password: password, Role: DOCTOR},
+		UserID:       userID,
+		Name:         request.Name,
+		NIP:          request.NIP,
+		SIP:          request.SIP,
+		Address:      request.Address,
+		DOB:          utils.ConvertStringToDate(request.DOB),
+		Gender:       MALE,
+		PolyclinicID: request.PolyclinicID,
 	}
 }
 
@@ -102,6 +99,9 @@ func MapToDoctorResponse(doctor Doctor) DoctorResponse {
 		Address: doctor.Address,
 		DOB:     utils.ConvertDateToString(doctor.DOB),
 		Gender:  doctor.Gender,
+		Polyclinic: PolyclinicResponse{
+			doctor.PolyclinicID, doctor.Polyclinic.Name,
+		},
 	}
 }
 
