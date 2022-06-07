@@ -44,6 +44,7 @@ type DoctorResponse struct {
 	Address    string             `json:"address"`
 	DOB        string             `json:"dob"`
 	Gender     GenderType         `json:"gender"`
+	Email      string             `json:"email"`
 	Polyclinic PolyclinicResponse `json:"polyclinic"`
 }
 
@@ -55,6 +56,7 @@ type DoctorDetailResponse struct {
 	Address    string     `json:"address"`
 	DOB        string     `json:"dob"`
 	Gender     GenderType `json:"gender"`
+	Email      string     `json:"email"`
 	Polyclinic struct {
 		ID   int    `json:"id"`
 		Name string `json:"name"`
@@ -99,6 +101,7 @@ func MapToDoctorResponse(doctor Doctor) DoctorResponse {
 		Address: doctor.Address,
 		DOB:     utils.ConvertDateToString(doctor.DOB),
 		Gender:  doctor.Gender,
+		Email:   doctor.User.Email,
 		Polyclinic: PolyclinicResponse{
 			doctor.PolyclinicID, doctor.Polyclinic.Name,
 		},
