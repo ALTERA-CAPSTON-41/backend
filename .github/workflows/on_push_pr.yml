@@ -79,7 +79,7 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: connect ec2
-        run: ssh development 'cd ${{ secrets.WORKSPACE_DIR }} && git pull && sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && docker compose up -d'
+        run: ssh development 'cd workspace/backend && git pull && sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && docker compose up -d'
 
   # docker-build:
   #   name: build docker image
