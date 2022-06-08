@@ -34,6 +34,10 @@ func GetAllDoctorsHandler(c echo.Context) error {
 		doctors []models.Doctor
 		query   string
 	)
+	polyclinic := c.QueryParam("polyclinic")
+	if polyclinic != "" {
+		query = fmt.Sprint("polyclinic_id = ", polyclinic)
+	}
 
 	if err := models.DB.
 		Preload("User").Preload("Polyclinic").
