@@ -30,13 +30,13 @@ func CreateDoctorHandler(c echo.Context) error {
 }
 
 func GetAllDoctorsHandler(c echo.Context) error {
-	var doctors []models.Doctor
-	name := c.QueryParam("name")
-	nip := c.QueryParam("nip")
-
-	query := "UPPER(name) LIKE '%" + strings.ToUpper(name) + "%'"
-	if nip != "" {
-		query = fmt.Sprintf("nip = '%s'", nip)
+	var (
+		doctors []models.Doctor
+		query   string
+	)
+	polyclinic := c.QueryParam("polyclinic")
+	if polyclinic != "" {
+		query = fmt.Sprint("polyclinic_id = ", polyclinic)
 	}
 
 	if err := models.DB.
