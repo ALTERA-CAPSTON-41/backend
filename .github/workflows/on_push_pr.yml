@@ -58,6 +58,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: add .env
+        env:
+          ENV: ${{ secrets.STAGING_ENV }}
+        run: echo "$ENV" > app.env
       - name: configure ssh
         env: 
           SSH_USER: ${{ secrets.SSH_USERNAME }}
