@@ -67,3 +67,12 @@ func MapToExistingRecord(domain admin.Domain) Admin {
 		},
 	}
 }
+
+func MapToBatchDomain(records []Admin) []admin.Domain {
+	var domains []admin.Domain
+
+	for _, record := range records {
+		domains = append(domains, MapToDomain(record))
+	}
+	return domains
+}
