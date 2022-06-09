@@ -79,11 +79,11 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: connect ec2
-        run: ssh development '\
-          cd workspace/backend && \
-          git pull && \
-          sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && \
-          sudo docker build -t capstone-41/clinic-api:latest && \
+        run: ssh development '
+          cd workspace/backend && 
+          git pull && 
+          sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
+          sudo docker build -t capstone-41/clinic-api:latest && 
           sudo docker run -dp 19000:8000 --name clinic-backend-api capstone-41/clinic-api:latest'
 
   # docker-build:
