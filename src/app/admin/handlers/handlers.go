@@ -32,7 +32,7 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 }
 
 // onShowAll
-func (h *Handler) ShowAdminHandler(c echo.Context) error {
+func (h *Handler) ShowAllAdminsHandler(c echo.Context) error {
 	data, err := h.services.GetAllAdmins()
 
 	if err != nil {
