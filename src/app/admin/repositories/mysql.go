@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"clinic-api/src/app/admin"
+	"errors"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -12,27 +14,53 @@ type repository struct {
 
 // DeleteByID implements admin.Repositories
 func (repo *repository) DeleteByID(id string) (err error) {
-	panic("unimplemented")
+	deletion := repo.DB.Where("ID = ?", id).Delete(new(Admin))
+
+	if deletion.RowsAffected == 0 {
+		return errors.New("record not found")
+	}
+	return deletion.Error
 }
 
 // InsertData implements admin.Repositories
 func (repo *repository) InsertData(data admin.Domain) (id string, err error) {
-	panic("unimplemented")
+	record := MapToNewRecord(data)
+
+	if err = repo.DB.Create(&record).Error; err != nil {
+		return uuid.Nil.String(), err
+	}
+	return record.UserID.String(), nil
 }
 
 // SelectAllData implements admin.Repositories
 func (repo *repository) SelectAllData() (data []admin.Domain, err error) {
-	panic("unimplemented")
+	var records []Admin
+
+	if err = repo.DB.Find(&records).Error; err != nil {
+		return nil, err
+	}
+	return MapToBatchDomain(records), nil
 }
 
 // SelectDataByID implements admin.Repositories
 func (repo *repository) SelectDataByID(id string) (data admin.Domain, err error) {
-	panic("unimplemented")
+	var record Admin
+
+	if err = repo.DB.Where("ID = ?", id).First(&record).Error; err != nil {
+		return admin.Domain{}, err
+	}
+	return MapToDomain(record), nil
 }
 
 // UpdateByID implements admin.Repositories
 func (repo *repository) UpdateByID(id string, data admin.Domain) (err error) {
-	panic("unimplemented")
+	record := MapToExistingRecord(data)
+	alteration := repo.DB.Model(new(Admin)).Where("ID = ?", id).Updates(&record)
+
+	if alteration.RowsAffected == 0 {
+		return errors.New("record not found")
+	}
+	return alteration.Error
 }
 
 func NewMySQLRepository(DB *gorm.DB) admin.Repositories {
