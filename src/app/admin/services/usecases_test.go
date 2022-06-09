@@ -4,6 +4,7 @@ import (
 	"clinic-api/src/app/admin"
 	"clinic-api/src/app/admin/mocks"
 	"errors"
+	"os"
 	"testing"
 	"time"
 
@@ -75,6 +76,8 @@ func TestMain(m *testing.M) {
 			UpdatedAt: time.Now(),
 		},
 	}
+
+	os.Exit(m.Run())
 }
 
 func TestGetAllAdmin(t *testing.T) {
@@ -123,7 +126,7 @@ func TestGetAdminByID(t *testing.T) {
 
 func TestCreateAdmin(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
-		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).Return(sampleUUIDIkoUwais, nil).Once()
+		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).Return(sampleUUIDIkoUwais.String(), nil).Once()
 		result, err := services.CreateAdmin(sampleDomainIkoUwaisWithNoUUID)
 
 		assert.Nil(t, err)
@@ -131,7 +134,7 @@ func TestCreateAdmin(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).Return(sampleUUIDIkoUwais, errors.New("can't connect to the database")).Once()
+		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).Return(uuid.Nil.String(), errors.New("can't connect to the database")).Once()
 		result, err := services.CreateAdmin(sampleDomainIkoUwaisWithNoUUID)
 
 		assert.NotNil(t, err)
@@ -141,21 +144,21 @@ func TestCreateAdmin(t *testing.T) {
 
 func TestUpdateAdminByID(t *testing.T) {
 	t.Run("should update data by id", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(nil)
+		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(nil).Once()
 		err := services.AmendAdminByID(sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID)
 
 		assert.Nil(t, err)
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("can't connect to the database"))
+		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("can't connect to the database")).Once()
 		err := services.AmendAdminByID(sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID)
 
 		assert.NotNil(t, err)
 	})
 
 	t.Run("should got not found error", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("record not found"))
+		mockRepo.On("UpdateByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("record not found")).Once()
 		err := services.AmendAdminByID(sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID)
 
 		assert.NotNil(t, err)
@@ -164,21 +167,21 @@ func TestUpdateAdminByID(t *testing.T) {
 
 func TestRemoveAdminByID(t *testing.T) {
 	t.Run("should delete data by id", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(nil)
+		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.Nil(t, err)
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("can't connect to the database"))
+		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(errors.New("can't connect to the database")).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)
 	})
 
 	t.Run("should got not found error", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String(), sampleDomainIkoUwaisWithNoUUID).Return(errors.New("record not found"))
+		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(errors.New("record not found")).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)
