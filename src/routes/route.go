@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"clinic-api/src/adapters"
 	"clinic-api/src/handlers"
 	"clinic-api/src/utils"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 
 func New() *echo.Echo {
 	route := echo.New()
+	caHandler := adapters.Init()
 
 	route.GET("/", func(ec echo.Context) error {
 		status := http.StatusOK
@@ -41,6 +43,13 @@ func New() *echo.Echo {
 	route.GET("/doctors/:id", handlers.GetDoctorByIDHandler)
 	route.PUT("/doctors/:id", handlers.EditDoctorByIDHandler)
 	route.DELETE("/doctors/:id", handlers.DeleteDoctorByIDHandler)
+
+	// admin
+	route.POST("/admins", caHandler.Admin.CreateAdminHandler)
+	route.GET("/admins", caHandler.Admin.ShowAllAdminsHandler)
+	route.GET("/admins/:id", caHandler.Admin.ShowAdminByIDHandler)
+	route.PUT("/admins/:id", caHandler.Admin.AmendAdminByIDHandler)
+	route.DELETE("/admins/:id", caHandler.Admin.RemoveAdminByIDHandler)
 
 	return route
 }
