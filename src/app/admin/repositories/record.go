@@ -1,4 +1,4 @@
-package repositories
+package admin_repositories
 
 import (
 	"clinic-api/src/app/admin"
