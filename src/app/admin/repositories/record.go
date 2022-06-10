@@ -9,6 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserRole string
+
+const (
+	DOCTOR UserRole = "DOCTOR"
+	NURSE  UserRole = "NURSE"
+	ADMIN  UserRole = "ADMIN"
+)
+
 type Admin struct {
 	UserID    uuid.UUID `gorm:"primaryKey;size:191"`
 	Name      string
@@ -24,6 +32,7 @@ type User struct {
 	ID       uuid.UUID
 	Email    string
 	Password string
+	Role     UserRole
 }
 
 func MapToDomain(record Admin) admin.Domain {
@@ -44,14 +53,15 @@ func MapToNewRecord(domain admin.Domain) Admin {
 	newUserID := uuid.Must(uuid.NewRandom())
 	hashed, _ := utils.CreateHash(domain.User.Password)
 	return Admin{
-		UserID: newUserID,
-		Name:   domain.Name,
-		NIP:    domain.NIP,
 		User: User{
 			ID:       newUserID,
 			Email:    domain.User.Email,
 			Password: hashed,
+			Role:     ADMIN,
 		},
+		UserID: newUserID,
+		Name:   domain.Name,
+		NIP:    domain.NIP,
 	}
 }
 
