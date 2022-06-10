@@ -6,6 +6,7 @@ type Response struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	NIPNumber string `json:"nip"`
+	Email     string `json:"email"`
 }
 
 type CreateResponse struct {
@@ -17,6 +18,7 @@ func MapToResponse(domain admin.Domain) Response {
 		ID:        domain.User.ID.String(),
 		Name:      domain.Name,
 		NIPNumber: domain.NIP,
+		Email:     domain.User.Email,
 	}
 }
 
