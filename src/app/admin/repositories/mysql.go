@@ -36,7 +36,7 @@ func (repo *repository) InsertData(data admin.Domain) (id string, err error) {
 func (repo *repository) SelectAllData() (data []admin.Domain, err error) {
 	var records []Admin
 
-	if err = repo.DB.Find(&records).Error; err != nil {
+	if err = repo.DB.Preload("User").Find(&records).Error; err != nil {
 		return nil, err
 	}
 	return MapToBatchDomain(records), nil
@@ -46,7 +46,7 @@ func (repo *repository) SelectAllData() (data []admin.Domain, err error) {
 func (repo *repository) SelectDataByID(id string) (data admin.Domain, err error) {
 	var record Admin
 
-	if err = repo.DB.Where("user_ID = ?", id).First(&record).Error; err != nil {
+	if err = repo.DB.Preload("User").Where("user_ID = ?", id).First(&record).Error; err != nil {
 		return admin.Domain{}, err
 	}
 	return MapToDomain(record), nil
