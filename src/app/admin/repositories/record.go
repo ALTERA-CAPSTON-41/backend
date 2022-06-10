@@ -10,7 +10,7 @@ import (
 )
 
 type Admin struct {
-	UserID    uuid.UUID
+	UserID    uuid.UUID `gorm:"primaryKey;size:191"`
 	Name      string
 	NIP       string `gorm:"column:nip"`
 	CreatedAt time.Time
