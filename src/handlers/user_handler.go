@@ -23,7 +23,13 @@ func AttemptLoginUser(c echo.Context) error {
 	}
 
 	if utils.ValidateHash(userRequest.Password, userData.Password) {
-		token, _ := utils.GenerateJwt(userData.ID.String(), utils.UserRole(userData.Role))
+		doctorUser := lookupDoctorFromUserData(userData.ID.String())
+		token, _ := utils.GenerateJwt(
+			userData.ID.String(),
+			doctorUser.Name,
+			doctorUser.NIP,
+			utils.UserRole(userData.Role),
+		)
 		utils.SetJwtCookie(c, token)
 		return utils.CreateEchoResponse(c, http.StatusCreated, models.AuthResponse{
 			Token: token,
@@ -40,4 +46,10 @@ func lookupUserByEmail(email string) models.User {
 	var userData models.User
 	models.DB.Where("email = ?", email).First(&userData)
 	return userData
+}
+
+func lookupDoctorFromUserData(userID string) models.Doctor {
+	var doctor models.Doctor
+	models.DB.Where("user_id = ?", userID).First(&doctor)
+	return doctor
 }

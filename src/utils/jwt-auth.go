@@ -19,15 +19,19 @@ const (
 
 type JwtCustomClaims struct {
 	jwt.StandardClaims
-	Role UserRole
+	Name string   `json:"name"`
+	NIP  string   `json:"nip"`
+	Role UserRole `json:"role"`
 }
 
-func GenerateJwt(userId string, role UserRole) (token string, err error) {
+func GenerateJwt(userId string, name string, NIP string, role UserRole) (token string, err error) {
 	claims := JwtCustomClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
 			Id:        userId,
 		},
+		Name: name,
+		NIP:  NIP,
 		Role: role,
 	}
 
