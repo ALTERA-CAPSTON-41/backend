@@ -14,7 +14,7 @@ type repository struct {
 
 // DeleteByID implements admin.Repositories
 func (repo *repository) DeleteByID(id string) (err error) {
-	deletion := repo.DB.Where("ID = ?", id).Delete(new(Admin))
+	deletion := repo.DB.Where("user_ID = ?", id).Delete(new(Admin))
 
 	if deletion.RowsAffected == 0 {
 		return errors.New("record not found")
@@ -46,7 +46,7 @@ func (repo *repository) SelectAllData() (data []admin.Domain, err error) {
 func (repo *repository) SelectDataByID(id string) (data admin.Domain, err error) {
 	var record Admin
 
-	if err = repo.DB.Where("ID = ?", id).First(&record).Error; err != nil {
+	if err = repo.DB.Where("user_ID = ?", id).First(&record).Error; err != nil {
 		return admin.Domain{}, err
 	}
 	return MapToDomain(record), nil
@@ -55,7 +55,7 @@ func (repo *repository) SelectDataByID(id string) (data admin.Domain, err error)
 // UpdateByID implements admin.Repositories
 func (repo *repository) UpdateByID(id string, data admin.Domain) (err error) {
 	record := MapToExistingRecord(data)
-	alteration := repo.DB.Model(new(Admin)).Where("ID = ?", id).Updates(&record)
+	alteration := repo.DB.Model(new(Admin)).Where("user_ID = ?", id).Updates(&record)
 
 	if alteration.RowsAffected == 0 {
 		return errors.New("record not found")
