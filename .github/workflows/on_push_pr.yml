@@ -85,6 +85,12 @@ jobs:
           sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
           sudo docker build -t capstone-41/clinic-api:latest . && 
           sudo docker run -dp 19000:8000 --name clinic-backend-api capstone-41/clinic-api:latest'
+      - name: write .env to container
+        env:
+          ENV: ${{ secrets.STAGING_ENV }}
+        run: ssh development '
+          sudo docker exec -it clinic-backend-api /bin/sh
+          echo "$ENV" > app.env'
 
   # docker-build:
   #   name: build docker image
