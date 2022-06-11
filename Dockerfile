@@ -9,7 +9,8 @@ RUN go build -o main
 # runner
 FROM alpine:3.14
 WORKDIR /app
-COPY --from=builder /app/main .
+COPY --from=builder /app/app.env ./app.env
+COPY --from=builder /app/main ./main
 EXPOSE 8000
 
 CMD ["./main"]
