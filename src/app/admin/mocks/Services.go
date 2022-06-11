@@ -49,14 +49,16 @@ func (_m *Services) CreateAdmin(_a0 admin.Domain) (string, error) {
 }
 
 // GetAdminByID provides a mock function with given fields: id
-func (_m *Services) GetAdminByID(id string) (admin.Domain, error) {
+func (_m *Services) GetAdminByID(id string) (*admin.Domain, error) {
 	ret := _m.Called(id)
 
-	var r0 admin.Domain
-	if rf, ok := ret.Get(0).(func(string) admin.Domain); ok {
+	var r0 *admin.Domain
+	if rf, ok := ret.Get(0).(func(string) *admin.Domain); ok {
 		r0 = rf(id)
 	} else {
-		r0 = ret.Get(0).(admin.Domain)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*admin.Domain)
+		}
 	}
 
 	var r1 error
