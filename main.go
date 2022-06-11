@@ -1,6 +1,7 @@
 package main
 
 import (
+	admin_repositories "clinic-api/src/app/admin/repositories"
 	"clinic-api/src/database"
 	"clinic-api/src/models"
 	"clinic-api/src/routes"
@@ -12,6 +13,7 @@ func init() {
 		models.User{},
 		models.Polyclinic{},
 		models.Doctor{},
+		admin_repositories.Admin{},
 	)
 }
 
