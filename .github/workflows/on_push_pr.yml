@@ -89,7 +89,7 @@ jobs:
         env:
           ENV: ${{ secrets.STAGING_ENV }}
         run: ssh development '
-          sudo docker exec -it clinic-backend-api /bin/sh
+          sudo docker exec -it clinic-backend-api /bin/sh &&
           echo "$ENV" > app.env'
 
   # docker-build:
