@@ -43,13 +43,14 @@ func (repo *repository) SelectAllData() (data []admin.Domain, err error) {
 }
 
 // SelectDataByID implements admin.Repositories
-func (repo *repository) SelectDataByID(id string) (data admin.Domain, err error) {
+func (repo *repository) SelectDataByID(id string) (data *admin.Domain, err error) {
 	var record Admin
 
 	if err = repo.DB.Preload("User").Where("user_ID = ?", id).First(&record).Error; err != nil {
-		return admin.Domain{}, err
+		return nil, err
 	}
-	return MapToDomain(record), nil
+	admin := MapToDomain(record)
+	return &admin, nil
 }
 
 // UpdateByID implements admin.Repositories

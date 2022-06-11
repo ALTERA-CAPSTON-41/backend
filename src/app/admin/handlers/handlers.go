@@ -52,7 +52,7 @@ func (h *Handler) ShowAdminByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
-	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToResponse(data))
+	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToResponse(*data))
 }
 
 // onUpdate

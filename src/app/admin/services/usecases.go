@@ -17,7 +17,7 @@ func (uc *usecase) CreateAdmin(admin admin.Domain) (id string, err error) {
 }
 
 // GetAdminByID implements admin.Services
-func (uc *usecase) GetAdminByID(id string) (admin admin.Domain, err error) {
+func (uc *usecase) GetAdminByID(id string) (admin *admin.Domain, err error) {
 	return uc.repo.SelectDataByID(id)
 }
 
