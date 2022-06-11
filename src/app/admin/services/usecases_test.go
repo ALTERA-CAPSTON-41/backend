@@ -100,7 +100,7 @@ func TestGetAllAdmin(t *testing.T) {
 
 func TestGetAdminByID(t *testing.T) {
 	t.Run("should got data by id", func(t *testing.T) {
-		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(sampleDomainIkoUwais, nil).Once()
+		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(&sampleDomainIkoUwais, nil).Once()
 		result, err := services.GetAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.Nil(t, err)
@@ -108,19 +108,19 @@ func TestGetAdminByID(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(admin.Domain{}, errors.New("can't connect to the database")).Once()
+		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(nil, errors.New("can't connect to the database")).Once()
 		result, err := services.GetAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, uuid.Nil, result.User.ID)
+		assert.Nil(t, result)
 	})
 
 	t.Run("should got error while data not found", func(t *testing.T) {
-		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(admin.Domain{}, errors.New("record not found"))
+		mockRepo.On("SelectDataByID", sampleUUIDIkoUwais.String()).Return(nil, errors.New("record not found"))
 		result, err := services.GetAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)
-		assert.Equal(t, uuid.Nil, result.User.ID)
+		assert.Nil(t, result)
 	})
 }
 
