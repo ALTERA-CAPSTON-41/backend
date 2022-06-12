@@ -14,6 +14,7 @@ func init() {
 		models.Polyclinic{},
 		models.Doctor{},
 		admin_repositories.Admin{},
+		models.Queue{},
 	)
 }
 
