@@ -12,6 +12,7 @@ func init() {
 		models.User{},
 		models.Polyclinic{},
 		models.Doctor{},
+		models.Queue{},
 	)
 }
 
