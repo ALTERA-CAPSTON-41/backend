@@ -42,5 +42,12 @@ func New() *echo.Echo {
 	route.PUT("/doctors/:id", handlers.EditDoctorByIDHandler)
 	route.DELETE("/doctors/:id", handlers.DeleteDoctorByIDHandler)
 
+	// queue
+	route.POST("/queues", handlers.CreateQueueHandler)
+	route.GET("/queues", handlers.GetAllQueuesHandler)
+	route.GET("/queues/:id", handlers.GetQueueByIDHandler)
+	route.PUT("/queues/:id", handlers.EditQueueByIDHandler)
+	route.DELETE("/queues/:id", handlers.DeleteQueueByIDHandler)
+
 	return route
 }
