@@ -9,7 +9,7 @@ type Services interface {
 	CreatePolyclinic(Domain) (int, error)
 	GetAllPolyclinics() ([]Domain, error)
 	GetPolyclinicByID(id int) (*Domain, error)
-	AmendPolyclinicByID(id string, polyclinic Domain) error
+	AmendPolyclinicByID(id int, polyclinic Domain) error
 	RemovePolyclinicByID(id int) error
 }
 
