@@ -3,8 +3,6 @@ package routes
 import (
 	"clinic-api/src/adapters"
 	"clinic-api/src/handlers"
-	"clinic-api/src/utils"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,12 +11,7 @@ func New() *echo.Echo {
 	route := echo.New()
 	caHandler := adapters.Init()
 
-	route.GET("/", func(ec echo.Context) error {
-		status := http.StatusOK
-		return utils.CreateEchoResponse(ec, status, map[string]string{
-			"data": "server works!",
-		})
-	})
+	route.GET("/", caHandler.APISpec.GetAPISpec)
 
 	// login
 	route.POST("/login", handlers.AttemptLoginUser)
