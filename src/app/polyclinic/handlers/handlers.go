@@ -36,7 +36,7 @@ func (h *Handler) CreatePolyclinicHandler(c echo.Context) error {
 }
 
 // onShowAll
-func (h *Handler) ShowPolyclinicHandler(c echo.Context) error {
+func (h *Handler) ShowAllPolyclinicsHandler(c echo.Context) error {
 	data, err := h.services.GetAllPolyclinics()
 	if err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
