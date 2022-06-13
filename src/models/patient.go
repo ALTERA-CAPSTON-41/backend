@@ -9,17 +9,17 @@ import (
 )
 
 type Patient struct {
-	ID        uuid.UUID      `gorm:"primaryKey" json:"id"`
-	Name      string         `json:"name"`
-	NIK       string         `json:"nik"`
-	Phone     string         `json:"phone"`
-	Address   string         `json:"address"`
-	DOB       time.Time      `json:"dob"`
-	Gender    GenderType     `gorm:"type:enum('MALE', 'FEMALE')" json:"gender"`
-	BloodType string         `json:"blood_type"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	ID        uuid.UUID `gorm:"primaryKey;size:191"`
+	Name      string
+	NIK       string
+	Phone     string
+	Address   string
+	DOB       time.Time
+	Gender    GenderType `gorm:"type:enum('MALE', 'FEMALE')"`
+	BloodType string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 type PatientRequest struct {
