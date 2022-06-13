@@ -14,6 +14,7 @@ type Polyclinic struct {
 
 func MapToDomain(record Polyclinic) polyclinic.Domain {
 	return polyclinic.Domain{
+		ID:   record.ID,
 		Name: record.Name,
 	}
 }
