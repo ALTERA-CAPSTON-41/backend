@@ -45,7 +45,7 @@ func TestMain(m *testing.M) {
 
 func TestCreatePolyclinic(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
-		mockRepo.On("InserData", sampleDomainUmumWithNoID).Return(sampleIDUmum, nil).Once()
+		mockRepo.On("InsertData", sampleDomainUmumWithNoID).Return(sampleIDUmum, nil).Once()
 		result, err := services.CreatePolyclinic(sampleDomainUmumWithNoID)
 
 		assert.Nil(t, err)
@@ -53,7 +53,7 @@ func TestCreatePolyclinic(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("InserData", sampleDomainUmumWithNoID).
+		mockRepo.On("InsertData", sampleDomainUmumWithNoID).
 			Return(0, errors.New("can't connect to the database")).Once()
 		result, err := services.CreatePolyclinic(sampleDomainUmumWithNoID)
 
@@ -83,7 +83,7 @@ func TestGetAllPolyclinics(t *testing.T) {
 
 func TestGetPolyclinicByID(t *testing.T) {
 	t.Run("should got data by id", func(t *testing.T) {
-		mockRepo.On("SelectDataByID", sampleIDUmum).Return(sampleDomainUmum, nil).Once()
+		mockRepo.On("SelectDataByID", sampleIDUmum).Return(&sampleDomainUmum, nil).Once()
 		result, err := services.GetPolyclinicByID(sampleIDUmum)
 
 		assert.Nil(t, err)
@@ -111,15 +111,16 @@ func TestGetPolyclinicByID(t *testing.T) {
 }
 
 func TestUpdatePolycllinicByID(t *testing.T) {
-	t.Run("should update daya by id", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleIDUmum).Return(nil).Once()
+	t.Run("should update data by id", func(t *testing.T) {
+		mockRepo.On("UpdateByID", sampleIDUmum, sampleDomainUmumWithNoID).Return(nil).Once()
 		err := services.AmendPolyclinicByID(sampleIDUmum, sampleDomainUmumWithNoID)
 
 		assert.Nil(t, err)
 	})
 
 	t.Run("should got not found error", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleIDUmum).Return(errors.New("record not found")).Once()
+		mockRepo.On("UpdateByID", sampleIDUmum, sampleDomainUmumWithNoID).
+			Return(errors.New("record not found")).Once()
 		err := services.AmendPolyclinicByID(sampleIDUmum, sampleDomainUmumWithNoID)
 
 		assert.NotNil(t, err)
@@ -127,9 +128,9 @@ func TestUpdatePolycllinicByID(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("UpdateByID", sampleIDUmum).
+		mockRepo.On("UpdateByID", sampleIDUmum, sampleDomainUmumWithNoID).
 			Return(errors.New("can't connect to the database")).Once()
-		err := services.AmendPolyclinicByID(sampleIDUmum, sampleDomainUmum)
+		err := services.AmendPolyclinicByID(sampleIDUmum, sampleDomainUmumWithNoID)
 
 		assert.NotNil(t, err)
 	})
@@ -137,14 +138,14 @@ func TestUpdatePolycllinicByID(t *testing.T) {
 
 func TestRemovePolyclinicByID(t *testing.T) {
 	t.Run("should delete data by id", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleIDUmum).Return(nil)
+		mockRepo.On("DeleteByID", sampleIDUmum).Return(nil).Once()
 		err := services.RemovePolyclinicByID(sampleIDUmum)
 
 		assert.Nil(t, err)
 	})
 
 	t.Run("should got not found error", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleIDUmum).Return(errors.New("record not found"))
+		mockRepo.On("DeleteByID", sampleIDUmum).Return(errors.New("record not found")).Once()
 		err := services.RemovePolyclinicByID(sampleIDUmum)
 
 		assert.NotNil(t, err)
@@ -152,7 +153,8 @@ func TestRemovePolyclinicByID(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("DeleteByID", sampleIDUmum).Return(errors.New("can't connect to the database"))
+		mockRepo.On("DeleteByID", sampleIDUmum).
+			Return(errors.New("can't connect to the database")).Once()
 		err := services.RemovePolyclinicByID(sampleIDUmum)
 
 		assert.NotNil(t, err)
