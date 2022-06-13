@@ -28,3 +28,10 @@ func MapToExistingRecord(id int, domain polyclinic.Domain) Polyclinic {
 		Name: domain.Name,
 	}
 }
+
+func MapToBatchDomain(records []Polyclinic) (domains []polyclinic.Domain) {
+	for _, record := range records {
+		domains = append(domains, MapToDomain(record))
+	}
+	return
+}
