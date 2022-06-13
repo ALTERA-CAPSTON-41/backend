@@ -1,6 +1,7 @@
 package polyclinic
 
 type Domain struct {
+	ID   int
 	Name string
 }
 
