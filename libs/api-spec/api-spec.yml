@@ -1,0 +1,906 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: clinic-api
+  description: ''
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/capstone-41/clinic-api/1.0.0
+paths:
+  # Authentication
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: admin.capstone@example.com
+                password:
+                  type: string
+                  example: thestrongestpassword
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2NTI0ODg1MDgsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.rfbsC66PX5JXpE1H0uLEmpDTCMmdEzMwXSlYODCINZ0
+
+  # Admin
+  /admins:
+    post:
+      tags:
+        - Admin
+      summary: Add new admin
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqAdmin"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Admin
+      summary: Get all admins
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjAdmin"
+  /admins/{id}:
+    get:
+      tags:
+        - Admin
+      summary: Get admin by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListAdmin"
+    put:
+      tags:
+        - Admin
+      summary: Update admin
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqAdmin"
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Admin
+      summary: Delete admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+
+  # Polyclinic
+  /polyclinics:
+    post:
+      tags:
+        - Polyclinic
+      summary: Add new polyclinic
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqPolyclinic"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Polyclinic
+      summary: Get all polyclinics
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListPolyclinic"
+  /polyclinics/{id}:
+    get:
+      tags:
+        - Polyclinic
+      summary: Get polyclinic by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjPolyclinic"
+    put:
+      tags:
+        - Polyclinic
+      summary: Update polyclinic
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Polyclinic
+      summary: Delete polyclinic
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            example: 1
+      responses:
+        204:
+          description: No Content
+
+  # Doctor
+  /doctors:
+    post:
+      tags:
+        - Doctor
+      summary: Add new doctor
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqDoctorAndNurse"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Doctor
+      summary: Get all doctors
+      parameters:
+        - name: polyclinic
+          description: Get by polyclinic id
+          in: query
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListDoctor"
+  /doctors/{id}:
+    get:
+      tags:
+        - Doctor
+      summary: Get doctor by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjDoctorAndNurse"
+    put:
+      tags:
+        - Doctor
+      summary: Update doctor
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqDoctorAndNurse"
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Doctor
+      summary: Delete doctor
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+
+  # Nurse
+  /nurses:
+    post:
+      tags:
+        - Nurse
+      summary: Add new nurse
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqDoctorAndNurse"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Nurse
+      summary: Get all nurses
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListDoctor"
+  /nurses/{id}:
+    get:
+      tags:
+        - Nurse
+      summary: Get nurse by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjDoctorAndNurse"
+    put:
+      tags:
+        - Nurse
+      summary: Update nurse
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqDoctorAndNurse"
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Nurse
+      summary: Delete nurse
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+  # Patient
+  /patients:
+    post:
+      tags:
+        - Patient
+      summary: Add new patient
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqPatient"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Patient
+      summary: Get all patients
+      parameters:
+        - name: nik
+          description: Get by nik
+          in: query
+          schema:
+            type: string
+            example: 241092980
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListPatient"
+  /patients/{id}:
+    get:
+      tags:
+        - Patient
+      summary: Get patient by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjPatient"
+    put:
+      tags:
+        - Patient
+      summary: Update patient
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqPatient"
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Patient
+      summary: Delete patient
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+
+  # Queue
+  /queues:
+    post:
+      tags:
+        - Queue
+      summary: Add new queue
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqQueue"
+      responses:
+        201:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Response201"
+    get:
+      tags:
+        - Queue
+      summary: Get all queues
+      parameters:
+        - name: doctor
+          description: Get by doctor id
+          in: query
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+        - name: polyclinic
+          description: Get by polyclinic id
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: date
+          in: query
+          schema:
+            type: string
+            example: 2022-05-27
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjListQueue"
+  /queues/{id}:
+    get:
+      tags:
+        - Queue
+      summary: Get queue by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: Successful operation
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjQueue"
+    put:
+      tags:
+        - Queue
+      summary: Update queue
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/ObjReqQueue"
+                - type: object
+                  properties:
+                    service_done_at:
+                      type: string
+                      example: 2022-05-27 20:21:12
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Queue
+      summary: Update queue
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+  # medical record
+  /medical-records/p/{patient_nik}:
+    get:
+      tags: 
+        - Medical Record
+      summary: Get patient spesific medical records
+      parameters:
+        - name: patient_nik
+          required: true
+          in: path
+          schema:
+            type: string 
+            example: 3511111309970001
+      responses:
+        200:
+          description: OK
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ObjMedicalRecord"
+  /medical-records/id/{medical_record_id}:
+    get:
+      tags:
+        - Medical Record
+      summary: Get patient medical record by MR id
+      parameters:
+        - name: medical_record_id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        200:
+          description: OK
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ObjMedicalRecord"
+    put:
+      tags:
+        - Medical Record
+      summary: Edit patient medical record by MR id
+      parameters:
+        - name: medical_record_id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqMedicalRecord"
+      responses:
+        204:
+          description: No Content
+    delete:
+      tags:
+        - Medical Record
+      summary: Delete patient medical record by MR id
+      parameters:
+        - name: medical_record_id
+          required: true
+          in: path
+          schema:
+            type: string
+            example: addf1281-dumm-dumm-dumm-dummycreated
+      responses:
+        204:
+          description: No Content
+  /medical-records:
+    post:
+      tags:
+        - Medical Record
+      summary: Add patient medical record by MR id
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ObjReqMedicalRecord"
+      responses:
+        201:
+          description: Created
+          content:
+            "application/json":
+              schema:
+                type: object 
+                properties:
+                  id: 
+                    type: string
+                    example: addf1281-dumm-dumm-dumm-dummycreated
+
+components:
+  schemas:
+    ObjReqAdmin:
+      properties:
+        email:
+          type: string
+          example: admin.capstone@example.com
+        password:
+          type: string
+          example: thestrongestpassword
+        name:
+          type: string
+          example: Admin Capstone
+        nip:
+          type: string
+          example: 8329191
+    ObjAdmin:
+      properties:
+        id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        name:
+          type: string
+          example: Admin Capstone
+        nip:
+          type: string
+          example: 8329191
+    ObjListAdmin:
+      type: array
+      items:
+        $ref: "#/components/schemas/ObjAdmin"
+    ObjReqPolyclinic:
+      properties:
+        name:
+          type: string
+          example: General
+    ObjPolyclinic:
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: General
+    ObjListPolyclinic:
+      type: array
+      items:
+        $ref: "#/components/schemas/ObjPolyclinic"
+    ObjReqDoctorAndNurse:
+      properties:
+        name:
+          type: string
+          example: dr. Capstone
+        nip:
+          type: string
+          example: 839182
+        sip:
+          type: string
+          example: SIP.2019.939.11.83
+        polyclinic:
+          $ref: "#/components/schemas/ObjReqPolyclinic"
+        address:
+          type: string
+          example: North Way Street, Antartica Regency
+        dob:
+          type: string
+          example: 1991-09-13
+        gender:
+          type: string
+          example: MALE
+    ObjDoctorAndNurse:
+      properties:
+        id:
+          type: string 
+          example: adf55661-dumm-dumm-dumm-dummycreated
+        name:
+          type: string
+          example: dr. Capstone
+        nip:
+          type: string
+          example: 839182
+        sip:
+          type: string
+          example: SIP.2019.939.11.83
+        polyclinic:
+          $ref: "#/components/schemas/ObjPolyclinic"
+        address:
+          type: string
+          example: North Way Street, Antartica Regency
+        dob:
+          type: string
+          example: 1991-09-13
+        gender:
+          type: string
+          example: MALE
+    ObjListDoctor:
+      type: array
+      items:
+        $ref: "#/components/schemas/ObjDoctorAndNurse"
+    ObjReqPatient:
+      properties:
+        name:
+          type: string
+          example: capstone
+        nik:
+          type: string
+          example: 241092980
+        phone:
+          type: string
+          example: 0825020882
+        address:
+          type: string
+          example: North Way Street, Antartica Regency
+        dob:
+          type: string
+          example: 1991-09-13
+        gender:
+          type: string
+          example: MALE
+        blood_type:
+          type: string
+          example: A
+    ObjPatient:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: addf1281-dumm-dumm-dumm-dummycreated
+        - $ref: "#/components/schemas/ObjReqPatient"
+    ObjListPatient:
+      type: array
+      items:
+        $ref: "#/components/schemas/ObjPatient"
+    ObjReqQueue:
+      properties:
+        patient_id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        polyclinic_id:
+              type: integer
+              example: 1
+        doctor_id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        patient_status:
+          type: string
+          example: consultation
+        daily_queue_number:
+          type: integer
+          example: 1
+        daily_queue_date:
+          type: string
+          example: 2022-05-27
+    ObjQueue:
+      properties:
+        id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        patient:
+          $ref: "#/components/schemas/ObjPatient"
+        polyclinic:
+          $ref: "#/components/schemas/ObjPolyclinic"
+        doctor:
+          $ref: "#/components/schemas/ObjDoctorAndNurse"
+        patient_status:
+          type: string
+          example: consultation
+        daily_queue_number:
+          type: integer
+          example: 1
+        daily_queue_date:
+          type: string
+          example: 2022-05-27
+        service_done_at:
+          type: string
+          example: 2022-05-27 20:21:12
+    ObjListQueue:
+      type: array
+      items: 
+        $ref: "#/components/schemas/ObjQueue"
+    ObjMedicalRecord:
+      properties:
+        id:
+          type: string
+          example: adf55661-dumm-dumm-dumm-dummycreated
+        patient:
+          $ref: '#/components/schemas/ObjPatient'
+        doctor:
+          $ref: '#/components/schemas/ObjDoctorAndNurse'
+        polyclinic:
+          $ref: '#/components/schemas/ObjPolyclinic'
+        symptoms: 
+          type: string
+          example: 'backhead pain, sneeze and fever'
+        icd10_code:
+          type: string
+          example: A75.0
+        icd10_diagnose:
+          type: string
+          example: Typhoid Fever
+        suggestions:
+          type: string
+          example: take a rest for a week
+        created_at: 
+          type: string
+          example: 2022-05-27 20:21:12
+        updated_at:
+          type: string
+          example: 2022-05-27 20:21:12
+    ObjReqMedicalRecord:
+      properties:
+        patient_id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        doctor_id:
+          type: string 
+          example: addf1281-dumm-dumm-dumm-dummycreated
+        polyclinic_id:
+          type: integer
+          example: 1
+        symptoms:
+          type: string
+          example: 'backhead pain, sneeze and fever'
+        icd10_code:
+          type: string
+          example: A75.0
+        suggestions:
+          type: string 
+          example: take a rest for a week
+    Response201:
+      properties:
+        id:
+          type: string
+          example: addf1281-dumm-dumm-dumm-dummycreated
