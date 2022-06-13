@@ -1,4 +1,4 @@
-package repositories
+package polyclinic_repositories
 
 import (
 	"clinic-api/src/app/polyclinic"

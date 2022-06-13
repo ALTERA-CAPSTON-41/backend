@@ -1,4 +1,4 @@
-package handlers
+package polyclinic_handlers
 
 import (
 	"clinic-api/src/app/polyclinic"
