@@ -24,19 +24,15 @@ type Queue struct {
 
 type Patient struct {
 	gorm.Model
-	ID        uuid.UUID
-	Name      string
-	NIK       string
-	Phone     string
-	Address   string
-	DOB       time.Time
-	Gender    types.GenderTypeEnum
-	BloodType string
+	ID     uuid.UUID `gorm:"size:191"`
+	Name   string
+	Gender types.GenderTypeEnum
 }
 
 type Polyclinic struct {
-	ID   int
-	Name string
+	ID        int
+	Name      string
+	DeletedAt gorm.DeletedAt
 }
 
 func MapToDomain(record Queue) queue.Domain {
