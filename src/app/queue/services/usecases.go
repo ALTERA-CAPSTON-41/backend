@@ -8,22 +8,22 @@ type usecase struct {
 
 // CreateQueue implements queue.Services
 func (uc *usecase) CreateQueue(queue queue.Domain) (string, error) {
-	panic("unimplemented")
+	return uc.repo.InserData(queue)
 }
 
 // GetAllQueues implements queue.Services
 func (uc *usecase) GetAllQueues(polyclinic, from string) ([]queue.Domain, error) {
-	panic("unimplemented")
+	return uc.repo.SelectAllData(polyclinic, from)
 }
 
 // AmendQueueByID implements queue.Services
 func (uc *usecase) AmendQueueByID(id string, data queue.Domain) error {
-	panic("unimplemented")
+	return uc.repo.UpdateByID(id, data)
 }
 
 // RemoveQueueByID implements queue.Services
 func (uc *usecase) RemoveQueueByID(id string) error {
-	panic("unimplemented")
+	return uc.repo.DeleteByID(id)
 }
 
 func NewService(repo queue.Repositories) queue.Services {
