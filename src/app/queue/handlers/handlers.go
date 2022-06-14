@@ -75,3 +75,7 @@ func (h *Handler) RemoveQueueByIDHandler(c echo.Context) error {
 
 	return utils.CreateEchoResponse(c, http.StatusNoContent, nil)
 }
+
+func NewHandler(service queue.Services) *Handler {
+	return &Handler{service}
+}
