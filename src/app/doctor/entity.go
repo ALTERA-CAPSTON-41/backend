@@ -8,7 +8,6 @@ import (
 )
 
 type Domain struct {
-	UserID     uuid.UUID
 	Name       string
 	NIP        string
 	SIP        string
