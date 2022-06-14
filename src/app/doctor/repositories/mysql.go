@@ -4,6 +4,7 @@ import (
 	"clinic-api/src/app/doctor"
 	"errors"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -38,6 +39,10 @@ func (repo *repository) SelectAllData() ([]doctor.Domain, error) {
 func (repo *repository) SelectDataByID(id string) (*doctor.Domain, error) {
 	var record Doctor
 	err := repo.DB.Preload("User").Preload("Polyclinic").Where("user_id", id).Find(&record).Error
+
+	if err == nil && record.User.ID == uuid.Nil {
+		return nil, errors.New("record not found")
+	}
 	result := MapToDomain(record)
 	return &result, err
 }
