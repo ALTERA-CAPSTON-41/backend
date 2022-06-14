@@ -31,6 +31,10 @@ type CreateResponse struct {
 }
 
 func MapToResponse(domain queue.Domain) Response {
+	serviceDoneAt := utils.ConvertDatetimeToString(domain.ServiceDoneAt)
+	if serviceDoneAt == "0001-01-01 00:00:00" {
+		serviceDoneAt = ""
+	}
 	return Response{
 		ID: domain.ID.String(),
 		Patient: PatientResponse{
@@ -44,7 +48,7 @@ func MapToResponse(domain queue.Domain) Response {
 		PatientStatus:    string(domain.PatientStatus),
 		DailyQueueNumber: domain.DailyQueueNumber,
 		DailyQueueDate:   utils.ConvertDateToString(domain.DailyQueueDate),
-		ServiceDoneAt:    utils.ConvertDatetimeToString(domain.ServiceDoneAt),
+		ServiceDoneAt:    serviceDoneAt,
 	}
 }
 
