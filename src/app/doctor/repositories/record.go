@@ -33,8 +33,8 @@ type Polyclinic struct {
 
 type User struct {
 	gorm.Model
-	ID       uuid.UUID
-	Email    string `gorm:"unique"`
+	ID       uuid.UUID `gorm:"primaryKey;size:191"`
+	Email    string    `gorm:"unique"`
 	Password string
 	Role     types.UserRoleEnum `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
 }
@@ -70,7 +70,7 @@ func MapToNewRecord(domain doctor.Domain) Doctor {
 			ID:       newUserID,
 			Email:    domain.User.Email,
 			Password: hashed,
-			Role:     domain.User.Role,
+			Role:     types.DOCTOR,
 		},
 		UserID:       newUserID,
 		Name:         domain.Name,
