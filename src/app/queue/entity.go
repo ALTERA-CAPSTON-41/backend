@@ -32,14 +32,14 @@ type PolyclinicReference struct {
 
 type Services interface {
 	CreateQueue(queue Domain) (string, error)
-	GetAllQueues() ([]Domain, error)
+	GetAllQueues(polyclinic, from string) ([]Domain, error)
 	AmendQueueByID(id string, queue Domain) error
 	RemoveQueueByID(id string) error
 }
 
 type Repositories interface {
 	InserData(data Domain) (string, error)
-	SelectAllData() ([]Domain, error)
+	SelectAllData(polyclinic, from string) ([]Domain, error)
 	UpdateByID(id string, data Domain) error
 	DeleteByID(id string) error
 }
