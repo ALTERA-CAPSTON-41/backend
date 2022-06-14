@@ -1,6 +1,7 @@
 package models
 
 import (
+	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"time"
 
@@ -52,7 +53,7 @@ func MapToNewDoctor(request DoctorRequest) Doctor {
 	password, _ := utils.CreateHash(request.Password)
 	userID := uuid.Must(uuid.NewRandom())
 	return Doctor{
-		User:         User{ID: userID, Email: request.Email, Password: password, Role: DOCTOR},
+		User:         User{ID: userID, Email: request.Email, Password: password, Role: types.DOCTOR},
 		UserID:       userID,
 		Name:         request.Name,
 		NIP:          request.NIP,
