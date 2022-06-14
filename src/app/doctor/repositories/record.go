@@ -1,4 +1,4 @@
-package repositories
+package doctor_repositories
 
 import (
 	"clinic-api/src/app/doctor"
