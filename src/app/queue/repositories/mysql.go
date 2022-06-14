@@ -14,7 +14,7 @@ type repository struct {
 }
 
 // InsertData implements queue.Repositories
-func (repo *repository) InserData(data queue.Domain) (string, error) {
+func (repo *repository) InsertData(data queue.Domain) (string, error) {
 	var queueNumber int
 	if err := repo.DB.Table("queues").Select("COALESCE(MAX(daily_queue_number), 0)").
 		Where("daily_queue_date = CURDATE() AND polyclinic_id = ?", data.PolyclinicID).

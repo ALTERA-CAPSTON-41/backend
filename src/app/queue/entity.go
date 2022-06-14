@@ -38,7 +38,7 @@ type Services interface {
 }
 
 type Repositories interface {
-	InserData(data Domain) (string, error)
+	InsertData(data Domain) (string, error)
 	SelectAllData(polyclinic, from string) ([]Domain, error)
 	UpdateByID(id string, data Domain) error
 	DeleteByID(id string) error

@@ -30,7 +30,7 @@ func (_m *Repositories) DeleteByID(id string) error {
 }
 
 // InserData provides a mock function with given fields: data
-func (_m *Repositories) InserData(data queue.Domain) (string, error) {
+func (_m *Repositories) InsertData(data queue.Domain) (string, error) {
 	ret := _m.Called(data)
 
 	var r0 string

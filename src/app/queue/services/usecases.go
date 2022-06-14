@@ -8,7 +8,7 @@ type usecase struct {
 
 // CreateQueue implements queue.Services
 func (uc *usecase) CreateQueue(queue queue.Domain) (string, error) {
-	return uc.repo.InserData(queue)
+	return uc.repo.InsertData(queue)
 }
 
 // GetAllQueues implements queue.Services

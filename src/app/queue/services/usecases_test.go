@@ -77,11 +77,11 @@ func TestMain(m *testing.M) {
 
 func TestCreateQueue(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
-		mockRepo.On("InsertData", sampleRequestDomain).Return(sampleIDEko, nil).Once()
+		mockRepo.On("InsertData", sampleRequestDomain).Return(sampleIDEko.String(), nil).Once()
 		result, err := services.CreateQueue(sampleRequestDomain)
 
 		assert.Nil(t, err)
-		assert.Equal(t, sampleIDEko, result)
+		assert.Equal(t, sampleIDEko.String(), result)
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
