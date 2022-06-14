@@ -33,6 +33,14 @@ type UserReference struct {
 	UpdatedAt time.Time
 }
 
+type Services interface {
+	GetAllDoctors() ([]Domain, error)
+	GetDoctorByID(id string) (*Domain, error)
+	CreateDoctor(doctor Domain) (string, error)
+	AmendDoctorByID(id string, doctor Domain) error
+	RemoveDoctorByID(id string) error
+}
+
 type Repositories interface {
 	SelectAllData() ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
