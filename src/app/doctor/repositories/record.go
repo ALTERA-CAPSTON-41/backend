@@ -41,7 +41,6 @@ type User struct {
 
 func MapToDomain(record Doctor) doctor.Domain {
 	return doctor.Domain{
-		UserID:  record.User.ID,
 		Name:    record.Name,
 		NIP:     record.NIP,
 		SIP:     record.NIP,
