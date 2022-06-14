@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	doctor_repositories "clinic-api/src/app/doctor/repositories"
 	"clinic-api/src/models"
 	"clinic-api/src/utils"
 	"net/http"
@@ -48,8 +49,8 @@ func lookupUserByEmail(email string) models.User {
 	return userData
 }
 
-func lookupDoctorFromUserData(userID string) models.Doctor {
-	var doctor models.Doctor
+func lookupDoctorFromUserData(userID string) doctor_repositories.Doctor {
+	var doctor doctor_repositories.Doctor
 	models.DB.Where("user_id = ?", userID).First(&doctor)
 	return doctor
 }
