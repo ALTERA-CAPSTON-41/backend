@@ -56,7 +56,7 @@ func (h *Handler) AmendQueueByIDHandler(c echo.Context) error {
 
 	if err := h.services.AmendQueueByID(id, queueRequest.MapToDomain()); err != nil {
 		if strings.Contains(err.Error(), "not found") {
-			return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
@@ -68,7 +68,7 @@ func (h *Handler) AmendQueueByIDHandler(c echo.Context) error {
 func (h *Handler) RemoveQueueByIDHandler(c echo.Context) error {
 	if err := h.services.RemoveQueueByID(c.Param("id")); err != nil {
 		if strings.Contains(err.Error(), "not found") {
-			return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
