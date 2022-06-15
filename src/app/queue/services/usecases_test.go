@@ -77,6 +77,8 @@ func TestMain(m *testing.M) {
 
 func TestCreateQueue(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
+		mockRepo.On("SelectQueueNumber", sampleRequestDomain.PolyclinicID).Return(0, nil).Once()
+		sampleRequestDomain.DailyQueueNumber++
 		mockRepo.On("InsertData", sampleRequestDomain).Return(sampleIDEko.String(), nil).Once()
 		result, err := services.CreateQueue(sampleRequestDomain)
 
@@ -85,6 +87,7 @@ func TestCreateQueue(t *testing.T) {
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
+		mockRepo.On("SelectQueueNumber", sampleRequestDomain.PolyclinicID).Return(0, nil).Once()
 		mockRepo.On("InsertData", sampleRequestDomain).
 			Return(uuid.Nil.String(), errors.New("can't connect to the database")).Once()
 		result, err := services.CreateQueue(sampleRequestDomain)
