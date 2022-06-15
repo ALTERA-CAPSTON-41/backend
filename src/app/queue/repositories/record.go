@@ -53,13 +53,13 @@ func MapToDomain(record Queue) queue.Domain {
 	}
 }
 
-func MapToNewRecord(domain queue.Domain, queueNumber int) Queue {
+func MapToNewRecord(domain queue.Domain) Queue {
 	return Queue{
 		ID:               uuid.Must(uuid.NewRandom()),
 		PatientID:        domain.PatientID,
 		PolyclinicID:     domain.PolyclinicID,
 		PatientStatus:    domain.PatientStatus,
-		DailyQueueNumber: queueNumber,
+		DailyQueueNumber: domain.DailyQueueNumber,
 		DailyQueueDate:   domain.DailyQueueDate,
 	}
 }

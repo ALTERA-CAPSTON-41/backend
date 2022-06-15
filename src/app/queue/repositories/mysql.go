@@ -13,17 +13,18 @@ type repository struct {
 	DB *gorm.DB
 }
 
+// SelectQueueNumber implements queue.Repositories
+func (repo *repository) SelectQueueNumber(polyclinicID int) (int, error) {
+	var queueNumber int
+	err := repo.DB.Table("queues").Select("COALESCE(MAX(daily_queue_number), 0)").
+		Where("daily_queue_date = CURDATE() AND polyclinic_id = ?", polyclinicID).
+		Find(&queueNumber).Error
+	return queueNumber, err
+}
+
 // InsertData implements queue.Repositories
 func (repo *repository) InsertData(data queue.Domain) (string, error) {
-	var queueNumber int
-	if err := repo.DB.Table("queues").Select("COALESCE(MAX(daily_queue_number), 0)").
-		Where("daily_queue_date = CURDATE() AND polyclinic_id = ?", data.PolyclinicID).
-		Find(&queueNumber).Error; err != nil {
-		return uuid.Nil.String(), err
-	}
-	queueNumber++
-
-	record := MapToNewRecord(data, queueNumber)
+	record := MapToNewRecord(data)
 	if err := repo.DB.Create(&record).Error; err != nil {
 		return uuid.Nil.String(), err
 	}

@@ -38,6 +38,7 @@ type Services interface {
 }
 
 type Repositories interface {
+	SelectQueueNumber(polyclinicID int) (int, error)
 	InsertData(data Domain) (string, error)
 	SelectAllData(polyclinic, from string) ([]Domain, error)
 	UpdateByID(id string, data Domain) error
