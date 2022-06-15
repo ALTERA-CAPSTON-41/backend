@@ -22,7 +22,7 @@ type Domain struct {
 type PatientReference struct {
 	ID     uuid.UUID
 	Name   string
-	Gender types.GenderTypeEnum
+	Gender types.GenderEnum
 }
 
 type PolyclinicReference struct {
