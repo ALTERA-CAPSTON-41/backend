@@ -62,7 +62,7 @@ func (repo *repository) SelectAllData(polyclinic, from string) ([]queue.Domain, 
 func (repo *repository) UpdateByID(id string, data queue.Domain) error {
 	record := MapToExistingRecord(id, data)
 	alteration := repo.DB.Where("id", id).Updates(&record)
-	if alteration.RowsAffected < 1 {
+	if alteration.RowsAffected < 1 && alteration.Error == nil {
 		return errors.New("record not found")
 	}
 
@@ -72,7 +72,7 @@ func (repo *repository) UpdateByID(id string, data queue.Domain) error {
 // DeleteByID implements queue.Repositories
 func (repo *repository) DeleteByID(id string) error {
 	deletion := repo.DB.Delete(new(Queue), id)
-	if deletion.RowsAffected < 1 {
+	if deletion.RowsAffected < 1 && deletion.Error == nil {
 		return errors.New("record not found")
 	}
 
