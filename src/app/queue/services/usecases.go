@@ -1,6 +1,10 @@
 package services
 
-import "clinic-api/src/app/queue"
+import (
+	"clinic-api/src/app/queue"
+
+	"github.com/google/uuid"
+)
 
 type usecase struct {
 	repo queue.Repositories
@@ -8,6 +12,13 @@ type usecase struct {
 
 // CreateQueue implements queue.Services
 func (uc *usecase) CreateQueue(queue queue.Domain) (string, error) {
+	queueNumber, err := uc.repo.SelectQueueNumber(queue.PolyclinicID)
+	if err != nil {
+		return uuid.Nil.String(), err
+	}
+	queueNumber++
+	queue.DailyQueueNumber = queueNumber
+
 	return uc.repo.InsertData(queue)
 }
 
