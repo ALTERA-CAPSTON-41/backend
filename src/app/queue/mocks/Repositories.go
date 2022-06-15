@@ -29,7 +29,7 @@ func (_m *Repositories) DeleteByID(id string) error {
 	return r0
 }
 
-// InserData provides a mock function with given fields: data
+// InsertData provides a mock function with given fields: data
 func (_m *Repositories) InsertData(data queue.Domain) (string, error) {
 	ret := _m.Called(data)
 
@@ -66,6 +66,27 @@ func (_m *Repositories) SelectAllData(polyclinic string, from string) ([]queue.D
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string) error); ok {
 		r1 = rf(polyclinic, from)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// SelectQueueNumber provides a mock function with given fields: polyclinicID
+func (_m *Repositories) SelectQueueNumber(polyclinicID int) (int, error) {
+	ret := _m.Called(polyclinicID)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(int) int); ok {
+		r0 = rf(polyclinicID)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(polyclinicID)
 	} else {
 		r1 = ret.Error(1)
 	}
