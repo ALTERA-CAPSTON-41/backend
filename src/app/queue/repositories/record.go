@@ -26,7 +26,7 @@ type Patient struct {
 	gorm.Model
 	ID     uuid.UUID `gorm:"size:191"`
 	Name   string
-	Gender types.GenderTypeEnum
+	Gender types.GenderEnum
 }
 
 type Polyclinic struct {

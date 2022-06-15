@@ -1,16 +1,10 @@
 package models
 
 import (
+	"clinic-api/src/types"
+
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-)
-
-type UserRole string
-
-const (
-	DOCTOR UserRole = "DOCTOR"
-	NURSE  UserRole = "NURSE"
-	ADMIN  UserRole = "ADMIN"
 )
 
 type User struct {
@@ -18,7 +12,7 @@ type User struct {
 	ID       uuid.UUID
 	Email    string `gorm:"unique"`
 	Password string
-	Role     UserRole `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
+	Role     types.UserRoleEnum `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
 }
 
 type UserRequest struct {
@@ -45,7 +39,7 @@ func MapToNewUserModel(request UserRequest) User {
 		ID:       uuid.Must(uuid.NewRandom()),
 		Email:    request.Email,
 		Password: request.Password,
-		Role:     UserRole(request.Role),
+		Role:     types.UserRoleEnum(request.Role),
 	}
 }
 
@@ -54,6 +48,6 @@ func MapToExistingUserModel(request UserRequest, id string) User {
 		ID:       uuid.MustParse(id),
 		Email:    request.Email,
 		Password: request.Password,
-		Role:     UserRole(request.Role),
+		Role:     types.UserRoleEnum(request.Role),
 	}
 }

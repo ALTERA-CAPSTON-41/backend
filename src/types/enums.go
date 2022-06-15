@@ -7,9 +7,17 @@ const (
 	REFERRED   PatientStatusEnum = "REFERRED"
 )
 
-type GenderTypeEnum string
+type GenderEnum string
 
 const (
-	MALE   GenderTypeEnum = "MALE"
-	FEMALE GenderTypeEnum = "FEMALE"
+	MALE   GenderEnum = "MALE"
+	FEMALE GenderEnum = "FEMALE"
+)
+
+type UserRoleEnum string
+
+const (
+	DOCTOR UserRoleEnum = "DOCTOR"
+	NURSE  UserRoleEnum = "NURSE"
+	ADMIN  UserRoleEnum = "ADMIN"
 )

@@ -2,19 +2,12 @@ package admin_repositories
 
 import (
 	"clinic-api/src/app/admin"
+	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-)
-
-type UserRole string
-
-const (
-	DOCTOR UserRole = "DOCTOR"
-	NURSE  UserRole = "NURSE"
-	ADMIN  UserRole = "ADMIN"
 )
 
 type Admin struct {
@@ -32,7 +25,7 @@ type User struct {
 	ID       uuid.UUID
 	Email    string
 	Password string
-	Role     UserRole
+	Role     types.UserRoleEnum
 }
 
 func MapToDomain(record Admin) admin.Domain {
@@ -57,7 +50,7 @@ func MapToNewRecord(domain admin.Domain) Admin {
 			ID:       newUserID,
 			Email:    domain.User.Email,
 			Password: hashed,
-			Role:     ADMIN,
+			Role:     types.ADMIN,
 		},
 		UserID: newUserID,
 		Name:   domain.Name,
