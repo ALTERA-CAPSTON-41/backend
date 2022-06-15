@@ -43,7 +43,7 @@ func MapToDomain(record Doctor) doctor.Domain {
 	return doctor.Domain{
 		Name:    record.Name,
 		NIP:     record.NIP,
-		SIP:     record.NIP,
+		SIP:     record.SIP,
 		Address: record.Address,
 		DOB:     record.DOB,
 		Gender:  record.Gender,
