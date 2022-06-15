@@ -50,13 +50,13 @@ func (_m *Repositories) InsertData(data queue.Domain) (string, error) {
 	return r0, r1
 }
 
-// SelectAllData provides a mock function with given fields: polyclinic, from
-func (_m *Repositories) SelectAllData(polyclinic string, from string) ([]queue.Domain, error) {
-	ret := _m.Called(polyclinic, from)
+// SelectAllData provides a mock function with given fields: polyclinic, fromDate
+func (_m *Repositories) SelectAllData(polyclinic string, fromDate string) ([]queue.Domain, error) {
+	ret := _m.Called(polyclinic, fromDate)
 
 	var r0 []queue.Domain
 	if rf, ok := ret.Get(0).(func(string, string) []queue.Domain); ok {
-		r0 = rf(polyclinic, from)
+		r0 = rf(polyclinic, fromDate)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]queue.Domain)
@@ -65,7 +65,7 @@ func (_m *Repositories) SelectAllData(polyclinic string, from string) ([]queue.D
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string, string) error); ok {
-		r1 = rf(polyclinic, from)
+		r1 = rf(polyclinic, fromDate)
 	} else {
 		r1 = ret.Error(1)
 	}
