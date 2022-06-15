@@ -45,11 +45,10 @@ func New() *echo.Echo {
 	route.DELETE("/admins/:id", caHandler.Admin.RemoveAdminByIDHandler)
 
 	// queue
-	route.POST("/queues", handlers.CreateQueueHandler)
-	route.GET("/queues", handlers.GetAllQueuesHandler)
-	route.GET("/queues/:id", handlers.GetQueueByIDHandler)
-	route.PUT("/queues/:id", handlers.EditQueueByIDHandler)
-	route.DELETE("/queues/:id", handlers.DeleteQueueByIDHandler)
+	route.POST("/queues", caHandler.Queue.CreateQueueHandler)
+	route.GET("/queues", caHandler.Queue.ShowAllQueuesHandler)
+	route.PUT("/queues/:id", caHandler.Queue.AmendQueueByIDHandler)
+	route.DELETE("/queues/:id", caHandler.Queue.RemoveQueueByIDHandler)
 
 	return route
 }

@@ -3,6 +3,7 @@ package main
 import (
 	admin_repositories "clinic-api/src/app/admin/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
+	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
 	"clinic-api/src/models"
 	"clinic-api/src/routes"
@@ -15,7 +16,7 @@ func init() {
 		polyclinic_repositories.Polyclinic{},
 		models.Doctor{},
 		admin_repositories.Admin{},
-		models.Queue{},
+		queue_repositories.Queue{},
 	)
 }
 

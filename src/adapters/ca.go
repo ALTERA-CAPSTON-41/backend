@@ -7,6 +7,8 @@ import (
 	apispec_handlers "clinic-api/src/app/apispec/handlers"
 	polyclinic_factories "clinic-api/src/app/polyclinic/factories"
 	polyclinic_handlers "clinic-api/src/app/polyclinic/handlers"
+	queue_factories "clinic-api/src/app/queue/factories"
+	queue_handlers "clinic-api/src/app/queue/handlers"
 	"clinic-api/src/database"
 )
 
@@ -14,6 +16,7 @@ type handlers struct {
 	Admin      admin_handlers.Handler
 	APISpec    apispec_handlers.Handler
 	Polyclinic polyclinic_handlers.Handler
+	Queue      queue_handlers.Handler
 }
 
 func Init() handlers {
@@ -23,5 +26,6 @@ func Init() handlers {
 		Admin:      admin_factories.Factory(conn.DB),
 		APISpec:    apispec_factories.Factory(),
 		Polyclinic: polyclinic_factories.Factory(conn.DB),
+		Queue:      queue_factories.Factory(conn.DB),
 	}
 }
