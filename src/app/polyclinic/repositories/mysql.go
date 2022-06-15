@@ -46,7 +46,7 @@ func (repo *repository) SelectDataByID(id int) (*polyclinic.Domain, error) {
 func (repo *repository) UpdateByID(id int, data polyclinic.Domain) error {
 	record := MapToExistingRecord(id, data)
 	alteration := repo.DB.Where("id", id).Updates(&record)
-	if alteration.RowsAffected < 1 {
+	if alteration.RowsAffected < 1 && alteration.Error == nil {
 		return errors.New("record not found")
 	}
 
@@ -56,7 +56,7 @@ func (repo *repository) UpdateByID(id int, data polyclinic.Domain) error {
 // DeleteByID implements polyclinic.Repositories
 func (repo *repository) DeleteByID(id int) error {
 	deletion := repo.DB.Delete(new(Polyclinic), id)
-	if deletion.RowsAffected < 1 {
+	if deletion.RowsAffected < 1 && deletion.Error == nil {
 		return errors.New("record not found")
 	}
 
