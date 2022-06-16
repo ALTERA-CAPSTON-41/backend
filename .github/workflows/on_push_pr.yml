@@ -48,20 +48,41 @@ jobs:
         uses: go-semantic-release/action@v1.17.0
         with: 
           github-token: ${{ secrets.GH_TOKEN }}
+  
+  image-build-push:
+    name: build and push image to ghcr.io
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    needs:
+      - unit-test
+      - build
+      - release
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: image build
+        run: docker build -t backend .
+      - name: login to registry
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: push image to registry
+        env: 
+          LATEST_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/backend:latest
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker tag backend $IMAGE_ID
+          docker push $IMAGE_ID
 
   deploy-aws:
     name: deploy to ec2
     runs-on: ubuntu-latest
     needs: 
-      - unit-test
-      - build
+      - image-build-push
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: add .env
-        env:
-          ENV: ${{ secrets.STAGING_ENV }}
-        run: echo "$ENV" > app.env
       - name: configure ssh
         env: 
           SSH_USER: ${{ secrets.SSH_USERNAME }}
@@ -78,36 +99,17 @@ jobs:
             IdentityFile ~/.ssh/hms.pem
             StrictHostKeyChecking=no
           END
-      - name: connect ec2
+      - name: connect ec2, pull and run container
+        # env:
+        #   PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
+        #   WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
         run: ssh development '
-          cd workspace/backend && 
-          git pull && 
           sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
-          sudo docker build -t capstone-41/clinic-api:latest . && 
-          sudo docker run -dp 19000:8000 --name clinic-backend-api capstone-41/clinic-api:latest'
-      - name: write .env to container
-        env:
-          ENV: ${{ secrets.STAGING_ENV }}
+          sudo docker pull ghcr.io/altera-capston-41/backend:latest &&
+          sudo docker run -dp 19000:8000 --name clinic-backend-api ghcr.io/altera-capston-41/backend:latest'
+      - name: copy .env to container
         run: ssh development '
-          sudo docker exec -d clinic-backend-api echo "$ENV" > app.env'
-
-  # docker-build:
-  #   name: build docker image
-  #   runs-on: "ubuntu-latest"
-  #   needs: [ unit-test, release ]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: config .env
-  #       env:
-  #         ENV: ${{ secrets.ENV_APP }}
-  #       run: echo "$ENV" > app.env
-  #     - name: build image
-  #       run: docker build -t capstone-41/clinic-api:latest .
-  #     - name: login docker registry
-  #       uses: docker/login-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_PAT }}
-  #     - name: push image to dockerhub
-  #       run: docker push capstone-41/clinic-api:latest:latest
-
+          sudo docker cp workspace/backend/app.env clinic-backend-api:/app/.'
+      - name: restart container
+        run: ssh development '
+          sudo docker restart clinic-backend-api'
