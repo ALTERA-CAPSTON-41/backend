@@ -20,6 +20,10 @@ type UserDataDomain struct {
 	Role types.UserRoleEnum
 }
 
+type Services interface {
+	AttemptLogin(domain Domain) (*UserDataDomain, error)
+}
+
 type Repositories interface {
 	LookupAccountByEmail(email string) (*Domain, error)
 	LookupDoctorByUserID(id string) (*UserDataDomain, error)
