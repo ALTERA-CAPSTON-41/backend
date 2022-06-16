@@ -12,3 +12,9 @@ type Domain struct {
 	Password string
 	Role     types.UserRoleEnum
 }
+
+type UserDataDomain struct {
+	ID   uuid.UUID
+	Name string
+	NIP  string
+}

@@ -14,3 +14,15 @@ type User struct {
 	Password string
 	Role     types.UserRoleEnum `gorm:"type:enum('DOCTOR', 'ADMIN', 'NURSE')"`
 }
+
+type Doctor struct {
+	UserID uuid.UUID `gorm:"primaryKey;size:191"`
+	Name   string
+	NIP    string `gorm:"column:nip"`
+}
+
+type Admin struct {
+	UserID uuid.UUID `gorm:"primaryKey;size:191"`
+	Name   string
+	NIP    string `gorm:"column:nip"`
+}
