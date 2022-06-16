@@ -14,7 +14,7 @@ func New() *echo.Echo {
 	route.GET("/", caHandler.APISpec.GetAPISpec)
 
 	// login
-	route.POST("/login", handlers.AttemptLoginUser)
+	route.POST("/login", caHandler.Account.AttemptLoginHandler)
 
 	// patient
 	route.POST("/patients", handlers.CreatePatientHandler)
