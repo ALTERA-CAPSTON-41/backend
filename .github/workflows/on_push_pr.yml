@@ -65,9 +65,7 @@ jobs:
       - name: set latest version tag
         run: LATEST_VERSION=$(git tag -l | tail -1 | cut -b 2-)
       - name: image build with version tags
-        run: docker build -t capstone-41/clinic-api:$LATEST_VERSION .
-      - name: image build with latest tags
-        run: docker build -t capstone-41/clinic-api:latest .
+        run: docker build -t capstone-41/clinic-api .
       - name: login to registry
         run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
       - name: push image to registry
