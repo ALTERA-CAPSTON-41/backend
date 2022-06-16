@@ -461,22 +461,6 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/NewQueue'
   '/queues/{id}':
-    get:
-      summary: Get Queue by ID
-      tags:
-        - Queue
-      responses:
-        '200':
-          $ref: '#/components/responses/200_QueueDetail'
-        '401':
-          $ref: '#/components/responses/401_Unauthorized'
-        '403':
-          $ref: '#/components/responses/403_Forbidden'
-        '404':
-          $ref: '#/components/responses/404_NotFound'
-        '500':
-          $ref: '#/components/responses/500_InternalServerError'
-      operationId: get-queues-id
     parameters:
       - schema:
           type: string
@@ -1091,17 +1075,6 @@ components:
                     nullable: true
                     items:
                       $ref: '#/components/schemas/Queue'
-    200_QueueDetail:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/Meta_200OK'
-              - type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Queue'
     201_CreateQueue:
       description: Example response
       content:
