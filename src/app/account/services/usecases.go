@@ -5,7 +5,6 @@ import (
 	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"errors"
-	"fmt"
 )
 
 type usecase struct {
@@ -13,30 +12,30 @@ type usecase struct {
 }
 
 // AttemptLogin implements account.Services
-func (uc *usecase) AttemptLogin(domain account.Domain) (*account.UserDataDomain, error) {
+func (uc *usecase) AttemptLogin(domain account.Domain) (token string, role types.UserRoleEnum, err error) {
 	var user *account.Domain
-	var err error
 
 	if user, err = uc.repo.LookupAccountByEmail(domain.Email); err != nil {
-		return nil, err
+		return "", "", err
 	}
 
 	if !utils.ValidateHash(domain.Password, user.Password) {
-		fmt.Println("result", domain.Password, user.Password, utils.ValidateHash(domain.Password, user.Password))
-		return nil, errors.New("password not match")
+		return "", "", errors.New("password not match")
 	}
 
-	var result *account.UserDataDomain
+	var account *account.UserDataDomain
 	if user.Role == types.ADMIN {
-		if result, err = uc.repo.LookupAdminByUserID(user.ID.String()); err != nil {
-			return nil, err
+		if account, err = uc.repo.LookupAdminByUserID(user.ID.String()); err != nil {
+			return "", "", err
 		}
 	} else if user.Role == types.DOCTOR {
-		if result, err = uc.repo.LookupDoctorByUserID(user.ID.String()); err != nil {
-			return nil, err
+		if account, err = uc.repo.LookupDoctorByUserID(user.ID.String()); err != nil {
+			return "", "", err
 		}
 	}
-	return result, nil
+
+	token, err = utils.GenerateJwt(user.ID.String(), account.Name, account.NIP, user.Role)
+	return token, user.Role, err
 }
 
 func NewService(repo account.Repositories) account.Services {
