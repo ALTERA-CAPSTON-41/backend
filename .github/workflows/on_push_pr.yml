@@ -49,8 +49,8 @@ jobs:
         with: 
           github-token: ${{ secrets.GH_TOKEN }}
   
-  image-push:
-    name: push image to ghcr.io
+  image-build-push:
+    name: build and push image to ghcr.io
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -62,19 +62,18 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: image build with version tags
+      - name: image build
         run: docker build -t backend .
       - name: login to registry
         run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
       - name: push image to registry
         env: 
           LATEST_VERSION: ${{ github.event.release.tag_name }}
-        run: echo $LATEST_VERSION
-        # run: |
-        #   IMAGE_ID=ghcr.io/${{ github.repository_owner }}/backend:latest
-        #   IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-        #   docker tag backend $IMAGE_ID
-        #   docker push $IMAGE_ID
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/backend:latest
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker tag backend $IMAGE_ID
+          docker push $IMAGE_ID
 
   # deploy-aws:
   #   name: deploy to ec2
