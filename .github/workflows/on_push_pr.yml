@@ -100,10 +100,10 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: connect ec2
-        env:
-          PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
-          WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
+        # env:
+        #   PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
+        #   WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
         run: ssh development '
           sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
-          sudo docker pull $PACKAGE_NAME &&
-          sudo docker run -dp 19000:8000 --name clinic-backend-api $PACKAGE_NAME --env-file $WORKSPACE_DIR'
+          sudo docker pull ghcr.io/altera-capston-41/backend:latest &&
+          sudo docker run -dp 19000:8000 --name clinic-backend-api $PACKAGE_NAME --env-file workspace/backend/app.env'
