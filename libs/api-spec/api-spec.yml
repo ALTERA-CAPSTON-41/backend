@@ -487,6 +487,22 @@ paths:
         - Queue
       requestBody:
         $ref: '#/components/requestBodies/ExistingQueue'
+    delete:
+      summary: Delete Queue by ID
+      tags:
+        - Queue
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: delete-queues-id
 components:
   schemas:
     Login:
