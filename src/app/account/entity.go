@@ -17,4 +17,11 @@ type UserDataDomain struct {
 	ID   uuid.UUID
 	Name string
 	NIP  string
+	Role types.UserRoleEnum
+}
+
+type Repositories interface {
+	LookupAccountByEmail(email string) (*Domain, error)
+	LookupDoctorByUserID(id string) (*UserDataDomain, error)
+	LookupAdminByUserID(id string) (*UserDataDomain, error)
 }
