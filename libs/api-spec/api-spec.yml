@@ -16,12 +16,12 @@ servers:
   - url: 'https://api.capstone.thisham.my.id'
     description: Deployed API
 tags:
+  - name: Authentication
   - name: Patient
   - name: Doctor
   - name: Nurse
   - name: Admin
   - name: Queue
-  - name: Authentication
 paths:
   /patients:
     post:
@@ -154,7 +154,6 @@ paths:
                         $ref: '#/components/schemas/Login'
               examples: {}
       description: ''
-      parameters: []
       requestBody:
         $ref: '#/components/requestBodies/Login'
       tags:
@@ -175,7 +174,7 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-doctors
     post:
-      summary: ''
+      summary: Create Doctor
       operationId: post-doctors
       responses:
         '201':
@@ -533,43 +532,32 @@ components:
         id: vek7yruai96l9
       type: object
       description: Response meta of http code 200.
-      x-examples:
-        200_OK:
-          meta:
-            code: 200
-            description: OK
       properties:
         meta:
           type: object
           properties:
             code:
               type: integer
-              example: 0
-              default: 200
-            description:
+              example: 200
+            message:
               type: string
-              default: OK
+              example: OK
     Meta_201Created:
       title: Meta_201Created
       x-stoplight:
         id: fjrxtttuyix4n
       type: object
       description: Response meta when created a new data.
-      x-examples:
-        201_Created:
-          meta:
-            code: 201
-            description: Created
       properties:
         meta:
           type: object
           properties:
             code:
               type: number
-              default: 201
-            description:
+              example: 201
+            message:
               type: string
-              default: Created
+              example: Created
     Meta_204NoContent:
       type: object
       properties:
@@ -578,13 +566,10 @@ components:
           properties:
             code:
               type: integer
-            description:
+              example: 204
+            message:
               type: string
-      x-examples:
-        204_NoContent:
-          meta:
-            code: 204
-            description: No Content
+              example: No Content
     Meta_400BadRequest:
       title: Meta_400BadRequest
       x-stoplight:
@@ -596,13 +581,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 400
+            message:
               type: string
-      x-examples:
-        400_BadRequest:
-          meta:
-            code: 400
-            description: Bad Request
+              example: Bad Request
       description: Response when backend received invalid data.
     Meta_401Unauthorized:
       title: Meta_401Unauthorized
@@ -615,13 +597,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 401
+            message:
               type: string
-      x-examples:
-        401_Unauthorized:
-          meta:
-            code: 401
-            description: Unauthorized
+              example: Unauthorized
       description: Response when accessed endpoint with no authentication.
     Meta_403Forbidden:
       title: Meta_403Forbidden
@@ -634,13 +613,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 403
+            message:
               type: string
-      x-examples:
-        403_Forbidden:
-          meta:
-            code: 403
-            description: Forbidden
+              example: Forbidden
       description: Meta given when accessed endpoint with no authority.
     Meta_404NotFound:
       title: Meta_404NotFound
@@ -653,13 +629,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 404
+            message:
               type: string
-      x-examples:
-        404_Not Found:
-          meta:
-            code: 404
-            description: Not Found
+              example: Not Found
       description: Meta given when accessed imaginary data.
     Meta_500InternalServerError:
       title: Meta_500InternalServerError
@@ -672,13 +645,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 500
+            message:
               type: string
-      x-examples:
-        500_InternalServerError:
-          meta:
-            code: 500
-            description: Internal Server Error
+              example: Internal Server Error
       description: Meta given when accessed endpoint getting error on server.
     Meta_501Unimplemented:
       title: Meta_501Unimplemented
@@ -691,13 +661,10 @@ components:
           properties:
             code:
               type: number
-            description:
+              example: 501
+            message:
               type: string
-      x-examples:
-        501_Unimplemented:
-          meta:
-            code: 501
-            description: Unimplemented
+              example: Unimplemented
       description: Meta given when accessing imaginary endpoint(s).
     Patient:
       title: Patient
@@ -708,7 +675,7 @@ components:
           id: aaaa1111-2222-3333-4444-55556666aaa1
           name: Alice Calbert
           nik: '1035017110970001'
-          phone: alicecalbert@example.com
+          phone: +2312312
           address: 'North Way Street, Antartica Regency'
           dob: '1997-10-31'
           gender: FEMALE
@@ -717,7 +684,7 @@ components:
           id: aaaa1111-2222-3333-4444-55556666aaa2
           name: Ken Schwegihtner
           nik: '1035013110970002'
-          phone: kenschweightner@example.com
+          phone: +62292191
           address: 'North Way Street, Antartica Regency'
           dob: '1997-10-31'
           gender: MALE
@@ -737,7 +704,7 @@ components:
           pattern: '[0-9]{16}'
         phone:
           type: string
-          example: +62 888 8888 8888
+          example: +6288888888888
         address:
           type: string
           example: 'North Way Street, Antartica Regency'
@@ -777,7 +744,7 @@ components:
         - dob
     Doctor:
       type: object
-      x-examples:
+      example:
         doctor:
           id: adf55661-dumm-dumm-dumm-dummycreated
           name: dr. Capstone
@@ -816,19 +783,18 @@ components:
           type: string
     Nurse:
       type: object
-      x-examples:
-        capstone-nurse:
-          id: adf55661-dumm-dumm-dumm-dummycreated
-          name: Capstone Nurse
-          nip: '839182'
-          sip: SIP.2019.939.11.83
-          polyclinic:
-            id: 1
-            name: General
-          address: 'North Way Street, Antartica Regency'
-          dob: '1991-09-13'
-          gender: MALE
-          email: capstone.nurse@example.com
+      example:
+        id: adf55661-dumm-dumm-dumm-dummycreated
+        name: Capstone Nurse
+        nip: '839182'
+        sip: SIP.2019.939.11.83
+        polyclinic:
+          id: 1
+          name: General
+        address: 'North Way Street, Antartica Regency'
+        dob: '1991-09-13'
+        gender: MALE
+        email: capstone.nurse@example.com
       properties:
         id:
           type: string
@@ -855,12 +821,11 @@ components:
           type: string
     Admin:
       type: object
-      x-examples:
-        admin-capstone:
-          id: addf1281-dumm-dumm-dumm-dummycreated
-          name: Admin Capstone
-          nip: '8329191'
-          email: capstone.admin@example.com
+      example:
+        id: addf1281-dumm-dumm-dumm-dummycreated
+        name: Admin Capstone
+        nip: '8329191'
+        email: capstone.admin@example.com
       properties:
         id:
           type: string
@@ -875,29 +840,17 @@ components:
       x-stoplight:
         id: xh0t1u0aqp0k4
       type: object
-      x-examples:
-        example-1:
-          id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-          patient:
-            name: px.capstone
-            gender: MALE
-          polyclinic:
-            id: 1
-            name: General
-          queue_number: 10
-          queue_date: '2022-06-14'
-          service_done_at: null
-        example-2:
-          id: 63fb1473-1a8e-4e44-afe5-c74a79260a7c
-          patient:
-            name: px.capstone
-            gender: MALE
-          polyclinic:
-            id: 1
-            name: General
-          queue_number: 10
-          queue_date: '2022-06-10'
-          service_done_at: '2022-06-10 08:00:00'
+      example:
+        id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
+        patient:
+          name: px.capstone
+          gender: MALE
+        polyclinic:
+          id: 1
+          name: General
+        queue_number: 10
+        queue_date: '2022-06-14'
+        service_done_at: ''
       properties:
         id:
           type: string
@@ -921,7 +874,6 @@ components:
           type: string
         service_done_at:
           type: string
-          nullable: true
   responses:
     200_PatientDetail:
       description: Example response
@@ -934,21 +886,6 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Patient'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: aaaa1111-aaaa-1111-aaaa-1111aaaa1111
-                  name: string
-                  nik: '1111333311112222'
-                  phone: user@example.com
-                  address: Arctic
-                  dob: '1997-10-31'
-                  gender: MALE
-                  blood_type: O
         application/xml:
           schema:
             type: object
@@ -1008,21 +945,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/Patient'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  - id: aaaa1111-aaaa-1111-aaaa-1111aaaa1111
-                    name: string
-                    nik: '1111333311110002'
-                    phone: user@example.com
-                    address: Antarctica
-                    dob: '1997-10-31'
-                    gender: MALE
-                    blood_type: O
     200_DoctorDetail:
       description: Example response
       content:
@@ -1034,24 +956,6 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Doctor'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: string
-                  name: string
-                  nip: string
-                  sip: string
-                  polyclinic:
-                    id: 0
-                    name: string
-                  address: string
-                  dob: string
-                  gender: string
-                  email: string
     200_DoctorList:
       description: Example response
       content:
@@ -1065,24 +969,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/Doctor'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  - id: string
-                    name: string
-                    nip: string
-                    sip: string
-                    polyclinic:
-                      id: 0
-                      name: string
-                    address: string
-                    dob: string
-                    gender: string
-                    email: string
     201_CreatePatient:
       description: Example response
       content:
@@ -1097,14 +983,7 @@ components:
                     properties:
                       id:
                         type: string
-          examples:
-            success:
-              value:
-                meta:
-                  code: 201
-                  description: Created
-                data:
-                  id: aaee1234-dumm-dumm-dumm-dummycreated
+                        example: aaee1234-dumm-dumm-dumm-dummycreated
     201_CreateDoctor:
       description: Example response
       content:
@@ -1119,14 +998,7 @@ components:
                     properties:
                       id:
                         type: string
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: string
+                        example: aaee1234-dumm-dumm-dumm-dummycreated
     201_CreateNurse:
       description: Example response
       content:
@@ -1141,14 +1013,7 @@ components:
                     properties:
                       id:
                         type: string
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: string
+                        example: aaee1234-dumm-dumm-dumm-dummycreated
     201_CreateAdmin:
       description: Example response
       content:
@@ -1163,14 +1028,7 @@ components:
                     properties:
                       id:
                         type: string
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: string
+                        example: aaee1234-dumm-dumm-dumm-dummycreated
     200_NurseList:
       description: Example response
       content:
@@ -1208,17 +1066,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/Admin'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  - id: string
-                    name: string
-                    nip: string
-                    email: string
     200_AdminDetail:
       description: Example response
       content:
@@ -1230,17 +1077,6 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Admin'
-          examples:
-            example-1:
-              value:
-                meta:
-                  code: 0
-                  description: string
-                data:
-                  id: string
-                  name: string
-                  nip: string
-                  email: string
     200_QueueList:
       description: Example response
       content:
@@ -1276,7 +1112,11 @@ components:
               - type: object
                 properties:
                   data:
-                    type: string
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: aaee1234-dumm-dumm-dumm-dummycreated
   requestBodies:
     Login:
       content:
@@ -1643,18 +1483,9 @@ components:
                 type: string
               service_done_at:
                 type: string
-            x-examples:
-              example-1:
-                patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-                polyclinic_id: 1
-                patient_status: OUTPATIENT
-                daily_queue_date: '2022-06-15'
-                service_done_at: ''
-          examples:
-            example-1:
-              value:
-                patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-                polyclinic_id: 1
-                patient_status: OUTPATIENT
-                daily_queue_date: '2022-06-15'
-                service_done_at: '2022-06-15 09:00:00'
+          example:
+            patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
+            polyclinic_id: 1
+            patient_status: OUTPATIENT
+            daily_queue_date: '2022-06-15'
+            service_done_at: '2022-06-15 09:00:00'
