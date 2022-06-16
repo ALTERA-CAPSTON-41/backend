@@ -21,7 +21,7 @@ type UserDataDomain struct {
 }
 
 type Services interface {
-	AttemptLogin(domain Domain) (*UserDataDomain, error)
+	AttemptLogin(domain Domain) (token string, role types.UserRoleEnum, err error)
 }
 
 type Repositories interface {
