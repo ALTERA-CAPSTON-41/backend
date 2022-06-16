@@ -106,4 +106,8 @@ jobs:
         run: ssh development '
           sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
           sudo docker pull ghcr.io/altera-capston-41/backend:latest &&
-          sudo docker run -dp 19000:8000 --name clinic-backend-api $PACKAGE_NAME --env-file workspace/backend/app.env'
+          sudo docker run -dp 19000:8000 --name clinic-backend-api ghcr.io/altera-capston-41/backend:latest'
+      - name: copy .env to container
+        run: ssh development '
+          cd workspace/backend
+          sudo docker cp main.go clinic-backend-api:/app/.'
