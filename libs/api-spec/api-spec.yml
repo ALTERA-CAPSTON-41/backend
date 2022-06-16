@@ -232,8 +232,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
@@ -320,8 +318,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
@@ -415,8 +411,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
