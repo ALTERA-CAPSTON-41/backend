@@ -32,7 +32,7 @@ func (repo *repository) LookupAccountByEmail(email string) (*account.Domain, err
 func (repo *repository) LookupAdminByUserID(id string) (*account.UserDataDomain, error) {
 	var record Admin
 
-	if err := repo.DB.Where("id = ?", id).Find(&record).Error; err != nil {
+	if err := repo.DB.Where("user_id = ?", id).Find(&record).Error; err != nil {
 		return nil, err
 	}
 
@@ -44,7 +44,7 @@ func (repo *repository) LookupAdminByUserID(id string) (*account.UserDataDomain,
 func (repo *repository) LookupDoctorByUserID(id string) (*account.UserDataDomain, error) {
 	var record Doctor
 
-	if err := repo.DB.Where("id = ?", id).Find(&record).Error; err != nil {
+	if err := repo.DB.Where("user_id = ?", id).Find(&record).Error; err != nil {
 		return nil, err
 	}
 
