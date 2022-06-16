@@ -1,6 +1,7 @@
 package main
 
 import (
+	account_repositories "clinic-api/src/app/account/repositories"
 	admin_repositories "clinic-api/src/app/admin/repositories"
 	doctor_repositories "clinic-api/src/app/doctor/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
@@ -13,7 +14,7 @@ import (
 func init() {
 	new(database.DBConf).InitDB().AutoMigrate(
 		models.Patient{},
-		models.User{},
+		account_repositories.User{},
 		polyclinic_repositories.Polyclinic{},
 		doctor_repositories.Doctor{},
 		admin_repositories.Admin{},
