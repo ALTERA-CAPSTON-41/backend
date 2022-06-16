@@ -232,8 +232,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
@@ -320,8 +318,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
@@ -415,8 +411,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
-        '400':
-          $ref: '#/components/responses/400_BadRequest'
         '401':
           $ref: '#/components/responses/401_Unauthorized'
         '403':
@@ -461,22 +455,6 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/NewQueue'
   '/queues/{id}':
-    get:
-      summary: Get Queue by ID
-      tags:
-        - Queue
-      responses:
-        '200':
-          $ref: '#/components/responses/200_QueueDetail'
-        '401':
-          $ref: '#/components/responses/401_Unauthorized'
-        '403':
-          $ref: '#/components/responses/403_Forbidden'
-        '404':
-          $ref: '#/components/responses/404_NotFound'
-        '500':
-          $ref: '#/components/responses/500_InternalServerError'
-      operationId: get-queues-id
     parameters:
       - schema:
           type: string
@@ -503,6 +481,22 @@ paths:
         - Queue
       requestBody:
         $ref: '#/components/requestBodies/ExistingQueue'
+    delete:
+      summary: Delete Queue by ID
+      tags:
+        - Queue
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: delete-queues-id
 components:
   schemas:
     Login:
@@ -1091,17 +1085,6 @@ components:
                     nullable: true
                     items:
                       $ref: '#/components/schemas/Queue'
-    200_QueueDetail:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/Meta_200OK'
-              - type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/Queue'
     201_CreateQueue:
       description: Example response
       content:
