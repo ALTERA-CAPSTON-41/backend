@@ -75,64 +75,35 @@ jobs:
           docker tag backend $IMAGE_ID
           docker push $IMAGE_ID
 
-  # deploy-aws:
-  #   name: deploy to ec2
-  #   runs-on: ubuntu-latest
-  #   needs: 
-  #     - image-push
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
-  #     - name: add .env
-  #       env:
-  #         ENV: ${{ secrets.STAGING_ENV }}
-  #       run: echo "$ENV" > app.env
-  #     - name: configure ssh
-  #       env: 
-  #         SSH_USER: ${{ secrets.SSH_USERNAME }}
-  #         SSH_KEY: ${{ secrets.SSH_PEM }}
-  #         SSH_HOST: ${{ secrets.SSH_HOST }}
-  #       run: |
-  #         mkdir -p ~/.ssh/
-  #         echo "$SSH_KEY" > ~/.ssh/hms.pem
-  #         chmod 700 ~/.ssh/hms.pem
-  #         cat >> ~/.ssh/config << END
-  #         Host development 
-  #           Hostname $SSH_HOST
-  #           User $SSH_USER
-  #           IdentityFile ~/.ssh/hms.pem
-  #           StrictHostKeyChecking=no
-  #         END
-  #     - name: connect ec2
-  #       run: ssh development '
-  #         cd workspace/backend && 
-  #         git pull && 
-  #         sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
-  #         sudo docker build -t capstone-41/clinic-api:latest . && 
-  #         sudo docker run -dp 19000:8000 --name clinic-backend-api capstone-41/clinic-api:latest'
-  #     - name: write .env to container
-  #       env:
-  #         ENV: ${{ secrets.STAGING_ENV }}
-  #       run: ssh development '
-  #         sudo docker exec -d clinic-backend-api echo "$ENV" > app.env'
-
-  # docker-build:
-  #   name: build docker image
-  #   runs-on: "ubuntu-latest"
-  #   needs: [ unit-test, release ]
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: config .env
-  #       env:
-  #         ENV: ${{ secrets.ENV_APP }}
-  #       run: echo "$ENV" > app.env
-  #     - name: build image
-  #       run: docker build -t capstone-41/clinic-api:latest .
-  #     - name: login docker registry
-  #       uses: docker/login-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_PAT }}
-  #     - name: push image to dockerhub
-  #       run: docker push capstone-41/clinic-api:latest:latest
-
+  deploy-aws:
+    name: deploy to ec2
+    runs-on: ubuntu-latest
+    needs: 
+      - image-build-push
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: configure ssh
+        env: 
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_PEM }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/hms.pem
+          chmod 700 ~/.ssh/hms.pem
+          cat >> ~/.ssh/config << END
+          Host development 
+            Hostname $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/hms.pem
+            StrictHostKeyChecking=no
+          END
+      - name: connect ec2
+        env:
+          PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
+          WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
+        run: ssh development '
+          sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
+          sudo docker pull $PACKAGE_NAME &&
+          sudo docker run -dp 19000:8000 --name clinic-backend-api $PACKAGE_NAME --env-file $WORKSPACE_DIR'
