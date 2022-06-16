@@ -99,7 +99,7 @@ jobs:
             IdentityFile ~/.ssh/hms.pem
             StrictHostKeyChecking=no
           END
-      - name: connect ec2
+      - name: connect ec2, pull and run container
         # env:
         #   PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
         #   WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
@@ -109,5 +109,7 @@ jobs:
           sudo docker run -dp 19000:8000 --name clinic-backend-api ghcr.io/altera-capston-41/backend:latest'
       - name: copy .env to container
         run: ssh development '
-          cd workspace/backend
-          sudo docker cp app.env clinic-backend-api:/app/.'
+          sudo docker cp workspace/backend/app.env clinic-backend-api:/app/.'
+      - name: restart container
+        run: ssh development '
+          sudo docker restart clinic-backend-api'
