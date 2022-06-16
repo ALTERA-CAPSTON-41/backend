@@ -110,4 +110,4 @@ jobs:
       - name: copy .env to container
         run: ssh development '
           cd workspace/backend
-          sudo docker cp main.go clinic-backend-api:/app/.'
+          sudo docker cp app.env clinic-backend-api:/app/.'
