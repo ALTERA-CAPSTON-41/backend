@@ -79,11 +79,11 @@ func TestAttemptLogin(t *testing.T) {
 			Return(&sampleDoctorAccountDomain, nil).Once()
 		mockRepo.On("LookupDoctorByUserID", sampleDoctorAccountDomain.ID.String()).
 			Return(&sampleDoctorUserDataDomain, nil).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.Nil(t, err)
-		assert.Equal(t, sampleDoctorUserDataDomain.Name, result.Name)
-		assert.NotEqual(t, uuid.Nil, result.ID)
+		assert.NotEqual(t, "", token)
+		assert.Equal(t, types.DOCTOR, role)
 	})
 
 	t.Run("should got database error while querying doctor data", func(t *testing.T) {
@@ -96,10 +96,11 @@ func TestAttemptLogin(t *testing.T) {
 			Return(&sampleDoctorAccountDomain, nil).Once()
 		mockRepo.On("LookupDoctorByUserID", sampleDoctorAccountDomain.ID.String()).
 			Return(nil, errors.New("something error with database")).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 
 	t.Run("should got wrong passphrase doctor account error", func(t *testing.T) {
@@ -110,10 +111,11 @@ func TestAttemptLogin(t *testing.T) {
 
 		mockRepo.On("LookupAccountByEmail", loginData.Email).
 			Return(&sampleDoctorAccountDomain, nil).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 
 	// admin tests
@@ -127,11 +129,11 @@ func TestAttemptLogin(t *testing.T) {
 			Return(&sampleAdminAccountDomain, nil).Once()
 		mockRepo.On("LookupAdminByUserID", sampleAdminAccountDomain.ID.String()).
 			Return(&sampleAdminUserDataDomain, nil).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.Nil(t, err)
-		assert.Equal(t, sampleAdminUserDataDomain.Name, result.Name)
-		assert.NotEqual(t, uuid.Nil, result.ID)
+		assert.NotEqual(t, "", token)
+		assert.Equal(t, types.ADMIN, role)
 	})
 
 	t.Run("should got database error while querying admin data", func(t *testing.T) {
@@ -144,10 +146,11 @@ func TestAttemptLogin(t *testing.T) {
 			Return(&sampleAdminAccountDomain, nil).Once()
 		mockRepo.On("LookupAdminByUserID", sampleAdminAccountDomain.ID.String()).
 			Return(nil, errors.New("something error with database")).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 
 	t.Run("should got wrong passphrase admin account error", func(t *testing.T) {
@@ -158,10 +161,11 @@ func TestAttemptLogin(t *testing.T) {
 
 		mockRepo.On("LookupAccountByEmail", loginData.Email).
 			Return(&sampleAdminAccountDomain, nil).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 
 	// another errors
@@ -173,10 +177,11 @@ func TestAttemptLogin(t *testing.T) {
 
 		mockRepo.On("LookupAccountByEmail", loginData.Email).
 			Return(nil, errors.New("record not found"))
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 
 	t.Run("should got server error", func(t *testing.T) {
@@ -187,9 +192,10 @@ func TestAttemptLogin(t *testing.T) {
 
 		mockRepo.On("LookupAccountByEmail", loginData.Email).
 			Return(nil, errors.New("can't connect to the database")).Once()
-		result, err := services.AttemptLogin(loginData)
+		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
-		assert.Nil(t, result)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
 	})
 }
