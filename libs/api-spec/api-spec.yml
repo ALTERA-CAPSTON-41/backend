@@ -1440,16 +1440,11 @@ components:
                 type: string
               daily_queue_date:
                 type: string
-              service_done_at:
-                type: string
-          examples:
-            example-1:
-              value:
-                patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-                polyclinic_id: 1
-                patient_status: OUTPATIENT
-                daily_queue_date: '2022-06-15'
-                service_done_at: ''
+          example:
+            patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
+            polyclinic_id: 1
+            patient_status: OUTPATIENT
+            daily_queue_date: '2022-06-15'
     ExistingQueue:
       content:
         application/json:
