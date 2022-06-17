@@ -8,27 +8,27 @@ type usecase struct {
 
 // CreateNurse implements nurse.Services
 func (uc *usecase) CreateNurse(nurse nurse.Domain) (string, error) {
-	panic("unimplemented")
+	return uc.repo.InsertData(nurse)
 }
 
 // GetAllNurses implements nurse.Services
 func (uc *usecase) GetAllNurses() ([]nurse.Domain, error) {
-	panic("unimplemented")
+	return uc.repo.SelectAllData()
 }
 
 // GetNurseByID implements nurse.Services
 func (uc *usecase) GetNurseByID(id string) (*nurse.Domain, error) {
-	panic("unimplemented")
+	return uc.repo.SelectDataByID(id)
 }
 
 // AmendNurseByID implements nurse.Services
 func (uc *usecase) AmendNurseByID(id string, nurse nurse.Domain) error {
-	panic("unimplemented")
+	return uc.repo.UpdateByID(id, nurse)
 }
 
 // RemoveNurseByID implements nurse.Services
 func (uc *usecase) RemoveNurseByID(id string) error {
-	panic("unimplemented")
+	return uc.repo.DeleteByID(id)
 }
 
 func NewService(repo nurse.Repositories) nurse.Services {
