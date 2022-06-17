@@ -17,3 +17,11 @@ type Domain struct {
 	Gender    types.GenderEnum
 	BloodType string
 }
+
+type Repositories interface {
+	SearchDataByParams(name string, nik string) ([]Domain, error)
+	SelectDataByID(id string) (*Domain, error)
+	UpdateByID(id string, domain Domain) error
+	InsertData(domain Domain) (id string, err error)
+	DeleteByID(id string) error
+}
