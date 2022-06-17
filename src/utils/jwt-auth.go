@@ -2,6 +2,7 @@ package utils
 
 import (
 	"clinic-api/src/configs"
+	"clinic-api/src/types"
 	"net/http"
 	"time"
 
@@ -9,22 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type UserRole string
-
-const (
-	DOCTOR UserRole = "DOCTOR"
-	NURSE  UserRole = "NURSE"
-	ADMIN  UserRole = "ADMIN"
-)
-
 type JwtCustomClaims struct {
 	jwt.StandardClaims
-	Name string   `json:"name"`
-	NIP  string   `json:"nip"`
-	Role UserRole `json:"role"`
+	Name string             `json:"name"`
+	NIP  string             `json:"nip"`
+	Role types.UserRoleEnum `json:"role"`
 }
 
-func GenerateJwt(userId string, name string, NIP string, role UserRole) (token string, err error) {
+func GenerateJwt(userId string, name string, NIP string, role types.UserRoleEnum) (token string, err error) {
 	claims := JwtCustomClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),

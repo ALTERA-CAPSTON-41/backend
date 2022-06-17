@@ -1,6 +1,8 @@
 package adapters
 
 import (
+	account_factories "clinic-api/src/app/account/factories"
+	account_handlers "clinic-api/src/app/account/handlers"
 	admin_factories "clinic-api/src/app/admin/factories"
 	admin_handlers "clinic-api/src/app/admin/handlers"
 	apispec_factories "clinic-api/src/app/apispec/factories"
@@ -15,6 +17,7 @@ import (
 )
 
 type handlers struct {
+	Account    account_handlers.Handler
 	Admin      admin_handlers.Handler
 	APISpec    apispec_handlers.Handler
 	Polyclinic polyclinic_handlers.Handler
@@ -26,6 +29,7 @@ func Init() handlers {
 	conn := new(database.DBConf).InitDB()
 
 	return handlers{
+		Account:    account_factories.Factory(conn.DB),
 		Admin:      admin_factories.Factory(conn.DB),
 		APISpec:    apispec_factories.Factory(),
 		Polyclinic: polyclinic_factories.Factory(conn.DB),
