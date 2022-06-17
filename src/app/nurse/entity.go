@@ -33,11 +33,11 @@ type UserReference struct {
 }
 
 type Services interface {
-	CreateNurse(nurse Domain) (*Domain, error)
+	CreateNurse(nurse Domain) (string, error)
 	GetAllNurses() ([]Domain, error)
 	GetNurseByID(id string) (*Domain, error)
-	AmendNurseByID(id string, doctor Domain) error
-	RemoveNurseByID(id string)
+	AmendNurseByID(id string, nurse Domain) error
+	RemoveNurseByID(id string) error
 }
 
 type Repositories interface {
