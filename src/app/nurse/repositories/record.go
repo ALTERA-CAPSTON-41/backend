@@ -52,6 +52,7 @@ func MapToDomain(record Nurse) nurse.Domain {
 			Name: record.Polyclinic.Name,
 		},
 		User: nurse.UserReference{
+			ID:    record.User.ID,
 			Email: record.User.Email,
 		},
 	}
