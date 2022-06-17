@@ -4,6 +4,7 @@ import (
 	account_repositories "clinic-api/src/app/account/repositories"
 	admin_repositories "clinic-api/src/app/admin/repositories"
 	doctor_repositories "clinic-api/src/app/doctor/repositories"
+	nurse_repositories "clinic-api/src/app/nurse/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
 	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
@@ -19,6 +20,7 @@ func init() {
 		doctor_repositories.Doctor{},
 		admin_repositories.Admin{},
 		queue_repositories.Queue{},
+		nurse_repositories.Nurse{},
 	)
 }
 
