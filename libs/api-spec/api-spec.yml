@@ -179,6 +179,14 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/201_CreateDoctor'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
       requestBody:
         $ref: '#/components/requestBodies/NewDoctor'
       tags:
