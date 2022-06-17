@@ -37,6 +37,13 @@ func New() *echo.Echo {
 	route.PUT("/doctors/:id", caHandler.Doctor.AmendDoctorByIDHandler)
 	route.DELETE("/doctors/:id", caHandler.Doctor.RemoveDoctorByIDHandler)
 
+	// nurse
+	route.POST("/nurses", caHandler.Nurse.CreateNurseHandler)
+	route.GET("/nurses", caHandler.Nurse.ShowAllNursesHandler)
+	route.GET("/nurses/:id", caHandler.Nurse.ShowNurseByIDHandler)
+	route.PUT("/nurses/:id", caHandler.Nurse.AmendNurseByIDHandler)
+	route.DELETE("/nurses/:id", caHandler.Nurse.RemoveNurseByIDHandler)
+
 	// admin
 	route.POST("/admins", caHandler.Admin.CreateAdminHandler)
 	route.GET("/admins", caHandler.Admin.ShowAllAdminsHandler)
