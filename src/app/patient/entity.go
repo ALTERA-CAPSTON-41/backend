@@ -27,7 +27,9 @@ type Services interface {
 }
 
 type Repositories interface {
-	SearchDataByParams(name string, nik string) ([]Domain, error)
+	SearchDataByNameParam(name string) ([]Domain, error)
+	SearchDataByNIKParam(nik string) ([]Domain, error)
+	SelectAllData() ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	UpdateByID(id string, domain Domain) error
 	InsertData(domain Domain) (id string, err error)

@@ -3,7 +3,6 @@ package patient_repositories
 import (
 	"clinic-api/src/app/patient"
 	"errors"
-	"fmt"
 	"strings"
 
 	"gorm.io/gorm"
@@ -29,25 +28,25 @@ func (repo *repository) InsertData(domain patient.Domain) (id string, err error)
 	return record.ID.String(), repo.DB.Create(&record).Error
 }
 
-// SearchDataByParams implements patient.Repositories
-func (repo *repository) SearchDataByParams(name string, nik string) ([]patient.Domain, error) {
-	var sqlParams string
-
-	if name != "" {
-		sqlParams = "UPPER(name) LIKE '%" + strings.ToUpper(name) + "%'"
-	}
-
-	if nik != "" {
-		sqlParams = fmt.Sprintf("nik = '%s'", nik)
-	}
-
-	isNoParam := sqlParams == "" && name == "" && nik == ""
-	if isNoParam {
-		sqlParams = "0"
-	}
-
+// SearchDataByNIKParams implements patient.Repositories
+func (repo *repository) SearchDataByNIKParam(nik string) ([]patient.Domain, error) {
 	var patients []Patient
+	err := repo.DB.Where("nik = ?", nik).Find(&patients).Error
+	return MapToBatchDomain(patients), err
+}
+
+// SearchDataByNameParams implements patient.Repositories
+func (repo *repository) SearchDataByNameParam(name string) ([]patient.Domain, error) {
+	var patients []Patient
+	sqlParams := "UPPER(name) LIKE '%" + strings.ToUpper(name) + "%'"
 	err := repo.DB.Where(sqlParams).Find(&patients).Error
+	return MapToBatchDomain(patients), err
+}
+
+// SelectAllData implements patient.Repositories
+func (repo *repository) SelectAllData() ([]patient.Domain, error) {
+	var patients []Patient
+	err := repo.DB.Find(&patients).Error
 	return MapToBatchDomain(patients), err
 }
 
