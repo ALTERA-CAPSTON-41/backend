@@ -11,6 +11,8 @@ import (
 	doctor_handlers "clinic-api/src/app/doctor/handlers"
 	nurse_factories "clinic-api/src/app/nurse/factories"
 	nurse_handlers "clinic-api/src/app/nurse/handlers"
+	patient_factories "clinic-api/src/app/patient/factories"
+	patient_handlers "clinic-api/src/app/patient/handlers"
 	polyclinic_factories "clinic-api/src/app/polyclinic/factories"
 	polyclinic_handlers "clinic-api/src/app/polyclinic/handlers"
 	queue_factories "clinic-api/src/app/queue/factories"
@@ -26,6 +28,7 @@ type handlers struct {
 	Queue      queue_handlers.Handler
 	Doctor     doctor_handlers.Handler
 	Nurse      nurse_handlers.Handler
+	Patient    patient_handlers.Handler
 }
 
 func Init() handlers {
@@ -39,5 +42,6 @@ func Init() handlers {
 		Queue:      queue_factories.Factory(conn.DB),
 		Doctor:     doctor_factories.Factory(conn.DB),
 		Nurse:      nurse_factories.Factory(conn.DB),
+		Patient:    patient_factories.Factory(conn.DB),
 	}
 }
