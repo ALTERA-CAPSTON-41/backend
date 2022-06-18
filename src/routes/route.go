@@ -2,7 +2,6 @@ package routes
 
 import (
 	"clinic-api/src/adapters"
-	"clinic-api/src/handlers"
 
 	"github.com/labstack/echo/v4"
 )
@@ -17,11 +16,11 @@ func New() *echo.Echo {
 	route.POST("/login", caHandler.Account.AttemptLoginHandler)
 
 	// patient
-	route.POST("/patients", handlers.CreatePatientHandler)
-	route.GET("/patients", handlers.GetAllPatientsHandler)
-	route.GET("/patients/:id", handlers.GetPatientByIDHandler)
-	route.PUT("/patients/:id", handlers.EditPatientByIDHandler)
-	route.DELETE("/patients/:id", handlers.DeletePatientByIDHandler)
+	route.POST("/patients", caHandler.Patient.CreatePatientHandler)
+	route.GET("/patients", caHandler.Patient.HuntPatientByNameOrNIKOrAllHandler)
+	route.GET("/patients/:id", caHandler.Patient.ShowPatientByIDHandler)
+	route.PUT("/patients/:id", caHandler.Patient.AmendPatientByIDHandler)
+	route.DELETE("/patients/:id", caHandler.Patient.RemovePatientByIDHandler)
 
 	// polyclinic
 	route.POST("/polyclinics", caHandler.Polyclinic.CreatePolyclinicHandler)
