@@ -19,6 +19,10 @@ type Response struct {
 	BloodType string           `json:"blood_type"`
 }
 
+type CreateResponse struct {
+	ID string `json:"id"`
+}
+
 func MapToResponse(domain patient.Domain) Response {
 	return Response{
 		ID:        domain.ID,
@@ -30,4 +34,13 @@ func MapToResponse(domain patient.Domain) Response {
 		Gender:    domain.Gender,
 		BloodType: domain.BloodType,
 	}
+}
+
+func MapToBatchResponse(domains []patient.Domain) []Response {
+	var responses []Response
+
+	for _, domain := range domains {
+		responses = append(responses, MapToResponse(domain))
+	}
+	return responses
 }
