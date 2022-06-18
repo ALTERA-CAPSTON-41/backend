@@ -5,16 +5,16 @@ import (
 	admin_repositories "clinic-api/src/app/admin/repositories"
 	doctor_repositories "clinic-api/src/app/doctor/repositories"
 	nurse_repositories "clinic-api/src/app/nurse/repositories"
+	patient_repositories "clinic-api/src/app/patient/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
 	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
-	"clinic-api/src/models"
 	"clinic-api/src/routes"
 )
 
 func init() {
 	new(database.DBConf).InitDB().AutoMigrate(
-		models.Patient{},
+		patient_repositories.Patient{},
 		account_repositories.User{},
 		polyclinic_repositories.Polyclinic{},
 		doctor_repositories.Doctor{},
