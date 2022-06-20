@@ -998,10 +998,6 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Patient'
-        application/xml:
-          schema:
-            type: object
-            properties: {}
     200_PolyclinicDetail:
       description: Example response
       content:
