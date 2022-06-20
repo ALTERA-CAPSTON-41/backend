@@ -49,7 +49,6 @@ func MapToNewRecord(domain patient.Domain) Patient {
 
 func MapToExistingRecord(domain patient.Domain) Patient {
 	return Patient{
-		ID:        uuid.Nil,
 		Name:      domain.Name,
 		NIK:       domain.NIK,
 		Phone:     domain.Phone,

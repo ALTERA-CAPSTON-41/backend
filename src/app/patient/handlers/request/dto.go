@@ -4,8 +4,6 @@ import (
 	"clinic-api/src/app/patient"
 	"clinic-api/src/types"
 	"clinic-api/src/utils"
-
-	"github.com/google/uuid"
 )
 
 type Request struct {
@@ -20,7 +18,6 @@ type Request struct {
 
 func (req *Request) MapToDomain() patient.Domain {
 	return patient.Domain{
-		ID:        uuid.Nil,
 		Name:      req.Name,
 		NIK:       req.NIK,
 		Phone:     req.Phone,
