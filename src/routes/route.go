@@ -12,6 +12,7 @@ func New() *echo.Echo {
 	caHandler := adapters.Init()
 
 	route.GET("/", caHandler.APISpec.GetAPISpec)
+	route.GET("/attachments/api-spec.yml", caHandler.APISpec.ServeDocsFile)
 
 	// login
 	route.POST("/login", caHandler.Account.AttemptLoginHandler)
