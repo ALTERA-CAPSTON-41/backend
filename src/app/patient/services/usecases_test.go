@@ -99,7 +99,7 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 		nameOnlyDomain.Name = sampleDomainIkoUwais.Name
 
 		mockRepo.On("SearchDataByNameParam", nameOnlyDomain.Name).
-			Return([]patient.Domain{}, nil).Once()
+			Return(nil, nil).Once()
 		result, err := services.HuntPatientByNameOrNIKOrAll(nameOnlyDomain)
 
 		assert.Nil(t, err)
@@ -111,7 +111,7 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 		nikOnlyDomain.NIK = sampleDomainIkoUwais.NIK
 
 		mockRepo.On("SearchDataByNIKParam", nikOnlyDomain.NIK).
-			Return([]patient.Domain{}, nil).Once()
+			Return(nil, nil).Once()
 		result, err := services.HuntPatientByNameOrNIKOrAll(nikOnlyDomain)
 
 		assert.Nil(t, err)
