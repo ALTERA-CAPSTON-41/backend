@@ -197,6 +197,7 @@ func TestUpdateDoctorByID(t *testing.T) {
 func TestDeleteDoctorByID(t *testing.T) {
 	t.Run("should delete data by id", func(t *testing.T) {
 		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
+		mockRepo.On("DeleteUserByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
 		err := services.RemoveDoctorByID(sampleUUIDIkoUwais.String())
 
 		assert.Nil(t, err)

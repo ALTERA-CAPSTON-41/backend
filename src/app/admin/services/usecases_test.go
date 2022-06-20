@@ -168,6 +168,7 @@ func TestUpdateAdminByID(t *testing.T) {
 func TestRemoveAdminByID(t *testing.T) {
 	t.Run("should delete data by id", func(t *testing.T) {
 		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
+		mockRepo.On("DeleteUserByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.Nil(t, err)
@@ -175,6 +176,7 @@ func TestRemoveAdminByID(t *testing.T) {
 
 	t.Run("should got database error", func(t *testing.T) {
 		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(errors.New("can't connect to the database")).Once()
+		mockRepo.On("DeleteUserByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)
@@ -182,6 +184,7 @@ func TestRemoveAdminByID(t *testing.T) {
 
 	t.Run("should got not found error", func(t *testing.T) {
 		mockRepo.On("DeleteByID", sampleUUIDIkoUwais.String()).Return(errors.New("record not found")).Once()
+		mockRepo.On("DeleteUserByID", sampleUUIDIkoUwais.String()).Return(nil).Once()
 		err := services.RemoveAdminByID(sampleUUIDIkoUwais.String())
 
 		assert.NotNil(t, err)

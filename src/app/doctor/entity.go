@@ -46,4 +46,5 @@ type Repositories interface {
 	InsertData(data Domain) (string, error)
 	UpdateByID(id string, domain Domain) error
 	DeleteByID(id string) error
+	DeleteUserByID(id string) error
 }

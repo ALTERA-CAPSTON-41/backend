@@ -14,9 +14,19 @@ type repository struct {
 
 // DeleteByID implements admin.Repositories
 func (repo *repository) DeleteByID(id string) (err error) {
-	deletion := repo.DB.Where("user_ID = ?", id).Delete(new(Admin))
+	deletion := repo.DB.Where("user_id = ?", id).Delete(new(Admin))
 
-	if deletion.RowsAffected == 0 {
+	if deletion.RowsAffected == 0 && deletion.Error == nil {
+		return errors.New("record not found")
+	}
+	return deletion.Error
+}
+
+// DeleteUserByID implements admin.Repositories
+func (repo *repository) DeleteUserByID(id string) (err error) {
+	deletion := repo.DB.Where("id", id).Delete(new(User))
+
+	if deletion.RowsAffected == 0 && deletion.Error == nil {
 		return errors.New("record not found")
 	}
 	return deletion.Error

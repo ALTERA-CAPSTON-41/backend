@@ -22,6 +22,16 @@ func (repo *repository) DeleteByID(id string) error {
 	return query.Error
 }
 
+// DeleteUserByID implements doctor.Repositories
+func (repo *repository) DeleteUserByID(id string) error {
+	query := repo.DB.Where("id", id).Delete(new(User))
+
+	if query.RowsAffected < 1 && query.Error == nil {
+		return errors.New("record not found")
+	}
+	return query.Error
+}
+
 // InsertData implements doctor.Repositories
 func (repo *repository) InsertData(data doctor.Domain) (string, error) {
 	newDoctor := MapToNewRecord(data)

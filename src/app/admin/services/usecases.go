@@ -28,7 +28,10 @@ func (uc *usecase) GetAllAdmins() (admins []admin.Domain, err error) {
 
 // RemoveAdminByID implements admin.Services
 func (uc *usecase) RemoveAdminByID(id string) (err error) {
-	return uc.repo.DeleteByID(id)
+	if err := uc.repo.DeleteByID(id); err != nil {
+		return err
+	}
+	return uc.repo.DeleteUserByID(id)
 }
 
 func NewService(repo admin.Repositories) admin.Services {
