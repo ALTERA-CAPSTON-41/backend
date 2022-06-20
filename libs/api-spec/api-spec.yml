@@ -18,6 +18,7 @@ servers:
 tags:
   - name: Authentication
   - name: Patient
+  - name: Polyclinic
   - name: Doctor
   - name: Nurse
   - name: Admin
@@ -131,6 +132,98 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Patient
+  /polyclinics:
+    get:
+      summary: Get All Polyclinics
+      tags:
+        - Polyclinic
+      responses:
+        '200':
+          $ref: '#/components/responses/200_PolyclinicList'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-polyclinics
+    post:
+      summary: Create Polyclinic
+      operationId: post-polyclinics
+      responses:
+        '201':
+          $ref: '#/components/responses/201_CreatePolyclinic'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      tags:
+        - Polyclinic
+      requestBody:
+        $ref: '#/components/requestBodies/NewPolyclinic'
+  '/polyclinics/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Polyclinic By ID
+      tags:
+        - Polyclinic
+      responses:
+        '200':
+          $ref: '#/components/responses/200_PolyclinicDetail'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-polyclinics-id
+    put:
+      summary: Update Polyclinic by ID
+      operationId: put-polyclinics-id
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      requestBody:
+        $ref: '#/components/requestBodies/ExistingPolyclinic'
+      tags:
+        - Polyclinic
+    delete:
+      summary: Delete Polyclinic by ID
+      operationId: delete-polyclinics-id
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      tags:
+        - Polyclinic
   /login:
     post:
       summary: Login
@@ -752,6 +845,15 @@ components:
         - nik
         - phone
         - dob
+    Polyclinic:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: General
     Doctor:
       type: object
       example:
@@ -896,10 +998,17 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Patient'
-        application/xml:
+    200_PolyclinicDetail:
+      description: Example response
+      content:
+        application/json:
           schema:
-            type: object
-            properties: {}
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Polyclinic'
     204_NoContent:
       description: Example response
       content:
@@ -955,6 +1064,19 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/Patient'
+    200_PolyclinicList:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Polyclinic'
     200_DoctorDetail:
       description: Example response
       content:
@@ -994,6 +1116,21 @@ components:
                       id:
                         type: string
                         example: aaee1234-dumm-dumm-dumm-dummycreated
+    201_CreatePolyclinic:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_201Created'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
     201_CreateDoctor:
       description: Example response
       content:
@@ -1181,6 +1318,24 @@ components:
                 dob: '1997-10-31'
                 gender: FEMALE
                 blood_type: A+
+    NewPolyclinic:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: General
+    ExistingPolyclinic:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: General
     NewDoctor:
       content:
         application/json:
