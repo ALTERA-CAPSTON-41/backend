@@ -28,7 +28,11 @@ func (uc *usecase) AmendNurseByID(id string, nurse nurse.Domain) error {
 
 // RemoveNurseByID implements nurse.Services
 func (uc *usecase) RemoveNurseByID(id string) error {
-	return uc.repo.DeleteByID(id)
+	if err := uc.repo.DeleteByID(id); err != nil {
+		return err
+	}
+
+	return uc.repo.DeleteUserByID(id)
 }
 
 func NewService(repo nurse.Repositories) nurse.Services {
