@@ -56,6 +56,16 @@ func (repo *repository) DeleteByID(id string) error {
 	return query.Error
 }
 
+// DeleteUserByID implements nurse.Repositories
+func (repo *repository) DeleteUserByID(id string) error {
+	query := repo.DB.Where("id", id).Delete(new(User))
+	if query.RowsAffected < 1 && query.Error == nil {
+		return errors.New("record not found")
+	}
+
+	return query.Error
+}
+
 func NewMySQLRepository(DB *gorm.DB) nurse.Repositories {
 	return &repository{DB}
 }
