@@ -1,6 +1,7 @@
 package response
 
 import (
+	medicalrecord "clinic-api/src/app/medical_record"
 	"clinic-api/src/types"
 	"time"
 
@@ -44,4 +45,44 @@ type PolyclinicReference struct {
 
 type CreateResponse struct {
 	ID uuid.UUID `json:"id"`
+}
+
+func MapToResponse(domain medicalrecord.Domain) Response {
+	return Response{
+		ID:               domain.ID,
+		Symptoms:         domain.Symptoms,
+		ICD10Code:        domain.ICD10Code,
+		ICD10Description: domain.ICD10Description,
+		Suggestions:      domain.Suggestions,
+		Patient: PatientReference{
+			ID:        domain.Patient.ID,
+			Name:      domain.Patient.Name,
+			NIK:       domain.Patient.NIK,
+			Phone:     domain.Patient.Phone,
+			Address:   domain.Patient.Address,
+			DOB:       domain.Patient.DOB,
+			Gender:    domain.Patient.Gender,
+			BloodType: domain.Patient.BloodType,
+		},
+		Doctor: DoctorReference{
+			ID:     domain.Doctor.ID,
+			Name:   domain.Doctor.Name,
+			NIP:    domain.Doctor.NIP,
+			SIP:    domain.Doctor.SIP,
+			Gender: domain.Doctor.Gender,
+		},
+		Polyclinic: PolyclinicReference{
+			ID:   domain.Polyclinic.ID,
+			Name: domain.Polyclinic.Name,
+		},
+	}
+}
+
+func MapToBatchResponse(domains []medicalrecord.Domain) []Response {
+	var responses []Response
+
+	for _, domain := range domains {
+		responses = append(responses, MapToResponse(domain))
+	}
+	return responses
 }
