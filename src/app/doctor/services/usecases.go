@@ -30,7 +30,10 @@ func (uc *usecase) GetDoctorByID(id string) (*doctor.Domain, error) {
 
 // RemoveDoctorByID implements doctor.Services
 func (uc *usecase) RemoveDoctorByID(id string) error {
-	return uc.repo.DeleteByID(id)
+	if err := uc.repo.DeleteByID(id); err != nil {
+		return err
+	}
+	return uc.repo.DeleteUserByID(id)
 }
 
 func NewService(repo doctor.Repositories) doctor.Services {
