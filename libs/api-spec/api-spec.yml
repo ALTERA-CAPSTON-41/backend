@@ -146,7 +146,7 @@ paths:
           $ref: '#/components/responses/403_Forbidden'
         '500':
           $ref: '#/components/responses/500_InternalServerError'
-      operationId: get-doctors
+      operationId: get-polyclinics
     post:
       summary: Create Polyclinic
       operationId: post-polyclinics
