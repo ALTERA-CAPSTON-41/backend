@@ -29,7 +29,10 @@ func (repo *repository) SelectAllData(offset int) ([]nurse.Domain, error) {
 // SelectDataByID implements nurse.Repositories
 func (repo *repository) SelectDataByID(id string) (*nurse.Domain, error) {
 	var record Nurse
-	if err := repo.DB.Preload("User").Preload("Polyclinic").Where("user_id", id).First(&record).Error; err != nil {
+	if err := repo.DB.
+		Preload("User").Preload("Polyclinic").
+		Where("user_id", id).
+		First(&record).Error; err != nil {
 		return nil, err
 	}
 
