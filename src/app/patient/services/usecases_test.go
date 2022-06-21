@@ -63,8 +63,8 @@ func TestMain(m *testing.M) {
 
 func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 	t.Run("should got all data", func(t *testing.T) {
-		mockRepo.On("SelectAllData").Return(sampleDomainList, nil).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(patient.Domain{})
+		mockRepo.On("SelectAllData", 0).Return(sampleDomainList, nil).Once()
+		result, err := services.HuntPatientByNameOrNIKOrAll(patient.Domain{}, 1)
 
 		assert.Nil(t, err)
 		assert.Greater(t, len(result), 0)
@@ -74,9 +74,9 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 		var nameOnlyDomain patient.Domain
 		nameOnlyDomain.Name = sampleDomainIkoUwais.Name
 
-		mockRepo.On("SearchDataByNameParam", nameOnlyDomain.Name).
+		mockRepo.On("SearchDataByNameParam", nameOnlyDomain.Name, 0).
 			Return([]patient.Domain{sampleDomainIkoUwais}, nil).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(nameOnlyDomain)
+		result, err := services.HuntPatientByNameOrNIKOrAll(nameOnlyDomain, 1)
 
 		assert.Nil(t, err)
 		assert.Greater(t, len(result), 0)
@@ -88,7 +88,7 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 
 		mockRepo.On("SearchDataByNIKParam", nikOnlyDomain.NIK).
 			Return([]patient.Domain{sampleDomainIkoUwais}, nil).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(nikOnlyDomain)
+		result, err := services.HuntPatientByNameOrNIKOrAll(nikOnlyDomain, 0)
 
 		assert.Nil(t, err)
 		assert.Greater(t, len(result), 0)
@@ -98,9 +98,9 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 		var nameOnlyDomain patient.Domain
 		nameOnlyDomain.Name = sampleDomainIkoUwais.Name
 
-		mockRepo.On("SearchDataByNameParam", nameOnlyDomain.Name).
+		mockRepo.On("SearchDataByNameParam", nameOnlyDomain.Name, 0).
 			Return(nil, nil).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(nameOnlyDomain)
+		result, err := services.HuntPatientByNameOrNIKOrAll(nameOnlyDomain, 1)
 
 		assert.Nil(t, err)
 		assert.Equal(t, 0, len(result))
@@ -112,15 +112,15 @@ func TestHuntPatientByNameOrNIKOrAll(t *testing.T) {
 
 		mockRepo.On("SearchDataByNIKParam", nikOnlyDomain.NIK).
 			Return(nil, nil).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(nikOnlyDomain)
+		result, err := services.HuntPatientByNameOrNIKOrAll(nikOnlyDomain, 0)
 
 		assert.Nil(t, err)
 		assert.Equal(t, 0, len(result))
 	})
 
 	t.Run("should got server error", func(t *testing.T) {
-		mockRepo.On("SelectAllData").Return(nil, errors.New("can't connect to the database")).Once()
-		result, err := services.HuntPatientByNameOrNIKOrAll(patient.Domain{})
+		mockRepo.On("SelectAllData", 0).Return(nil, errors.New("can't connect to the database")).Once()
+		result, err := services.HuntPatientByNameOrNIKOrAll(patient.Domain{}, 1)
 
 		assert.NotNil(t, err)
 		assert.Nil(t, result)
