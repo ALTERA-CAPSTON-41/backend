@@ -64,13 +64,13 @@ func (_m *Repositories) InsertData(data nurse.Domain) (string, error) {
 	return r0, r1
 }
 
-// SelectAllData provides a mock function with given fields:
-func (_m *Repositories) SelectAllData() ([]nurse.Domain, error) {
-	ret := _m.Called()
+// SelectAllData provides a mock function with given fields: offset
+func (_m *Repositories) SelectAllData(offset int) ([]nurse.Domain, error) {
+	ret := _m.Called(offset)
 
 	var r0 []nurse.Domain
-	if rf, ok := ret.Get(0).(func() []nurse.Domain); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int) []nurse.Domain); ok {
+		r0 = rf(offset)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]nurse.Domain)
@@ -78,8 +78,8 @@ func (_m *Repositories) SelectAllData() ([]nurse.Domain, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(offset)
 	} else {
 		r1 = ret.Error(1)
 	}
