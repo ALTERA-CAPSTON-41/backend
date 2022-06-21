@@ -33,7 +33,7 @@ type UserReference struct {
 }
 
 type Services interface {
-	GetAllDoctors() ([]Domain, error)
+	GetAllDoctors(page int) ([]Domain, error)
 	GetDoctorByID(id string) (*Domain, error)
 	CreateDoctor(doctor Domain) (string, error)
 	AmendDoctorByID(id string, doctor Domain) error
@@ -41,7 +41,7 @@ type Services interface {
 }
 
 type Repositories interface {
-	SelectAllData() ([]Domain, error)
+	SelectAllData(offset int) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	InsertData(data Domain) (string, error)
 	UpdateByID(id string, domain Domain) error
