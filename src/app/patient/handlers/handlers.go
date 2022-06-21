@@ -6,6 +6,7 @@ import (
 	"clinic-api/src/app/patient/handlers/response"
 	"clinic-api/src/utils"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -37,11 +38,12 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 
 // onHunt
 func (h *Handler) HuntPatientByNameOrNIKOrAllHandler(c echo.Context) error {
+	page, _ := strconv.Atoi(c.QueryParam("page"))
 	var patientRequest request.Request
 	patientRequest.Name = c.QueryParam("name")
 	patientRequest.NIK = c.QueryParam("nik")
 
-	result, err := h.services.HuntPatientByNameOrNIKOrAll(patientRequest.MapToDomain())
+	result, err := h.services.HuntPatientByNameOrNIKOrAll(patientRequest.MapToDomain(), page)
 	if err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
