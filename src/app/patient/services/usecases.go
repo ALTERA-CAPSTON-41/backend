@@ -22,16 +22,17 @@ func (uc *usecase) GetPatientByID(id string) (*patient.Domain, error) {
 }
 
 // HuntPatientByNameOrNIKOrAll implements patient.Services
-func (uc *usecase) HuntPatientByNameOrNIKOrAll(domain patient.Domain) ([]patient.Domain, error) {
+func (uc *usecase) HuntPatientByNameOrNIKOrAll(domain patient.Domain, page int) ([]patient.Domain, error) {
+	offset := (page - 1) * 10
 	if domain.NIK != "" {
 		return uc.repo.SearchDataByNIKParam(domain.NIK)
 	}
 
 	if domain.Name != "" {
-		return uc.repo.SearchDataByNameParam(domain.Name)
+		return uc.repo.SearchDataByNameParam(domain.Name, offset)
 	}
 
-	return uc.repo.SelectAllData()
+	return uc.repo.SelectAllData(offset)
 }
 
 // RemovePatientByID implements patient.Services
