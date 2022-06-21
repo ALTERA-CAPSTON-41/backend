@@ -2,10 +2,10 @@ package medicalrecord_repositories
 
 import (
 	medicalrecord "clinic-api/src/app/medical_record"
-	// "encoding/json"
-	// "fmt"
-	// "io/ioutil"
-	// "net/http"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"gorm.io/gorm"
 )
@@ -26,7 +26,19 @@ func (repo *repository) InsertData(domain medicalrecord.Domain) (id string, err 
 
 // LookupICD10Data implements medicalrecord.Repositories
 func (repo *repository) LookupICD10Data(icd10Code string) (ICD10Description string, err error) {
-	panic("unimplemented")
+	endpoint := fmt.Sprintf("http://icd10api.com/?code=%s&desc=long&r=json", icd10Code)
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		return "", err
+	}
+
+	defer resp.Body.Close()
+	bodyBytes, _ := ioutil.ReadAll(resp.Body)
+
+	var body ICDResponse
+	json.Unmarshal(bodyBytes, &body)
+
+	return body.Description, nil
 }
 
 // SelectDataByID implements medicalrecord.Repositories

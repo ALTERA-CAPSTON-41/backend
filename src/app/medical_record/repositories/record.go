@@ -46,6 +46,14 @@ type Doctor struct {
 	Gender types.GenderEnum `gorm:"type:enum('MALE', 'FEMALE')"`
 }
 
+type ICDResponse struct {
+	Name        string   `json:"Name"`
+	ICDType     string   `json:"Type"`
+	Description string   `json:"Description"`
+	Diagnoses   []string `json:"Inclusions"`
+	Response    string   `json:"Response"`
+}
+
 func (mr *MedicalRecord) MapToDomain() medicalrecord.Domain {
 	return medicalrecord.Domain{
 		ID:               mr.ID,
