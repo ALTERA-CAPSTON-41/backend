@@ -10,8 +10,10 @@ import (
 	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
 	"clinic-api/src/routes"
+	"context"
 	"os"
 
+	"github.com/ainsleyclark/mogrus"
 	"github.com/sirupsen/logrus"
 )
 
@@ -26,6 +28,14 @@ func init() {
 		nurse_repositories.Nurse{},
 	)
 
+	client := database.InitDB()
+	opt := mogrus.Options{
+		Collection: client.Database("log").Collection("error-logs"),
+	}
+
+	hook, _ := mogrus.New(context.Background(), opt)
+
+	logrus.AddHook(hook)
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetOutput(os.Stdout)
 }
