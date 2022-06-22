@@ -86,6 +86,15 @@ func TestCreateQueue(t *testing.T) {
 		assert.Equal(t, sampleIDEko.String(), result)
 	})
 
+	t.Run("should got an error while getting queue number", func(t *testing.T) {
+		mockRepo.On("SelectQueueNumber", sampleRequestDomain.PolyclinicID).
+			Return(0, errors.New("can't connect to the database")).Once()
+		result, err := services.CreateQueue(sampleRequestDomain)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, uuid.Nil.String(), result)
+	})
+
 	t.Run("should got database error", func(t *testing.T) {
 		mockRepo.On("SelectQueueNumber", sampleRequestDomain.PolyclinicID).Return(0, nil).Once()
 		mockRepo.On("InsertData", sampleRequestDomain).
