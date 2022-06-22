@@ -10,6 +10,9 @@ import (
 	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
 	"clinic-api/src/routes"
+	"os"
+
+	"github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -22,6 +25,9 @@ func init() {
 		queue_repositories.Queue{},
 		nurse_repositories.Nurse{},
 	)
+
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.SetOutput(os.Stdout)
 }
 
 func main() {
