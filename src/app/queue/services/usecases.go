@@ -23,8 +23,13 @@ func (uc *usecase) CreateQueue(queue queue.Domain) (string, error) {
 }
 
 // GetAllQueues implements queue.Services
-func (uc *usecase) GetAllQueues(polyclinic, fromDate string) ([]queue.Domain, error) {
-	return uc.repo.SelectAllData(polyclinic, fromDate)
+func (uc *usecase) GetAllQueues(
+	polyclinic,
+	fromDate string,
+	page int,
+) ([]queue.Domain, error) {
+	offset := (page - 1) * 10
+	return uc.repo.SelectAllData(polyclinic, fromDate, offset)
 }
 
 // AmendQueueByID implements queue.Services

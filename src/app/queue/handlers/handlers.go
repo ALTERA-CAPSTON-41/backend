@@ -6,6 +6,7 @@ import (
 	"clinic-api/src/app/queue/handlers/response"
 	"clinic-api/src/utils"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -38,7 +39,8 @@ func (h *Handler) CreateQueueHandler(c echo.Context) error {
 func (h *Handler) ShowAllQueuesHandler(c echo.Context) error {
 	polyclinic := c.QueryParam("polyclinic")
 	from := c.QueryParam("from")
-	data, err := h.services.GetAllQueues(polyclinic, from)
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	data, err := h.services.GetAllQueues(polyclinic, from, page)
 	if err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}

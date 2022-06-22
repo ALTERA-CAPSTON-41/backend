@@ -19,7 +19,7 @@ type Domain struct {
 }
 
 type Services interface {
-	HuntPatientByNameOrNIKOrAll(domain Domain) ([]Domain, error)
+	HuntPatientByNameOrNIKOrAll(domain Domain, page int) ([]Domain, error)
 	GetPatientByID(id string) (*Domain, error)
 	CreatePatient(domain Domain) (id string, err error)
 	AmendPatientByID(id string, domain Domain) error
@@ -27,9 +27,9 @@ type Services interface {
 }
 
 type Repositories interface {
-	SearchDataByNameParam(name string) ([]Domain, error)
+	SearchDataByNameParam(name string, offset int) ([]Domain, error)
 	SearchDataByNIKParam(nik string) ([]Domain, error)
-	SelectAllData() ([]Domain, error)
+	SelectAllData(offset int) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	UpdateByID(id string, domain Domain) error
 	InsertData(domain Domain) (id string, err error)

@@ -39,9 +39,11 @@ func (repo *repository) InsertData(data doctor.Domain) (string, error) {
 }
 
 // SelectAllData implements doctor.Repositories
-func (repo *repository) SelectAllData() ([]doctor.Domain, error) {
+func (repo *repository) SelectAllData(offset int) ([]doctor.Domain, error) {
 	var records []Doctor
-	err := repo.DB.Preload("User").Preload("Polyclinic").Find(&records).Error
+	err := repo.DB.Preload("User").Preload("Polyclinic").
+		Offset(offset).Limit(10).
+		Find(&records).Error
 	return MapToBatchDomain(records), err
 }
 

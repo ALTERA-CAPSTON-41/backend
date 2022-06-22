@@ -6,6 +6,7 @@ import (
 	"clinic-api/src/app/doctor/handlers/response"
 	"clinic-api/src/utils"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -33,7 +34,8 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 
 // onShowAll
 func (h *Handler) ShowAllDoctorsHandler(c echo.Context) error {
-	data, err := h.services.GetAllDoctors()
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	data, err := h.services.GetAllDoctors(page)
 
 	if err != nil {
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)

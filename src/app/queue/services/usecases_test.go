@@ -99,17 +99,17 @@ func TestCreateQueue(t *testing.T) {
 
 func TestGetAllQueues(t *testing.T) {
 	t.Run("should got all data", func(t *testing.T) {
-		mockRepo.On("SelectAllData", "", "").Return(sampleDomainList, nil).Once()
-		result, err := services.GetAllQueues("", "")
+		mockRepo.On("SelectAllData", "", "", 0).Return(sampleDomainList, nil).Once()
+		result, err := services.GetAllQueues("", "", 1)
 
 		assert.Nil(t, err)
 		assert.Greater(t, len(result), 1)
 	})
 
 	t.Run("should got database error", func(t *testing.T) {
-		mockRepo.On("SelectAllData", "", "").
+		mockRepo.On("SelectAllData", "", "", 0).
 			Return(nil, errors.New("can't connect to the database")).Once()
-		result, err := services.GetAllQueues("", "")
+		result, err := services.GetAllQueues("", "", 1)
 
 		assert.NotNil(t, err)
 		assert.Nil(t, result)

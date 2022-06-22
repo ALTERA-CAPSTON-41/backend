@@ -33,7 +33,11 @@ func (repo *repository) InsertData(data queue.Domain) (string, error) {
 }
 
 // SelectAllData implements queue.Repositories
-func (repo *repository) SelectAllData(polyclinic, fromDate string) ([]queue.Domain, error) {
+func (repo *repository) SelectAllData(
+	polyclinic,
+	fromDate string,
+	offset int,
+) ([]queue.Domain, error) {
 	var (
 		records      []Queue
 		byPolyclinic string
@@ -52,6 +56,7 @@ func (repo *repository) SelectAllData(polyclinic, fromDate string) ([]queue.Doma
 		Preload("Patient").Preload("Polyclinic").
 		Order("daily_queue_date DESC, daily_queue_number").
 		Where("service_done_at IS NULL" + byPolyclinic + byDate).
+		Offset(offset).Limit(10).
 		Find(&records).Error; err != nil {
 		return nil, err
 	}

@@ -36,17 +36,21 @@ func (repo *repository) SearchDataByNIKParam(nik string) ([]patient.Domain, erro
 }
 
 // SearchDataByNameParams implements patient.Repositories
-func (repo *repository) SearchDataByNameParam(name string) ([]patient.Domain, error) {
+func (repo *repository) SearchDataByNameParam(name string, offset int) ([]patient.Domain, error) {
 	var patients []Patient
 	sqlParams := "UPPER(name) LIKE '%" + strings.ToUpper(name) + "%'"
-	err := repo.DB.Where(sqlParams).Find(&patients).Error
+	err := repo.DB.Where(sqlParams).
+		Offset(offset).Limit(10).
+		Find(&patients).Error
 	return MapToBatchDomain(patients), err
 }
 
 // SelectAllData implements patient.Repositories
-func (repo *repository) SelectAllData() ([]patient.Domain, error) {
+func (repo *repository) SelectAllData(offset int) ([]patient.Domain, error) {
 	var patients []Patient
-	err := repo.DB.Find(&patients).Error
+	err := repo.DB.
+		Offset(offset).Limit(10).
+		Find(&patients).Error
 	return MapToBatchDomain(patients), err
 }
 
