@@ -30,7 +30,7 @@ func init() {
 
 	client := database.InitDB()
 	opt := mogrus.Options{
-		Collection: client.Database("log").Collection("error-logs"),
+		Collection: client.Database("log").Collection("errors"),
 	}
 
 	hook, _ := mogrus.New(context.Background(), opt)
