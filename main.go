@@ -11,7 +11,7 @@ import (
 	"clinic-api/src/database"
 	"clinic-api/src/routes"
 	"context"
-	"os"
+	"io/ioutil"
 
 	"github.com/ainsleyclark/mogrus"
 	"github.com/sirupsen/logrus"
@@ -36,8 +36,7 @@ func init() {
 	hook, _ := mogrus.New(context.Background(), opt)
 
 	logrus.AddHook(hook)
-	logrus.SetFormatter(&logrus.JSONFormatter{})
-	logrus.SetOutput(os.Stdout)
+	logrus.SetOutput(ioutil.Discard)
 }
 
 func main() {
