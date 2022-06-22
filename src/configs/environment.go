@@ -3,7 +3,7 @@ package configs
 import "github.com/spf13/viper"
 
 type ServerConfig struct {
-	ConnectionString      string `mapstructure:"DB_DSN"`
+	MYSQLConnectionString string `mapstructure:"MYSQL_DSN"`
 	MongoConnectionString string `mapstructure:"MONGO_DSN"`
 	JWTsecret             string `mapstructure:"JWT_SECRET"`
 }
