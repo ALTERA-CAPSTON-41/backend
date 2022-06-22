@@ -25,6 +25,7 @@ func (h *Handler) CreatePolyclinicHandler(c echo.Context) error {
 
 	id, err := h.services.CreatePolyclinic(polyclinicRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -39,6 +40,7 @@ func (h *Handler) CreatePolyclinicHandler(c echo.Context) error {
 func (h *Handler) ShowAllPolyclinicsHandler(c echo.Context) error {
 	data, err := h.services.GetAllPolyclinics()
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -53,6 +55,7 @@ func (h *Handler) ShowPolyclinicByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -72,6 +75,7 @@ func (h *Handler) AmendPolyclinicByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -85,6 +89,7 @@ func (h *Handler) RemovePolyclinicByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

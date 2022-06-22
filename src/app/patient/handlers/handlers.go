@@ -26,6 +26,7 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 
 	id, err := h.services.CreatePatient(patientRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -45,6 +46,7 @@ func (h *Handler) HuntPatientByNameOrNIKOrAllHandler(c echo.Context) error {
 
 	result, err := h.services.HuntPatientByNameOrNIKOrAll(patientRequest.MapToDomain(), page)
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -63,6 +65,7 @@ func (h *Handler) ShowPatientByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -82,6 +85,7 @@ func (h *Handler) AmendPatientByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -96,6 +100,7 @@ func (h *Handler) RemovePatientByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

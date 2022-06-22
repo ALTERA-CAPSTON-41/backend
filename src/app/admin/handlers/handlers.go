@@ -25,6 +25,7 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 
 	id, err := h.services.CreateAdmin(adminRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -36,6 +37,7 @@ func (h *Handler) ShowAllAdminsHandler(c echo.Context) error {
 	data, err := h.services.GetAllAdmins()
 
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToBatchResponse(data))
@@ -49,6 +51,7 @@ func (h *Handler) ShowAdminByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -68,6 +71,7 @@ func (h *Handler) AmendAdminByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -82,6 +86,7 @@ func (h *Handler) RemoveAdminByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

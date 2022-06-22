@@ -25,6 +25,7 @@ func (h *Handler) CreateQueueHandler(c echo.Context) error {
 
 	id, err := h.services.CreateQueue(queueRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -42,6 +43,7 @@ func (h *Handler) ShowAllQueuesHandler(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	data, err := h.services.GetAllQueues(polyclinic, from, page)
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -60,6 +62,7 @@ func (h *Handler) AmendQueueByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -72,6 +75,7 @@ func (h *Handler) RemoveQueueByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
