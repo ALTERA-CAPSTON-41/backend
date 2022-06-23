@@ -25,6 +25,7 @@ func (h *Handler) CreateNurseHandler(c echo.Context) error {
 
 	id, err := h.services.CreateNurse(nurseRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -36,6 +37,7 @@ func (h *Handler) ShowAllNursesHandler(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	data, err := h.services.GetAllNurses(page)
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -49,6 +51,7 @@ func (h *Handler) ShowNurseByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -67,6 +70,7 @@ func (h *Handler) AmendNurseByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -79,6 +83,7 @@ func (h *Handler) RemoveNurseByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

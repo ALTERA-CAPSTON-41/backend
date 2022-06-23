@@ -11,7 +11,7 @@ type DBConf struct{ *gorm.DB }
 
 func (DB *DBConf) InitDB() *DBConf {
 	config, _ := configs.LoadServerConfig(".")
-	dsn := config.ConnectionString
+	dsn := config.MYSQLConnectionString
 
 	conn, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	return &DBConf{conn}

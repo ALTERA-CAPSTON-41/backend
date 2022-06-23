@@ -48,6 +48,7 @@
 When you're going to contribute or compile, you'll need at least:
   - Go 1.17+
   - MySQL 8.0.x
+  - MongoDB 5.x
 
 ### Installation or Configure
 

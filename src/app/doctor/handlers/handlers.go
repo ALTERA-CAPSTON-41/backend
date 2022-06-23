@@ -26,6 +26,7 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 
 	id, err := h.services.CreateDoctor(doctorRequest.MapToDomain())
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -38,6 +39,7 @@ func (h *Handler) ShowAllDoctorsHandler(c echo.Context) error {
 	data, err := h.services.GetAllDoctors(page)
 
 	if err != nil {
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToBatchResponse(data))
@@ -51,6 +53,7 @@ func (h *Handler) ShowDoctorByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -70,6 +73,7 @@ func (h *Handler) AmendDoctorByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
@@ -84,6 +88,7 @@ func (h *Handler) RemoveDoctorByIDHandler(c echo.Context) error {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 

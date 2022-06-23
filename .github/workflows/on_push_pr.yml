@@ -16,24 +16,24 @@ jobs:
       - uses: actions/checkout@v2
       - name: "setup go"
         uses: actions/setup-go@v2
-        with: 
-          go-version: 1.17.5
+        with:
+          go-version: 1.18
       - name: running unit test
         run: go test ./... -cover
 
-  build: 
+  build:
     name: build program
     runs-on: ubuntu-latest
     steps:
-      - name: checkout 
+      - name: checkout
         uses: actions/checkout@v2
       - name: setup go
         uses: actions/setup-go@v2
-        with: 
-          go-version: 1.17.5
+        with:
+          go-version: 1.18
       - name: build on go
         run: go build main.go
-  
+
   release:
     name: semantic release
     runs-on: ubuntu-latest
@@ -46,9 +46,9 @@ jobs:
           persist-credentials: false
       - name: Semantic GitHub Release
         uses: go-semantic-release/action@v1.17.0
-        with: 
+        with:
           github-token: ${{ secrets.GH_TOKEN }}
-  
+
   image-build-push:
     name: build and push image to ghcr.io
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
       - name: login to registry
         run: echo "${{ secrets.GH_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
       - name: push image to registry
-        env: 
+        env:
           LATEST_VERSION: ${{ github.event.release.tag_name }}
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/backend:latest
@@ -78,13 +78,13 @@ jobs:
   deploy-aws:
     name: deploy to ec2
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - image-build-push
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: configure ssh
-        env: 
+        env:
           SSH_USER: ${{ secrets.SSH_USERNAME }}
           SSH_KEY: ${{ secrets.SSH_PEM }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -104,7 +104,7 @@ jobs:
         #   PACKAGE_NAME: ghcr.io/altera-capston-41/backend:latest
         #   WORKSPACE_DIR: ${{ secrets.WORKSPACE_DIR }}
         run: ssh development '
-          sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true && 
+          sudo docker rm -f $(docker ps -aqf "name=clinic-backend*") || true &&
           sudo docker pull ghcr.io/altera-capston-41/backend:latest &&
           sudo docker run -dp 19000:8000 --name clinic-backend-api ghcr.io/altera-capston-41/backend:latest'
       - name: copy .env to container

@@ -40,6 +40,7 @@ func (h *Handler) AttemptLoginHandler(c echo.Context) error {
 			})
 		}
 
+		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
 
