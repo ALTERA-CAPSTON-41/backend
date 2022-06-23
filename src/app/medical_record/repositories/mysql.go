@@ -61,11 +61,9 @@ func (repo *repository) SelectDataByID(id string) (*medicalrecord.Domain, error)
 func (repo *repository) SelectDataByPatientNIK(nik string) ([]medicalrecord.Domain, error) {
 	var records []MedicalRecord
 
-	if err := repo.DB.Joins("Patients on medical_records.patient_id = patients.id").
-		Where("patients.NIK = ?", nik).
-		Preload("Patient").
-		Preload("Doctor").
-		Preload("Polyclinic").
+	if err := repo.DB.
+		Preload("Patient", "nik = ?", nik).
+		Preload("Doctor").Preload("Polyclinic").
 		Find(&records).Error; err != nil {
 		return nil, err
 	}
