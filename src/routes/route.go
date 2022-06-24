@@ -57,5 +57,8 @@ func New() *echo.Echo {
 	route.PUT("/queues/:id", caHandler.Queue.AmendQueueByIDHandler)
 	route.DELETE("/queues/:id", caHandler.Queue.RemoveQueueByIDHandler)
 
+	// dashboard
+	route.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
+
 	return route
 }
