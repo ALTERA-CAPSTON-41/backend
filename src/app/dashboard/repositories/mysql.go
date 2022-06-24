@@ -22,7 +22,7 @@ func (repo *repository) CountQueueData() (int, error) {
 	var total int64
 	err := repo.DB.
 		Table("queues").
-		Where("deleted_at IS NULL AND daily_queue_date = CURDATE()").
+		Where("deleted_at IS NULL AND daily_queue_date = CURDATE() AND service_done_at IS NULL").
 		Count(&total).Error
 	return int(total), err
 }
