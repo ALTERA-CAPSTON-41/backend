@@ -17,6 +17,7 @@ servers:
     description: Deployed API
 tags:
   - name: Authentication
+  - name: Dashboard
   - name: Patient
   - name: Polyclinic
   - name: Doctor
@@ -24,6 +25,33 @@ tags:
   - name: Admin
   - name: Queue
 paths:
+  /dashboards/{feature}:
+    get:
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - doctor
+              - nurse
+              - patient
+              - polyclinic
+              - queue
+          name: feature
+          in: path
+          required: true
+      summary: Get Total Feature Data
+      operationId: get-dashboard
+      responses:
+        '200':
+          $ref: '#/components/responses/200_Dashboard'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      tags:
+        - Dashboard
   /patients:
     post:
       summary: Create New Patient
@@ -987,6 +1015,21 @@ components:
         service_done_at:
           type: string
   responses:
+    200_Dashboard:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        example: 11
     200_PatientDetail:
       description: Example response
       content:
