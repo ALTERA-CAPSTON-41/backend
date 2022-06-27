@@ -45,14 +45,20 @@ func SetJwtCookie(c echo.Context, token string) {
 	c.SetCookie(&authCookie)
 }
 
-func ExtractClaims(tokenStr string) (JwtCustomClaims, error) {
+func ExtractClaims(tokenStr string) (*JwtCustomClaims, error) {
 	config, _ := configs.LoadServerConfig(".")
 	hmacSecretString := config.JWTsecret
+	var claims *JwtCustomClaims
 
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenStr, &JwtCustomClaims{}, func(t *jwt.Token) (interface{}, error) {
 		return []byte(hmacSecretString), nil
 	})
 
-	claims := token.Claims.(JwtCustomClaims)
+	if token != nil {
+		if claims, ok := token.Claims.(*JwtCustomClaims); ok && token.Valid {
+			return claims, nil
+		}
+	}
+
 	return claims, err
 }
