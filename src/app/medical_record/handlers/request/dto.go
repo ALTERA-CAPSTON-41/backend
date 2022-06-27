@@ -11,7 +11,6 @@ type Request struct {
 	ICD10Code    string `json:"icd10_code"`
 	Suggestions  string `json:"suggestions"`
 	PatientID    string `json:"patient_id"`
-	DoctorID     string `json:"doctor_id"`
 	PolyclinicID int    `json:"polyclinic_id"`
 }
 
@@ -22,9 +21,6 @@ func (req *Request) MapToDomain() medicalrecord.Domain {
 		Suggestions: req.Suggestions,
 		Patient: medicalrecord.PatientReference{
 			ID: uuid.MustParse(req.PatientID),
-		},
-		Doctor: medicalrecord.DoctorReference{
-			ID: uuid.MustParse(req.DoctorID),
 		},
 		Polyclinic: medicalrecord.PolyclinicReference{
 			ID: req.PolyclinicID,
