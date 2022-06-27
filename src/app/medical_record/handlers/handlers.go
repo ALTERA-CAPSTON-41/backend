@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -31,9 +32,10 @@ func (h *Handler) CreateMedicalRecordHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
 	}
 
-	medicalrecordRequest.DoctorID = claims.Id
+	domain := medicalrecordRequest.MapToDomain()
+	domain.Doctor.ID = uuid.MustParse(claims.Id)
 
-	id, err := h.services.CreateMedicalRecord(medicalrecordRequest.MapToDomain())
+	id, err := h.services.CreateMedicalRecord(domain)
 	if err != nil {
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
