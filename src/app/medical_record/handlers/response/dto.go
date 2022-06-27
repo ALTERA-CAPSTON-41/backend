@@ -26,6 +26,7 @@ type PatientReference struct {
 	Phone     string           `json:"phone"`
 	Address   string           `json:"address"`
 	DOB       time.Time        `json:"dob"`
+	Age       int              `json:"age"`
 	Gender    types.GenderEnum `json:"gender"`
 	BloodType string           `json:"blood_type"`
 }
@@ -60,6 +61,7 @@ func MapToResponse(domain medicalrecord.Domain) Response {
 			NIK:       domain.Patient.NIK,
 			Phone:     domain.Patient.Phone,
 			Address:   domain.Patient.Address,
+			Age:       domain.Patient.Age,
 			DOB:       domain.Patient.DOB,
 			Gender:    domain.Patient.Gender,
 			BloodType: domain.Patient.BloodType,
