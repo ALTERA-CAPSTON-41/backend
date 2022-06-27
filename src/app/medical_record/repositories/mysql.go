@@ -2,6 +2,7 @@ package medicalrecord_repositories
 
 import (
 	medicalrecord "clinic-api/src/app/medical_record"
+	"clinic-api/src/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -52,8 +53,8 @@ func (repo *repository) SelectDataByID(id string) (*medicalrecord.Domain, error)
 		First(&record).Error; err != nil {
 		return nil, err
 	}
-
 	result := record.MapToDomain()
+	result.Patient.Age = utils.CountIntervalByYearRoundDown(result.Patient.DOB, result.CreatedAt)
 	return &result, nil
 }
 

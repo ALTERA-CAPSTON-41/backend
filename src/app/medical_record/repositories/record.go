@@ -6,9 +6,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type MedicalRecord struct {
+	gorm.Model
 	ID               uuid.UUID `gorm:"primaryKey;size:191"`
 	Symptoms         string
 	ICD10Code        string
@@ -61,6 +63,8 @@ func (mr *MedicalRecord) MapToDomain() medicalrecord.Domain {
 		ICD10Code:        mr.ICD10Code,
 		ICD10Description: mr.ICD10Description,
 		Suggestions:      mr.Suggestions,
+		CreatedAt:        mr.CreatedAt,
+		UpdatedAt:        mr.UpdatedAt,
 		Patient: medicalrecord.PatientReference{
 			ID:        mr.Patient.ID,
 			Name:      mr.Patient.Name,

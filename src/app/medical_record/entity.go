@@ -13,6 +13,8 @@ type Domain struct {
 	ICD10Code        string
 	ICD10Description string
 	Suggestions      string
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 	Patient          PatientReference
 	Doctor           DoctorReference
 	Polyclinic       PolyclinicReference
@@ -24,6 +26,7 @@ type PatientReference struct {
 	NIK       string
 	Phone     string
 	Address   string
+	Age       int
 	DOB       time.Time
 	Gender    types.GenderEnum
 	BloodType string
