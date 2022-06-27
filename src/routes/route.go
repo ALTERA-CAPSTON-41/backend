@@ -60,5 +60,13 @@ func New() *echo.Echo {
 	// dashboard
 	route.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
 
+	// authenticated route group
+	authenticated := route.Group("")
+
+	// medical record
+	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler)
+	authenticated.GET("/medical-records/patient/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
+	authenticated.GET("/medical-records/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
+
 	return route
 }
