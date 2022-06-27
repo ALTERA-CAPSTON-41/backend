@@ -44,7 +44,7 @@ type PolyclinicReference struct {
 }
 
 type CreateResponse struct {
-	ID uuid.UUID `json:"id"`
+	ID string `json:"id"`
 }
 
 func MapToResponse(domain medicalrecord.Domain) Response {
