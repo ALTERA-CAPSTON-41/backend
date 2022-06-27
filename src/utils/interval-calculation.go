@@ -15,7 +15,7 @@ func CountIntervalByYearRoundDown(origin time.Time, target time.Time) (years int
 	originYear, originMonth, originDate := origin.Date()
 	origin = time.Date(originYear, originMonth, originDate, 0, 0, 0, 0, time.UTC)
 
-	yearsPassed := targetYear - originDate
+	yearsPassed := targetYear - originYear
 	anniversary := origin.AddDate(yearsPassed, 0, 0)
 	if anniversary.After(target) {
 		yearsPassed--
