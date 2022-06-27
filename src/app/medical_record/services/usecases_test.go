@@ -8,6 +8,7 @@ import (
 	"errors"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -26,6 +27,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
+	services = NewServices(&mockRepo)
 	sampleMedicalRecordUUID = uuid.Must(uuid.NewRandom())
 	sampleDoctorUUID = uuid.Must(uuid.NewRandom())
 	samplePatientUUID = uuid.Must(uuid.NewRandom())
@@ -36,6 +38,8 @@ func TestMain(m *testing.M) {
 		ICD10Code:        "A750",
 		ICD10Description: "Epidemic louse-borne typhus fever due to Rickettsia prowazekii",
 		Suggestions:      "total rest 10 days",
+		CreatedAt:        time.Now(),
+		UpdatedAt:        time.Now(),
 		Patient: medicalrecord.PatientReference{
 			ID:        samplePatientUUID,
 			Name:      "Patient Capstone",
@@ -58,6 +62,7 @@ func TestMain(m *testing.M) {
 			Name: "General",
 		},
 	}
+	sampleDomain.Patient.Age = utils.CountIntervalByYearRoundDown(sampleDomain.Patient.DOB, sampleDomain.CreatedAt)
 
 	sampleNewDomainInput = medicalrecord.Domain{
 		ID:          sampleMedicalRecordUUID,
@@ -81,11 +86,12 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreateMedicalRecord(t *testing.T) {
-	const icd10DescriptionOfA750 = "Epidemic louse-borne typhus fever due to Rickettsia prowazekii"
+	const icd10DescriptionOfA750 string = "Epidemic louse-borne typhus fever due to Rickettsia prowazekii"
 
 	t.Run("should create medical record", func(t *testing.T) {
 		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
 			Return(icd10DescriptionOfA750, nil).Once()
+		sampleNewDomainInput.ICD10Description = icd10DescriptionOfA750
 		mockRepo.On("InsertData", sampleNewDomainInput).
 			Return(sampleMedicalRecordUUID.String(), nil).Once()
 		id, err := services.CreateMedicalRecord(sampleNewDomainInput)
@@ -96,7 +102,7 @@ func TestCreateMedicalRecord(t *testing.T) {
 
 	t.Run("should get error on consume external API", func(t *testing.T) {
 		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
-			Return("", errors.New("can not get data from server")).Once()
+			Return("", errors.New("can't get data from server")).Once()
 		id, err := services.CreateMedicalRecord(sampleNewDomainInput)
 
 		assert.NotNil(t, err)
@@ -139,7 +145,7 @@ func TestGetAllMedicalRecordByPatientNIK(t *testing.T) {
 			Return(nil, errors.New("record not found"))
 		domains, err := services.FindMedicalRecordByPatientNIK(sampleDomain.Patient.NIK)
 
-		assert.Nil(t, err)
+		assert.NotNil(t, err)
 		assert.Nil(t, domains)
 	})
 }
