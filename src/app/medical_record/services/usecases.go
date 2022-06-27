@@ -1,6 +1,8 @@
 package services
 
-import medicalrecord "clinic-api/src/app/medical_record"
+import (
+	medicalrecord "clinic-api/src/app/medical_record"
+)
 
 type usecase struct {
 	repo medicalrecord.Repositories
@@ -8,17 +10,20 @@ type usecase struct {
 
 // CreateMedicalRecord implements medicalrecord.Services
 func (uc *usecase) CreateMedicalRecord(domain medicalrecord.Domain) (id string, err error) {
-	panic("unimplemented")
+	if domain.ICD10Description, err = uc.repo.LookupICD10Data(domain.ICD10Code); err != nil {
+		return "", err
+	}
+	return uc.repo.InsertData(domain)
 }
 
 // FindMedicalRecordByID implements medicalrecord.Services
 func (uc *usecase) FindMedicalRecordByID(id string) (*medicalrecord.Domain, error) {
-	panic("unimplemented")
+	return uc.repo.SelectDataByID(id)
 }
 
 // FindMedicalRecordByPatientNIK implements medicalrecord.Services
 func (uc *usecase) FindMedicalRecordByPatientNIK(nik string) ([]medicalrecord.Domain, error) {
-	panic("unimplemented")
+	return uc.repo.SelectDataByPatientNIK(nik)
 }
 
 func NewServices(repo medicalrecord.Repositories) medicalrecord.Services {
