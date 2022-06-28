@@ -4,6 +4,7 @@ import (
 	account_repositories "clinic-api/src/app/account/repositories"
 	admin_repositories "clinic-api/src/app/admin/repositories"
 	doctor_repositories "clinic-api/src/app/doctor/repositories"
+	medicalrecord_repositories "clinic-api/src/app/medical_record/repositories"
 	nurse_repositories "clinic-api/src/app/nurse/repositories"
 	patient_repositories "clinic-api/src/app/patient/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
@@ -26,6 +27,7 @@ func init() {
 		admin_repositories.Admin{},
 		queue_repositories.Queue{},
 		nurse_repositories.Nurse{},
+		medicalrecord_repositories.MedicalRecord{},
 	)
 
 	client := database.InitDB()

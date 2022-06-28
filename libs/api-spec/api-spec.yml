@@ -4,7 +4,7 @@ x-stoplight:
 info:
   title: clinic-backend-api
   version: '1.0'
-  description: ''
+  description: REST API for clinic management system.
   license:
     name: MIT
   contact:
@@ -16,13 +16,14 @@ servers:
   - url: 'https://api.capstone.thisham.my.id'
     description: Deployed API
 tags:
+  - name: Admin
   - name: Authentication
   - name: Dashboard
+  - name: Doctor
+  - name: Medical Record
+  - name: Nurse
   - name: Patient
   - name: Polyclinic
-  - name: Doctor
-  - name: Nurse
-  - name: Admin
   - name: Queue
 paths:
   /dashboards/{feature}:
@@ -97,6 +98,7 @@ paths:
           description: HttpOnly cookie
       tags:
         - Patient
+      description: ''
   '/patients/{id}':
     parameters:
       - schema:
@@ -634,6 +636,89 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: delete-queues-id
+  '/medical-records/patient/{nik}':
+    parameters:
+      - schema:
+          type: string
+        name: nik
+        in: path
+        required: true
+    get:
+      summary: Medical Record List by NIK Lookup
+      tags:
+        - Medical Record
+      responses:
+        '200':
+          $ref: '#/components/responses/200_MedicalRecordList'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-medical-records-patient-nik
+      description: Get list of medical record based on patient NIK.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          required: true
+          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
+  '/medical-records/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Medical Record Detail by ID Lookup
+      tags:
+        - Medical Record
+      responses:
+        '200':
+          $ref: '#/components/responses/200_MedicalRecordDetail'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-medical-records-id
+      description: Medical Record details with id of medical record.
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
+          required: true
+  /medical-records:
+    post:
+      summary: Add Medical Record
+      operationId: post-medical-records
+      responses:
+        '201':
+          $ref: '#/components/responses/201_CreateMedicalRecord'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      tags:
+        - Medical Record
+      parameters:
+        - schema:
+            type: string
+          in: cookie
+          name: token
+          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
+          required: true
+      description: Create medical record by doctor.
+      requestBody:
+        $ref: '#/components/requestBodies/NewMedicalRecord'
 components:
   schemas:
     Login:
@@ -806,7 +891,7 @@ components:
           id: aaaa1111-2222-3333-4444-55556666aaa1
           name: Alice Calbert
           nik: '1035017110970001'
-          phone: +2312312
+          phone: 2312312
           address: 'North Way Street, Antartica Regency'
           dob: '1997-10-31'
           gender: FEMALE
@@ -815,7 +900,7 @@ components:
           id: aaaa1111-2222-3333-4444-55556666aaa2
           name: Ken Schwegihtner
           nik: '1035013110970002'
-          phone: +62292191
+          phone: 62292191
           address: 'North Way Street, Antartica Regency'
           dob: '1997-10-31'
           gender: MALE
@@ -835,7 +920,7 @@ components:
           pattern: '[0-9]{16}'
         phone:
           type: string
-          example: +6288888888888
+          example: '+6288888888888'
         address:
           type: string
           example: 'North Way Street, Antartica Regency'
@@ -1014,6 +1099,87 @@ components:
           type: string
         service_done_at:
           type: string
+    MedicalRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        symptoms:
+          type: string
+        icd10_code:
+          type: string
+        icd10_description:
+          type: string
+        suggestions:
+          type: string
+        patient:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            nik:
+              type: string
+            phone:
+              type: string
+            address:
+              type: string
+            dob:
+              type: string
+            age:
+              type: integer
+            gender:
+              type: string
+            blood_type:
+              type: string
+        doctor:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            nip:
+              type: string
+            sip:
+              type: string
+            gender:
+              type: string
+        polyclinic:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+      x-examples:
+        example-1:
+          id: 899cc146-3cff-45ce-bc41-32515de0c882
+          symptoms: panas
+          icd10_code: A750
+          icd10_description: Epidemic louse-borne typhus fever due to Rickettsia prowazekii
+          suggestions: ketemu dia
+          patient:
+            id: 516a962a-802f-41f5-a2e0-c315146ad2d4
+            name: capstone
+            nik: '241092980'
+            phone: '825020882'
+            address: 'North Way Street, Antartica Regency'
+            dob: '1997-08-10T07:00:00+07:00'
+            age: 24
+            gender: MALE
+            blood_type: A
+          doctor:
+            id: 8d01edf9-72ca-40b4-a1dd-20b614d597e7
+            name: dr. Capstone X
+            nip: 2015 028171 45
+            sip: SIP.89173.2015.12
+            gender: MALE
+          polyclinic:
+            id: 2
+            name: General
+      description: Model of Medical Record.
   responses:
     200_Dashboard:
       description: Example response
@@ -1296,6 +1462,136 @@ components:
                       id:
                         type: string
                         example: aaee1234-dumm-dumm-dumm-dummycreated
+    201_CreateMedicalRecord:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            x-examples:
+              example-1:
+                meta:
+                  status: 201
+                  message: Created
+                data:
+                  id: abeee53c-ccf3-47c8-8cdd-dd8aea2410bf
+            allOf:
+              - $ref: '#/components/schemas/Meta_201Created'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: abeee53c-ccf3-47c8-8cdd-dd8aea2410bf
+    200_MedicalRecordList:
+      description: Example list of medical record response.
+      content:
+        application/json:
+          schema:
+            x-examples:
+              example-1:
+                meta:
+                  status: 200
+                  message: OK
+                data:
+                  - id: 899cc146-3cff-45ce-bc41-32515de0c882
+                    symptoms: panas
+                    icd10_code: A750
+                    icd10_description: Epidemic louse-borne typhus fever due to Rickettsia prowazekii
+                    suggestions: ketemu dia
+                    patient:
+                      id: 516a962a-802f-41f5-a2e0-c315146ad2d4
+                      name: capstone
+                      nik: '241092980'
+                      phone: '825020882'
+                      address: 'North Way Street, Antartica Regency'
+                      dob: '1997-08-10T07:00:00+07:00'
+                      age: 24
+                      gender: MALE
+                      blood_type: A
+                    doctor:
+                      id: 8d01edf9-72ca-40b4-a1dd-20b614d597e7
+                      name: dr. Capstone X
+                      nip: 2015 028171 45
+                      sip: SIP.89173.2015.12
+                      gender: MALE
+                    polyclinic:
+                      id: 2
+                      name: General
+                  - id: abeee53c-ccf3-47c8-8cdd-dd8aea2410bf
+                    symptoms: panas
+                    icd10_code: A740
+                    icd10_description: Chlamydial conjunctivitis
+                    suggestions: ketemu dia
+                    patient:
+                      id: 516a962a-802f-41f5-a2e0-c315146ad2d4
+                      name: capstone
+                      nik: '241092980'
+                      phone: '825020882'
+                      address: 'North Way Street, Antartica Regency'
+                      dob: '1997-08-10T07:00:00+07:00'
+                      age: 24
+                      gender: MALE
+                      blood_type: A
+                    doctor:
+                      id: 8d01edf9-72ca-40b4-a1dd-20b614d597e7
+                      name: dr. Capstone X
+                      nip: 2015 028171 45
+                      sip: SIP.89173.2015.12
+                      gender: MALE
+                    polyclinic:
+                      id: 2
+                      name: General
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MedicalRecord'
+    200_MedicalRecordDetail:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            x-examples:
+              example-1:
+                meta:
+                  status: 200
+                  message: OK
+                data:
+                  id: 899cc146-3cff-45ce-bc41-32515de0c882
+                  symptoms: panas
+                  icd10_code: A750
+                  icd10_description: Epidemic louse-borne typhus fever due to Rickettsia prowazekii
+                  suggestions: ketemu dia
+                  patient:
+                    id: 516a962a-802f-41f5-a2e0-c315146ad2d4
+                    name: capstone
+                    nik: '241092980'
+                    phone: '825020882'
+                    address: 'North Way Street, Antartica Regency'
+                    dob: '1997-08-10T07:00:00+07:00'
+                    age: 24
+                    gender: MALE
+                    blood_type: A
+                  doctor:
+                    id: 8d01edf9-72ca-40b4-a1dd-20b614d597e7
+                    name: dr. Capstone X
+                    nip: 2015 028171 45
+                    sip: SIP.89173.2015.12
+                    gender: MALE
+                  polyclinic:
+                    id: 2
+                    name: General
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MedicalRecord'
   requestBodies:
     Login:
       content:
@@ -1681,3 +1977,32 @@ components:
             patient_status: OUTPATIENT
             daily_queue_date: '2022-06-15'
             service_done_at: '2022-06-15 09:00:00'
+    NewMedicalRecord:
+      content:
+        application/json:
+          schema:
+            type: object
+            x-examples:
+              example-1:
+                symptoms: panas
+                icd10_code: A740
+                suggestions: ketemu dia
+                patient_id: 516a962a-802f-41f5-a2e0-c315146ad2d4
+                polyclinic_id: 2
+            properties:
+              symptoms:
+                type: string
+                example: 'fever, sneeze'
+              icd10_code:
+                type: string
+                example: A750
+              suggestions:
+                type: string
+                example: full rest 10 days
+              patient_id:
+                type: string
+                example: 516a962a-802f-41f5-a2e0-c315146ad2d4
+              polyclinic_id:
+                type: integer
+                example: 1
+      description: Request body to create new medical record.
