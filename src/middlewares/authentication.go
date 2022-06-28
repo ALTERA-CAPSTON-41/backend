@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"clinic-api/src/configs"
+	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"net/http"
 
@@ -20,4 +21,17 @@ func VerifyAuthentication() echo.MiddlewareFunc {
 		Claims:      utils.JwtCustomClaims{},
 		TokenLookup: "cookie:token",
 	})
+}
+
+func GrantDoctor(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		cookie, _ := c.Cookie("token")
+		claims, _ := utils.ExtractClaims(cookie.Value)
+
+		if claims.Role != types.DOCTOR {
+			return utils.CreateEchoResponse(c, http.StatusForbidden, nil)
+		}
+
+		return next(c)
+	}
 }

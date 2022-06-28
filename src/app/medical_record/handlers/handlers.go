@@ -4,7 +4,6 @@ import (
 	medicalrecord "clinic-api/src/app/medical_record"
 	"clinic-api/src/app/medical_record/handlers/request"
 	"clinic-api/src/app/medical_record/handlers/response"
-	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"net/http"
 	"strings"
@@ -23,10 +22,6 @@ func (h *Handler) CreateMedicalRecordHandler(c echo.Context) error {
 
 	cookie, _ := c.Cookie("token")
 	claims, _ := utils.ExtractClaims(cookie.Value)
-
-	if claims.Role != types.DOCTOR {
-		return utils.CreateEchoResponse(c, http.StatusForbidden, nil)
-	}
 
 	if err := c.Bind(&medicalrecordRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)

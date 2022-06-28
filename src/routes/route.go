@@ -2,6 +2,7 @@ package routes
 
 import (
 	"clinic-api/src/adapters"
+	"clinic-api/src/middlewares"
 
 	"github.com/labstack/echo/v4"
 )
@@ -64,7 +65,7 @@ func New() *echo.Echo {
 	authenticated := route.Group("")
 
 	// medical record
-	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler)
+	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
 	authenticated.GET("/medical-records/patient/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
 	authenticated.GET("/medical-records/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
 
