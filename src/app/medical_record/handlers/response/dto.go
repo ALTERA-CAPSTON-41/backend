@@ -3,7 +3,7 @@ package response
 import (
 	medicalrecord "clinic-api/src/app/medical_record"
 	"clinic-api/src/types"
-	"time"
+	"clinic-api/src/utils"
 
 	"github.com/google/uuid"
 )
@@ -25,7 +25,7 @@ type PatientReference struct {
 	NIK       string           `json:"nik"`
 	Phone     string           `json:"phone"`
 	Address   string           `json:"address"`
-	DOB       time.Time        `json:"dob"`
+	DOB       string           `json:"dob"`
 	Age       int              `json:"age"`
 	Gender    types.GenderEnum `json:"gender"`
 	BloodType string           `json:"blood_type"`
@@ -62,7 +62,7 @@ func MapToResponse(domain medicalrecord.Domain) Response {
 			Phone:     domain.Patient.Phone,
 			Address:   domain.Patient.Address,
 			Age:       domain.Patient.Age,
-			DOB:       domain.Patient.DOB,
+			DOB:       utils.ConvertDateToString(domain.Patient.DOB),
 			Gender:    domain.Patient.Gender,
 			BloodType: domain.Patient.BloodType,
 		},
