@@ -3,6 +3,7 @@ package medicalrecord_repositories
 import (
 	medicalrecord "clinic-api/src/app/medical_record"
 	"clinic-api/src/types"
+	"clinic-api/src/utils"
 	"time"
 
 	"github.com/google/uuid"
@@ -106,7 +107,9 @@ func MapToBatchDomain(records []MedicalRecord) []medicalrecord.Domain {
 	var domains []medicalrecord.Domain
 
 	for _, record := range records {
-		domains = append(domains, record.MapToDomain())
+		domain := record.MapToDomain()
+		domain.Patient.Age = utils.CountIntervalByYearRoundDown(domain.Patient.DOB, domain.CreatedAt)
+		domains = append(domains, domain)
 	}
 	return domains
 }
