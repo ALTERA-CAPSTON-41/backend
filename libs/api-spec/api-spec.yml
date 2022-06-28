@@ -1544,13 +1544,13 @@ components:
                       id: 2
                       name: General
             allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
               - type: object
                 properties:
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/MedicalRecord'
-              - $ref: '#/components/schemas/Meta_200OK'
     200_MedicalRecordDetail:
       description: Example response
       content:
