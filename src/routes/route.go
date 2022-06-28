@@ -11,7 +11,7 @@ func New() *echo.Echo {
 	route := echo.New()
 	caHandler := adapters.Init()
 
-	route.GET("/", caHandler.APISpec.GetAPISpec)
+	route.GET("/", caHandler.APISpec.GetAPISpec, middlewares.GrantPublic)
 	route.GET("/attachments/api-spec.yml", caHandler.APISpec.ServeDocsFile)
 
 	// login
@@ -62,8 +62,7 @@ func New() *echo.Echo {
 	route.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
 
 	// authenticated route group
-	authenticated := route.Group("")
-	// authenticated.Use(middlewares.VerifyAuthentication())
+	authenticated := route.Group("", middlewares.VerifyAuthentication())
 
 	// medical record
 	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
