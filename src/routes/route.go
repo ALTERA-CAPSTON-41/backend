@@ -61,6 +61,9 @@ func New() *echo.Echo {
 	// dashboard
 	route.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
 
+	// icd10
+	route.GET("icd10/:code", caHandler.ICD10.FindICD10ByCodeHandler)
+
 	// authenticated route group
 	authenticated := route.Group("")
 
