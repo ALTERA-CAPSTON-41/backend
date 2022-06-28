@@ -63,7 +63,7 @@ func New() *echo.Echo {
 
 	// authenticated route group
 	authenticated := route.Group("")
-	authenticated.Use(middlewares.VerifyAuthentication())
+	// authenticated.Use(middlewares.VerifyAuthentication())
 
 	// medical record
 	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
