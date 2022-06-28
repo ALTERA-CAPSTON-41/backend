@@ -6,6 +6,7 @@ import (
 	"clinic-api/src/utils"
 	"net/http"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -14,11 +15,11 @@ func VerifyAuthentication() echo.MiddlewareFunc {
 	cfg, _ := configs.LoadServerConfig(".")
 	return middleware.JWTWithConfig(middleware.JWTConfig{
 		ErrorHandlerWithContext: func(err error, c echo.Context) error {
-			return utils.CreateEchoResponse(c, http.StatusUnauthorized, err.Error())
+			return utils.CreateEchoResponse(c, http.StatusUnauthorized, nil)
 		},
 		SigningKey:  []byte(cfg.JWTsecret),
 		ContextKey:  "token",
-		Claims:      utils.JwtCustomClaims{},
+		Claims:      jwt.MapClaims{},
 		TokenLookup: "cookie:token",
 	})
 }
