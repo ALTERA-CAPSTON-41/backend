@@ -50,11 +50,7 @@ type Doctor struct {
 }
 
 type ICDResponse struct {
-	Name        string   `json:"Name"`
-	ICDType     string   `json:"Type"`
-	Description string   `json:"Description"`
-	Diagnoses   []string `json:"Inclusions"`
-	Response    string   `json:"Response"`
+	Description string `json:"Description"`
 }
 
 func (mr *MedicalRecord) MapToDomain() medicalrecord.Domain {
