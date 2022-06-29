@@ -22,6 +22,7 @@ var (
 	sampleDomainIkoUwaisWithNoUUID doctor.Domain
 	sampleUUIDIkoUwais             uuid.UUID
 	sampleUUIDTheressaSiahaan      uuid.UUID
+	sampleEmailIkoUwais            string
 	samplePassword                 string
 )
 
@@ -29,6 +30,7 @@ func TestMain(m *testing.M) {
 	services = NewService(&mockRepo)
 	sampleUUIDIkoUwais = uuid.Must(uuid.NewRandom())
 	sampleUUIDTheressaSiahaan = uuid.Must(uuid.NewRandom())
+	sampleEmailIkoUwais = "dr.ikouwais@example.com"
 	samplePassword = "thestrongestpassword"
 
 	sampleDomainIkoUwais = doctor.Domain{
@@ -150,6 +152,8 @@ func TestGetDoctorByID(t *testing.T) {
 
 func TestCreateDoctor(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailIkoUwais).
+			Return("", nil).Once()
 		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).
 			Return(sampleUUIDIkoUwais.String(), nil).Once()
 		result, err := services.CreateDoctor(sampleDomainIkoUwaisWithNoUUID)
@@ -158,9 +162,30 @@ func TestCreateDoctor(t *testing.T) {
 		assert.Equal(t, sampleUUIDIkoUwais.String(), result)
 	})
 
-	t.Run("should got database error", func(t *testing.T) {
+	t.Run("should got already used email error", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailIkoUwais).
+			Return(sampleEmailIkoUwais, nil).Once()
+		result, err := services.CreateDoctor(sampleDomainIkoUwaisWithNoUUID)
+
+		assert.NotNil(t, err)
+		assert.Contains(t, err.Error(), "already used")
+		assert.Zero(t, result)
+	})
+
+	t.Run("should got database error while lookup data by email", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailIkoUwais).
+			Return("", errors.New("can't connect to the database")).Once()
+		result, err := services.CreateDoctor(sampleDomainIkoUwaisWithNoUUID)
+
+		assert.NotNil(t, err)
+		assert.Zero(t, result)
+	})
+
+	t.Run("should got an error while insert data", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailIkoUwais).
+			Return("", nil).Once()
 		mockRepo.On("InsertData", sampleDomainIkoUwaisWithNoUUID).
-			Return(uuid.Nil.String(), errors.New("can't connect to the database")).Once()
+			Return(uuid.Nil.String(), errors.New("whoa there's some error")).Once()
 		result, err := services.CreateDoctor(sampleDomainIkoUwaisWithNoUUID)
 
 		assert.NotNil(t, err)
