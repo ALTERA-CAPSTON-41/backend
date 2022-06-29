@@ -26,6 +26,13 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 
 	id, err := h.services.CreateDoctor(doctorRequest.MapToDomain())
 	if err != nil {
+		if strings.Contains(err.Error(), "already used") {
+			return utils.CreateEchoResponse(
+				c,
+				http.StatusBadRequest,
+				response.ErrorResponse{Reason: err.Error()},
+			)
+		}
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
