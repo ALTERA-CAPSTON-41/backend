@@ -63,6 +63,17 @@ func (repo *repository) SelectDataByID(id string) (data *admin.Domain, err error
 	return &admin, nil
 }
 
+// LookupDataByEmail implements admin.Repositories
+func (repo *repository) LookupDataByEmail(email string) (string, error) {
+	var result string
+	if err := repo.DB.Table("users").
+		Select("email").Where("email = ?", email).
+		Find(&result).Error; err != nil {
+		return "", err
+	}
+	return result, nil
+}
+
 // UpdateByID implements admin.Repositories
 func (repo *repository) UpdateByID(id string, data admin.Domain) (err error) {
 	record := MapToExistingRecord(data)
