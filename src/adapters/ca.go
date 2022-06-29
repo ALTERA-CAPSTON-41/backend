@@ -11,6 +11,8 @@ import (
 	dashboard_handlers "clinic-api/src/app/dashboard/handlers"
 	doctor_factories "clinic-api/src/app/doctor/factories"
 	doctor_handlers "clinic-api/src/app/doctor/handlers"
+	icd10_factories "clinic-api/src/app/icd10/factories"
+	icd10_handlers "clinic-api/src/app/icd10/handlers"
 	medicalrecord_factories "clinic-api/src/app/medical_record/factories"
 	medicalrecord_handlers "clinic-api/src/app/medical_record/handlers"
 	nurse_factories "clinic-api/src/app/nurse/factories"
@@ -35,6 +37,7 @@ type handlers struct {
 	Patient       patient_handlers.Handler
 	Dashboard     dashboard_handlers.Handler
 	MedicalRecord medicalrecord_handlers.Handler
+	ICD10         icd10_handlers.Handler
 }
 
 func Init() handlers {
@@ -51,5 +54,6 @@ func Init() handlers {
 		Patient:       patient_factories.Factory(conn.DB),
 		Dashboard:     dashboard_factories.Factory(conn.DB),
 		MedicalRecord: medicalrecord_factories.Factory(conn.DB),
+		ICD10:         icd10_factories.Factory(conn.DB),
 	}
 }
