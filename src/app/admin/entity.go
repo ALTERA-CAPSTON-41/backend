@@ -31,6 +31,7 @@ type Services interface {
 type Repositories interface {
 	SelectAllData() (data []Domain, err error)
 	SelectDataByID(id string) (data *Domain, err error)
+	LookupDataByEmail(email string) (string, error)
 	InsertData(data Domain) (id string, err error)
 	UpdateByID(id string, data Domain) (err error)
 	DeleteByID(id string) (err error)
