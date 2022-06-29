@@ -64,6 +64,27 @@ func (_m *Repositories) InsertData(data admin.Domain) (string, error) {
 	return r0, r1
 }
 
+// LookupDataByEmail provides a mock function with given fields: email
+func (_m *Repositories) LookupDataByEmail(email string) (string, error) {
+	ret := _m.Called(email)
+
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string) string); ok {
+		r0 = rf(email)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(email)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // SelectAllData provides a mock function with given fields:
 func (_m *Repositories) SelectAllData() ([]admin.Domain, error) {
 	ret := _m.Called()
