@@ -1,6 +1,9 @@
 package services
 
-import "clinic-api/src/app/nurse"
+import (
+	"clinic-api/src/app/nurse"
+	"errors"
+)
 
 type usecase struct {
 	repo nurse.Repositories
@@ -8,6 +11,15 @@ type usecase struct {
 
 // CreateNurse implements nurse.Services
 func (uc *usecase) CreateNurse(nurse nurse.Domain) (string, error) {
+	email, err := uc.repo.LookupDataByEmail(nurse.User.Email)
+	if err != nil {
+		return "", err
+	}
+
+	if email != "" {
+		return "", errors.New("email is already used")
+	}
+
 	return uc.repo.InsertData(nurse)
 }
 
