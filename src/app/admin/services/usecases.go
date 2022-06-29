@@ -1,6 +1,9 @@
 package services
 
-import "clinic-api/src/app/admin"
+import (
+	"clinic-api/src/app/admin"
+	"errors"
+)
 
 type usecase struct {
 	repo admin.Repositories
@@ -13,6 +16,15 @@ func (uc *usecase) AmendAdminByID(id string, admin admin.Domain) (err error) {
 
 // CreateAdmin implements admin.Services
 func (uc *usecase) CreateAdmin(admin admin.Domain) (id string, err error) {
+	email, err := uc.repo.LookupDataByEmail(admin.User.Email)
+	if err != nil {
+		return "", err
+	}
+
+	if email != "" {
+		return "", errors.New("email is already used")
+	}
+
 	return uc.repo.InsertData(admin)
 }
 
