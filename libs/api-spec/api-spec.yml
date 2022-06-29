@@ -20,6 +20,7 @@ tags:
   - name: Authentication
   - name: Dashboard
   - name: Doctor
+  - name: ICD10
   - name: Medical Record
   - name: Nurse
   - name: Patient
@@ -636,6 +637,25 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: delete-queues-id
+  '/icd10/{code}':
+    parameters:
+      - schema:
+          type: string
+        name: code
+        in: path
+        required: true
+    get:
+      summary: Get ICD10 by code
+      tags:
+        - ICD10
+      responses:
+        '200':
+          $ref: '#/components/responses/200_ICD10List'
+        '400':
+          $ref: '#/components/responses/400_ICD10BadRequest'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-icd10-code
   '/medical-records/patient/{nik}':
     parameters:
       - schema:
@@ -1180,6 +1200,15 @@ components:
             id: 2
             name: General
       description: Model of Medical Record.
+    ICD10:
+      type: object
+      properties:
+        name:
+          type: string
+          example: A70
+        description:
+          type: string
+          example: Chlamydia psittaci infections
   responses:
     200_Dashboard:
       description: Example response
@@ -1218,6 +1247,19 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Polyclinic'
+    200_ICD10List:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ICD10'
     204_NoContent:
       description: Example response
       content:
@@ -1297,6 +1339,22 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/Doctor'
+    400_ICD10BadRequest:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_400BadRequest'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      reason:
+                        type: string
+                        example: must provide at least 2 characters
+        
     200_DoctorList:
       description: Example response
       content:
