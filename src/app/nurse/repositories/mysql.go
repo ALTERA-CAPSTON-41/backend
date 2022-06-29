@@ -40,6 +40,17 @@ func (repo *repository) SelectDataByID(id string) (*nurse.Domain, error) {
 	return &result, nil
 }
 
+// LookupDataByEmail implements nurse.Repositories
+func (repo *repository) LookupDataByEmail(email string) (string, error) {
+	var result string
+	if err := repo.DB.Table("users").
+		Select("email").Where("email = ?", email).
+		Find(&result).Error; err != nil {
+		return "", err
+	}
+	return result, nil
+}
+
 // UpdateByID implements nurse.Repositories
 func (repo *repository) UpdateByID(id string, domain nurse.Domain) error {
 	data := MapToExistingRecord(domain)
