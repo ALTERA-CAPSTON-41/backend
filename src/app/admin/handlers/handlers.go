@@ -25,6 +25,13 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 
 	id, err := h.services.CreateAdmin(adminRequest.MapToDomain())
 	if err != nil {
+		if strings.Contains(err.Error(), "already used") {
+			return utils.CreateEchoResponse(
+				c,
+				http.StatusBadRequest,
+				response.ErrorResponse{Reason: err.Error()},
+			)
+		}
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}

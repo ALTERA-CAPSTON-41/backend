@@ -32,6 +32,16 @@ func (repo *repository) DeleteUserByID(id string) error {
 	return query.Error
 }
 
+// LookupDataByEmail implements doctor.Repositories
+func (repo *repository) LookupDataByEmail(email string) (string, error) {
+	var result string
+	if err := repo.DB.Table("users").
+		Select("email").Where("email = ?", email).Find(&result).Error; err != nil {
+		return "", err
+	}
+	return result, nil
+}
+
 // InsertData implements doctor.Repositories
 func (repo *repository) InsertData(data doctor.Domain) (string, error) {
 	newDoctor := MapToNewRecord(data)

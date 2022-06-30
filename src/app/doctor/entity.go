@@ -43,6 +43,7 @@ type Services interface {
 type Repositories interface {
 	SelectAllData(offset int) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
+	LookupDataByEmail(email string) (string, error)
 	InsertData(data Domain) (string, error)
 	UpdateByID(id string, domain Domain) error
 	DeleteByID(id string) error

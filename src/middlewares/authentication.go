@@ -24,12 +24,6 @@ func VerifyAuthentication() echo.MiddlewareFunc {
 	})
 }
 
-func GrantPublic(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		return next(c)
-	}
-}
-
 func GrantDoctor(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, _ := c.Cookie("token")

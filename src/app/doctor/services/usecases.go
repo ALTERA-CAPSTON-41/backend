@@ -2,6 +2,7 @@ package services
 
 import (
 	"clinic-api/src/app/doctor"
+	"errors"
 )
 
 type usecase struct {
@@ -15,6 +16,15 @@ func (uc *usecase) AmendDoctorByID(id string, doctor doctor.Domain) error {
 
 // CreateDoctor implements doctor.Services
 func (uc *usecase) CreateDoctor(doctor doctor.Domain) (string, error) {
+	email, err := uc.repo.LookupDataByEmail(doctor.User.Email)
+	if err != nil {
+		return "", err
+	}
+
+	if email != "" {
+		return "", errors.New("email is already used")
+	}
+
 	return uc.repo.InsertData(doctor)
 }
 

@@ -22,6 +22,7 @@ var (
 	sampleDomainEkoWithNoUUID nurse.Domain
 	sampleUUIDEko             uuid.UUID
 	sampleUUIDSusan           uuid.UUID
+	sampleEmailEko            string
 	samplePassword            string
 )
 
@@ -29,6 +30,7 @@ func TestMain(m *testing.M) {
 	services = NewService(&mockRepo)
 	sampleUUIDEko = uuid.Must(uuid.NewRandom())
 	sampleUUIDSusan = uuid.Must(uuid.NewRandom())
+	sampleEmailEko = "eko@example.com"
 	samplePassword = "strongpassword"
 
 	sampleDomainEko = nurse.Domain{
@@ -100,6 +102,8 @@ func TestMain(m *testing.M) {
 
 func TestCreateNurse(t *testing.T) {
 	t.Run("should created a data", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailEko).
+			Return("", nil).Once()
 		mockRepo.On("InsertData", sampleDomainEkoWithNoUUID).
 			Return(sampleUUIDEko.String(), nil).Once()
 		result, err := services.CreateNurse(sampleDomainEkoWithNoUUID)
@@ -108,7 +112,27 @@ func TestCreateNurse(t *testing.T) {
 		assert.Equal(t, sampleUUIDEko.String(), result)
 	})
 
-	t.Run("should got an error", func(t *testing.T) {
+	t.Run("should got already used email error", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailEko).
+			Return(sampleEmailEko, nil).Once()
+		result, err := services.CreateNurse(sampleDomainEkoWithNoUUID)
+
+		assert.NotNil(t, err)
+		assert.Contains(t, err.Error(), "already used")
+		assert.Zero(t, result)
+	})
+
+	t.Run("should got database error while lookup data by email", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailEko).
+			Return("", errors.New("can't connect to the database")).Once()
+		result, err := services.CreateNurse(sampleDomainEkoWithNoUUID)
+
+		assert.NotNil(t, err)
+		assert.Zero(t, result)
+	})
+
+	t.Run("should got an error while insert data", func(t *testing.T) {
+		mockRepo.On("LookupDataByEmail", sampleEmailEko).Return("", nil).Once()
 		mockRepo.On("InsertData", sampleDomainEkoWithNoUUID).
 			Return(uuid.Nil.String(), errors.New("can't connect to the database")).Once()
 		result, err := services.CreateNurse(sampleDomainEkoWithNoUUID)
