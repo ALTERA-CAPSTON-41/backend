@@ -46,7 +46,7 @@
 ### Prerequisites
 
 When you're going to contribute or compile, you'll need at least:
-  - Go 1.17+
+  - Go 1.18+
   - MySQL 8.0.x
   - MongoDB 5.x
 
