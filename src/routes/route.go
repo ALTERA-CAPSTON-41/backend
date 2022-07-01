@@ -11,6 +11,7 @@ func New() *echo.Echo {
 	route := echo.New()
 	caHandler := adapters.Init()
 
+	// docs
 	route.GET("/docs", caHandler.APISpec.GetAPISpec)
 	route.GET("/attachments/api-spec.yml", caHandler.APISpec.ServeDocsFile)
 
@@ -18,45 +19,51 @@ func New() *echo.Echo {
 	route.POST("/login", caHandler.Account.AttemptLoginHandler)
 
 	// patient
-	route.POST("/patients", caHandler.Patient.CreatePatientHandler)
-	route.GET("/patients", caHandler.Patient.HuntPatientByNameOrNIKOrAllHandler)
-	route.GET("/patients/:id", caHandler.Patient.ShowPatientByIDHandler)
-	route.PUT("/patients/:id", caHandler.Patient.AmendPatientByIDHandler)
-	route.DELETE("/patients/:id", caHandler.Patient.RemovePatientByIDHandler)
+	patient := route.Group("/patients")
+	patient.POST("", caHandler.Patient.CreatePatientHandler)
+	patient.GET("", caHandler.Patient.HuntPatientByNameOrNIKOrAllHandler)
+	patient.GET("/:id", caHandler.Patient.ShowPatientByIDHandler)
+	patient.PUT("/:id", caHandler.Patient.AmendPatientByIDHandler)
+	patient.DELETE("/:id", caHandler.Patient.RemovePatientByIDHandler)
 
 	// polyclinic
-	route.POST("/polyclinics", caHandler.Polyclinic.CreatePolyclinicHandler)
-	route.GET("/polyclinics", caHandler.Polyclinic.ShowAllPolyclinicsHandler)
-	route.GET("/polyclinics/:id", caHandler.Polyclinic.ShowPolyclinicByIDHandler)
-	route.PUT("/polyclinics/:id", caHandler.Polyclinic.AmendPolyclinicByIDHandler)
-	route.DELETE("/polyclinics/:id", caHandler.Polyclinic.RemovePolyclinicByIDHandler)
+	polyclinic := route.Group("/polyclinics")
+	polyclinic.POST("", caHandler.Polyclinic.CreatePolyclinicHandler)
+	polyclinic.GET("", caHandler.Polyclinic.ShowAllPolyclinicsHandler)
+	polyclinic.GET("/:id", caHandler.Polyclinic.ShowPolyclinicByIDHandler)
+	polyclinic.PUT("/:id", caHandler.Polyclinic.AmendPolyclinicByIDHandler)
+	polyclinic.DELETE("/:id", caHandler.Polyclinic.RemovePolyclinicByIDHandler)
 
 	// doctor
-	route.POST("/doctors", caHandler.Doctor.CreateDoctorHandler)
-	route.GET("/doctors", caHandler.Doctor.ShowAllDoctorsHandler)
-	route.GET("/doctors/:id", caHandler.Doctor.ShowDoctorByIDHandler)
-	route.PUT("/doctors/:id", caHandler.Doctor.AmendDoctorByIDHandler)
-	route.DELETE("/doctors/:id", caHandler.Doctor.RemoveDoctorByIDHandler)
+	doctor := route.Group("/doctors")
+	doctor.POST("", caHandler.Doctor.CreateDoctorHandler)
+	doctor.GET("", caHandler.Doctor.ShowAllDoctorsHandler)
+	doctor.GET("/:id", caHandler.Doctor.ShowDoctorByIDHandler)
+	doctor.PUT("/:id", caHandler.Doctor.AmendDoctorByIDHandler)
+	doctor.DELETE("/:id", caHandler.Doctor.RemoveDoctorByIDHandler)
 
 	// nurse
-	route.POST("/nurses", caHandler.Nurse.CreateNurseHandler)
-	route.GET("/nurses", caHandler.Nurse.ShowAllNursesHandler)
-	route.GET("/nurses/:id", caHandler.Nurse.ShowNurseByIDHandler)
-	route.PUT("/nurses/:id", caHandler.Nurse.AmendNurseByIDHandler)
-	route.DELETE("/nurses/:id", caHandler.Nurse.RemoveNurseByIDHandler)
+	nurse := route.Group("/nurses")
+	nurse.POST("", caHandler.Nurse.CreateNurseHandler)
+	nurse.GET("", caHandler.Nurse.ShowAllNursesHandler)
+	nurse.GET("/:id", caHandler.Nurse.ShowNurseByIDHandler)
+	nurse.PUT("/:id", caHandler.Nurse.AmendNurseByIDHandler)
+	nurse.DELETE("/:id", caHandler.Nurse.RemoveNurseByIDHandler)
 
 	// admin
-	route.POST("/admins", caHandler.Admin.CreateAdminHandler)
-	route.GET("/admins", caHandler.Admin.ShowAllAdminsHandler)
-	route.GET("/admins/:id", caHandler.Admin.ShowAdminByIDHandler)
-	route.PUT("/admins/:id", caHandler.Admin.AmendAdminByIDHandler)
-	route.DELETE("/admins/:id", caHandler.Admin.RemoveAdminByIDHandler)
+	admin := route.Group("/admins")
+	admin.POST("", caHandler.Admin.CreateAdminHandler)
+	admin.GET("", caHandler.Admin.ShowAllAdminsHandler)
+	admin.GET("/:id", caHandler.Admin.ShowAdminByIDHandler)
+	admin.PUT("/:id", caHandler.Admin.AmendAdminByIDHandler)
+	admin.DELETE("/:id", caHandler.Admin.RemoveAdminByIDHandler)
 
 	// queue
-	route.POST("/queues", caHandler.Queue.CreateQueueHandler)
-	route.GET("/queues", caHandler.Queue.ShowAllQueuesHandler)
-	route.PUT("/queues/:id", caHandler.Queue.AmendQueueByIDHandler)
-	route.DELETE("/queues/:id", caHandler.Queue.RemoveQueueByIDHandler)
+	queue := route.Group("/queues")
+	queue.POST("", caHandler.Queue.CreateQueueHandler)
+	queue.GET("", caHandler.Queue.ShowAllQueuesHandler)
+	queue.PUT("/:id", caHandler.Queue.AmendQueueByIDHandler)
+	queue.DELETE("/:id", caHandler.Queue.RemoveQueueByIDHandler)
 
 	// dashboard
 	route.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
@@ -64,13 +71,11 @@ func New() *echo.Echo {
 	// icd10
 	route.GET("icd10/:code", caHandler.ICD10.FindICD10ByCodeHandler)
 
-	// authenticated route group
-	authenticated := route.Group("", middlewares.VerifyAuthentication())
-
 	// medical record
-	authenticated.POST("/medical-records", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
-	authenticated.GET("/medical-records/patient/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
-	authenticated.GET("/medical-records/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
+	medicalRecord := route.Group("/medical-records", middlewares.VerifyAuthentication())
+	medicalRecord.POST("", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
+	medicalRecord.GET("/patient/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
+	medicalRecord.GET("/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
 
 	return route
 }
