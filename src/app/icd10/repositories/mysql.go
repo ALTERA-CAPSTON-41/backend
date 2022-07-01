@@ -6,13 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	"gorm.io/gorm"
 )
 
-type repository struct {
-	DB *gorm.DB
-}
+type repository struct{}
 
 // SearchDataByCode implements icd10.Repositories
 func (repo *repository) SearchDataByCode(code string) ([]icd10.Domain, error) {
@@ -31,6 +27,6 @@ func (repo *repository) SearchDataByCode(code string) ([]icd10.Domain, error) {
 	return MapToBatchDomain(body.Search), nil
 }
 
-func NewMySQLRepository(DB *gorm.DB) icd10.Repositories {
-	return &repository{DB}
+func NewMySQLRepository() icd10.Repositories {
+	return &repository{}
 }

@@ -54,6 +54,6 @@ func Init() handlers {
 		Patient:       patient_factories.Factory(conn.DB),
 		Dashboard:     dashboard_factories.Factory(conn.DB),
 		MedicalRecord: medicalrecord_factories.Factory(conn.DB),
-		ICD10:         icd10_factories.Factory(conn.DB),
+		ICD10:         icd10_factories.Factory(),
 	}
 }
