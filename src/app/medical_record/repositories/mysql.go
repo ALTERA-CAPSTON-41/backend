@@ -63,7 +63,7 @@ func (repo *repository) SelectDataByPatientNIK(nik string) ([]medicalrecord.Doma
 	var records []MedicalRecord
 
 	if err := repo.DB.
-		Preload("Patient", "nik = ?", nik).
+		Joins("JOIN patients ON patients.nik = ?", nik).Preload("Patient").
 		Preload("Doctor").Preload("Polyclinic").
 		Find(&records).Error; err != nil {
 		return nil, err
