@@ -52,6 +52,18 @@ func (repo *repository) LookupDoctorByUserID(id string) (*account.UserDataDomain
 	return &result, nil
 }
 
+// LookupNurseByUserID implements account.Repositories
+func (repo *repository) LookupNurseByUserID(id string) (*account.UserDataDomain, error) {
+	var record Nurse
+
+	if err := repo.DB.Where("user_id = ?", id).Find(&record).Error; err != nil {
+		return nil, err
+	}
+
+	result := record.MapToDomain()
+	return &result, nil
+}
+
 func NewMySQLRepository(DB *gorm.DB) account.Repositories {
 	return &repository{DB}
 }
