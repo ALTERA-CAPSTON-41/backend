@@ -4,6 +4,7 @@ import (
 	"clinic-api/src/configs"
 	"clinic-api/src/types"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -43,6 +44,12 @@ func SetJwtCookie(c echo.Context, token string) {
 		HttpOnly: true,
 	}
 	c.SetCookie(&authCookie)
+}
+
+func GetJwtTokenFromRequest(c echo.Context) string {
+	authHeader := c.Request().Header[echo.HeaderAuthorization][0]
+	authToken := strings.Split(authHeader, "Bearer ")[1]
+	return authToken
 }
 
 func ExtractClaims(tokenStr string) (*JwtCustomClaims, error) {

@@ -20,8 +20,8 @@ type Handler struct {
 func (h *Handler) CreateMedicalRecordHandler(c echo.Context) error {
 	var medicalrecordRequest request.Request
 
-	cookie, _ := c.Cookie("token")
-	claims, _ := utils.ExtractClaims(cookie.Value)
+	token := utils.GetJwtTokenFromRequest(c)
+	claims, _ := utils.ExtractClaims(token)
 
 	if err := c.Bind(&medicalrecordRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)

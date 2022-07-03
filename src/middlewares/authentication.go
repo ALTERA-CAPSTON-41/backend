@@ -20,14 +20,15 @@ func VerifyAuthentication() echo.MiddlewareFunc {
 		SigningKey:  []byte(cfg.JWTsecret),
 		ContextKey:  "token",
 		Claims:      jwt.MapClaims{},
-		TokenLookup: "cookie:token",
+		TokenLookup: "header:" + echo.HeaderAuthorization,
+		AuthScheme:  "Bearer",
 	})
 }
 
 func GrantDoctor(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, _ := c.Cookie("token")
-		claims, _ := utils.ExtractClaims(cookie.Value)
+		authToken := utils.GetJwtTokenFromRequest(c)
+		claims, _ := utils.ExtractClaims(authToken)
 
 		if claims.Role != types.DOCTOR {
 			return utils.CreateEchoResponse(c, http.StatusForbidden, nil)
