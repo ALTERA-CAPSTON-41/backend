@@ -27,7 +27,7 @@ tags:
   - name: Polyclinic
   - name: Queue
 paths:
-  /dashboards/{feature}:
+  '/dashboards/{feature}':
     get:
       parameters:
         - schema:
@@ -41,6 +41,11 @@ paths:
           name: feature
           in: path
           required: true
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
       summary: Get Total Feature Data
       operationId: get-dashboard
       responses:
@@ -73,9 +78,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
-          description: HttpOnly token
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
       requestBody:
         $ref: '#/components/requestBodies/NewPatient'
       tags:
@@ -94,9 +99,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
-          description: HttpOnly cookie
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
       tags:
         - Patient
       description: ''
@@ -124,9 +129,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
-          description: HttpOnly Cookie
+          in: header
+          name: Authorization
+          description: Bearer Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     put:
       summary: Update Patient by ID
       operationId: put-patients-id
@@ -147,6 +152,12 @@ paths:
         - Patient
       requestBody:
         $ref: '#/components/requestBodies/ExistingPatient'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Patient by ID
       operationId: delete-patients-id
@@ -163,6 +174,12 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Patient
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /polyclinics:
     get:
       summary: Get All Polyclinics
@@ -178,6 +195,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-polyclinics
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     post:
       summary: Create Polyclinic
       operationId: post-polyclinics
@@ -196,6 +219,12 @@ paths:
         - Polyclinic
       requestBody:
         $ref: '#/components/requestBodies/NewPolyclinic'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   '/polyclinics/{id}':
     parameters:
       - schema:
@@ -219,6 +248,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-polyclinics-id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     put:
       summary: Update Polyclinic by ID
       operationId: put-polyclinics-id
@@ -239,6 +274,12 @@ paths:
         $ref: '#/components/requestBodies/ExistingPolyclinic'
       tags:
         - Polyclinic
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Polyclinic by ID
       operationId: delete-polyclinics-id
@@ -255,6 +296,12 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Polyclinic
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /login:
     post:
       summary: Login
@@ -297,6 +344,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-doctors
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     post:
       summary: Create Doctor
       operationId: post-doctors
@@ -315,6 +368,12 @@ paths:
         $ref: '#/components/requestBodies/NewDoctor'
       tags:
         - Doctor
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   '/doctors/{id}':
     parameters:
       - schema:
@@ -338,6 +397,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-doctors-id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     put:
       summary: Update Doctor by ID
       operationId: put-doctors-id
@@ -358,6 +423,12 @@ paths:
         $ref: '#/components/requestBodies/ExistingDoctor'
       tags:
         - Doctor
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Doctor by ID
       operationId: delete-doctors-id
@@ -374,6 +445,12 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Doctor
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /nurses:
     get:
       summary: Get All Nurses
@@ -389,6 +466,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-nurses
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     post:
       summary: Create Nurse
       operationId: post-nurses
@@ -407,6 +490,12 @@ paths:
         $ref: '#/components/requestBodies/NewNurse'
       tags:
         - Nurse
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     parameters: []
   '/nurses/{id}':
     parameters:
@@ -431,6 +520,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-nurses-id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     put:
       summary: Update Nurse by ID
       operationId: put-nurses-id
@@ -452,6 +547,12 @@ paths:
       description: ''
       tags:
         - Nurse
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Nurse by ID
       operationId: delete-nurses-id
@@ -468,6 +569,12 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Nurse
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /admins:
     get:
       summary: Get All Admins
@@ -483,6 +590,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-admins
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     post:
       summary: Create Admin
       operationId: post-admins
@@ -501,6 +614,12 @@ paths:
         $ref: '#/components/requestBodies/NewAdmin'
       tags:
         - Admin
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     parameters: []
   '/admins/{id}':
     parameters:
@@ -525,6 +644,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-admins-id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     put:
       summary: Update Admin by ID
       operationId: put-admins-id
@@ -545,6 +670,12 @@ paths:
         $ref: '#/components/requestBodies/ExistingAdmin'
       tags:
         - Admin
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Admin by ID
       operationId: delete-admins-id
@@ -561,6 +692,12 @@ paths:
           $ref: '#/components/responses/500_InternalServerError'
       tags:
         - Admin
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /queues:
     get:
       summary: Get All Queue
@@ -576,6 +713,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-queues
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     post:
       summary: Create New Queue
       operationId: post-queues
@@ -594,6 +737,12 @@ paths:
         - Queue
       requestBody:
         $ref: '#/components/requestBodies/NewQueue'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   '/queues/{id}':
     parameters:
       - schema:
@@ -621,6 +770,12 @@ paths:
         - Queue
       requestBody:
         $ref: '#/components/requestBodies/ExistingQueue'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
     delete:
       summary: Delete Queue by ID
       tags:
@@ -637,6 +792,12 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: delete-queues-id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   '/icd10/{code}':
     parameters:
       - schema:
@@ -679,10 +840,10 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
           required: true
-          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
   '/medical-records/{id}':
     parameters:
       - schema:
@@ -708,9 +869,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
-          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
           required: true
   /medical-records:
     post:
@@ -732,9 +893,9 @@ paths:
       parameters:
         - schema:
             type: string
-          in: cookie
-          name: token
-          description: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTQ5MzM1MDYsImp0aSI6ImFjNGYxMjZhLWJjZWEtNDk1Ny1iODJlLTZlNjk4MzBhNzIyYyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUiLCJuaXAiOiIyMDE1IDAyODE3MSA0NSIsInJvbGUiOiJET0NUT1IifQ.do9CzzcYIKwIUquiBser92Ala_VE3KUtVj2GqiV6cGY; Path=/; Expires=Sat, 11 Jun 2022 07:45:06 GMT; HttpOnly'
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
           required: true
       description: Create medical record by doctor.
       requestBody:
@@ -1354,7 +1515,6 @@ components:
                       reason:
                         type: string
                         example: must provide at least 2 characters
-        
     200_DoctorList:
       description: Example response
       content:
