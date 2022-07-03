@@ -37,3 +37,16 @@ func GrantDoctor(next echo.HandlerFunc) echo.HandlerFunc {
 		return next(c)
 	}
 }
+
+func GrantAdmin(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		authToken := utils.GetJwtTokenFromRequest(c)
+		claims, _ := utils.ExtractClaims(authToken)
+
+		if claims.Role != types.ADMIN {
+			return utils.CreateEchoResponse(c, http.StatusForbidden, nil)
+		}
+
+		return next(c)
+	}
+}
