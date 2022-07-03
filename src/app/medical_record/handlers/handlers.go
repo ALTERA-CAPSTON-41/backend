@@ -5,7 +5,6 @@ import (
 	"clinic-api/src/app/medical_record/handlers/request"
 	"clinic-api/src/app/medical_record/handlers/response"
 	"clinic-api/src/utils"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -21,8 +20,8 @@ type Handler struct {
 func (h *Handler) CreateMedicalRecordHandler(c echo.Context) error {
 	var medicalrecordRequest request.Request
 
-	claims := utils.GetJwtTokenFromRequest(c)
-	fmt.Println("cans", claims)
+	token := utils.GetJwtTokenFromRequest(c)
+	claims, _ := utils.ExtractClaims(token)
 
 	if err := c.Bind(&medicalrecordRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)

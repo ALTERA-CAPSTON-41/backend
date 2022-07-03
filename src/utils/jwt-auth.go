@@ -46,11 +46,10 @@ func SetJwtCookie(c echo.Context, token string) {
 	c.SetCookie(&authCookie)
 }
 
-func GetJwtTokenFromRequest(c echo.Context) *JwtCustomClaims {
+func GetJwtTokenFromRequest(c echo.Context) string {
 	authHeader := c.Request().Header[echo.HeaderAuthorization][0]
 	authToken := strings.Split(authHeader, "Bearer ")[1]
-	claims, _ := ExtractClaims(authToken)
-	return claims
+	return authToken
 }
 
 func ExtractClaims(tokenStr string) (*JwtCustomClaims, error) {
