@@ -5,6 +5,7 @@ import (
 	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"net/http"
+	"strings"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -20,14 +21,16 @@ func VerifyAuthentication() echo.MiddlewareFunc {
 		SigningKey:  []byte(cfg.JWTsecret),
 		ContextKey:  "token",
 		Claims:      jwt.MapClaims{},
-		TokenLookup: "cookie:token",
+		TokenLookup: "header:" + echo.HeaderAuthorization,
+		AuthScheme:  "Bearer",
 	})
 }
 
 func GrantDoctor(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		cookie, _ := c.Cookie("token")
-		claims, _ := utils.ExtractClaims(cookie.Value)
+		authHeader := c.Request().Header[echo.HeaderAuthorization][0]
+		authToken := strings.Split(authHeader, "Bearer ")[1]
+		claims, _ := utils.ExtractClaims(authToken)
 
 		if claims.Role != types.DOCTOR {
 			return utils.CreateEchoResponse(c, http.StatusForbidden, nil)
