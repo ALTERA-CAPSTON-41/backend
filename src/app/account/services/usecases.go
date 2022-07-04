@@ -32,6 +32,10 @@ func (uc *usecase) AttemptLogin(domain account.Domain) (token string, role types
 		if account, err = uc.repo.LookupDoctorByUserID(user.ID.String()); err != nil {
 			return "", "", err
 		}
+	} else if user.Role == types.NURSE {
+		if account, err = uc.repo.LookupNurseByUserID(user.ID.String()); err != nil {
+			return "", "", err
+		}
 	}
 
 	token, err = utils.GenerateJwt(user.ID.String(), account.Name, account.NIP, user.Role)

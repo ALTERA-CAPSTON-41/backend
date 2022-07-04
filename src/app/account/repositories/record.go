@@ -28,6 +28,12 @@ type Admin struct {
 	NIP    string `gorm:"column:nip"`
 }
 
+type Nurse struct {
+	UserID uuid.UUID `gorm:"primaryKey;size:191"`
+	Name   string
+	NIP    string `gorm:"column:nip"`
+}
+
 func (record *User) MapToDomain() account.Domain {
 	return account.Domain{
 		ID:       record.ID,
@@ -52,5 +58,14 @@ func (record *Doctor) MapToDomain() account.UserDataDomain {
 		Name: record.Name,
 		NIP:  record.NIP,
 		Role: types.DOCTOR,
+	}
+}
+
+func (record *Nurse) MapToDomain() account.UserDataDomain {
+	return account.UserDataDomain{
+		ID:   record.UserID,
+		Name: record.Name,
+		NIP:  record.NIP,
+		Role: types.NURSE,
 	}
 }

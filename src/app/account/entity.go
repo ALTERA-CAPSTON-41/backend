@@ -28,4 +28,5 @@ type Repositories interface {
 	LookupAccountByEmail(email string) (*Domain, error)
 	LookupDoctorByUserID(id string) (*UserDataDomain, error)
 	LookupAdminByUserID(id string) (*UserDataDomain, error)
+	LookupNurseByUserID(id string) (*UserDataDomain, error)
 }
