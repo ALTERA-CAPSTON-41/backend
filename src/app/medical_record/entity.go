@@ -52,7 +52,8 @@ type Services interface {
 }
 
 type Repositories interface {
-	SelectDataByPatientNIK(nik string) ([]Domain, error)
+	SelectPatientIDByNIK(nik string) (string, error)
+	SelectDataByPatientID(id string) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	LookupICD10Data(icd10Code string) (ICD10Description string, err error)
 	InsertData(domain Domain) (id string, err error)
