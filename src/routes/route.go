@@ -63,7 +63,7 @@ func New() *echo.Echo {
 	queue.POST("", caHandler.Queue.CreateQueueHandler, middlewares.GrantAdmin)
 	queue.GET("", caHandler.Queue.ShowAllQueuesHandler)
 	queue.PUT("/:id", caHandler.Queue.AmendQueueByIDHandler)
-	queue.DELETE("/:id", caHandler.Queue.RemoveQueueByIDHandler)
+	queue.DELETE("/:id", caHandler.Queue.RemoveQueueByIDHandler, middlewares.GrantAdmin)
 
 	authenticatedRoute.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
 
