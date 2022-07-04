@@ -719,6 +719,11 @@ paths:
           in: header
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
+        - schema:
+            type: string
+          in: query
+          name: polyclinic
+          description: '1'
     post:
       summary: Create New Queue
       operationId: post-queues
