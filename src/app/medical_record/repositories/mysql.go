@@ -5,7 +5,6 @@ import (
 	"clinic-api/src/utils"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"gorm.io/gorm"
@@ -33,11 +32,8 @@ func (repo *repository) LookupICD10Data(icd10Code string) (ICD10Description stri
 		return "", err
 	}
 
-	defer resp.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-
 	var body ICDResponse
-	json.Unmarshal(bodyBytes, &body)
+	json.NewDecoder(resp.Body).Decode(&body)
 
 	return body.Description, nil
 }

@@ -4,7 +4,6 @@ import (
 	"clinic-api/src/app/icd10"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -18,11 +17,8 @@ func (repo *repository) SearchDataByCode(code string) ([]icd10.Domain, error) {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-
 	var body Data
-	json.Unmarshal(bodyBytes, &body)
+	json.NewDecoder(resp.Body).Decode(&body)
 
 	return MapToBatchDomain(body.Search), nil
 }
