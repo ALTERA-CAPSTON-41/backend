@@ -23,7 +23,12 @@ func (uc *usecase) FindMedicalRecordByID(id string) (*medicalrecord.Domain, erro
 
 // FindMedicalRecordByPatientNIK implements medicalrecord.Services
 func (uc *usecase) FindMedicalRecordByPatientNIK(nik string) ([]medicalrecord.Domain, error) {
-	return uc.repo.SelectDataByPatientNIK(nik)
+	id, err := uc.repo.SelectPatientIDByNIK(nik)
+	if err != nil {
+		return nil, err
+	}
+
+	return uc.repo.SelectDataByPatientID(id)
 }
 
 func NewServices(repo medicalrecord.Repositories) medicalrecord.Services {
