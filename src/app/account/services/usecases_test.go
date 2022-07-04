@@ -19,14 +19,19 @@ var (
 
 	sampleDoctorUUID uuid.UUID
 	sampleAdminUUID  uuid.UUID
+	sampleNurseUUID  uuid.UUID
 
 	sampleDoctorAccountDomain account.Domain
 	sampleAdminAccountDomain  account.Domain
+	sampleNurseAccountDomain  account.Domain
 
 	sampleDoctorUserDataDomain account.UserDataDomain
 	sampleAdminUserDataDomain  account.UserDataDomain
+	sampleNurseUserDataDomain  account.UserDataDomain
 
 	samplePassword string
+
+	sampleNIP string
 )
 
 func TestMain(m *testing.M) {
@@ -34,9 +39,12 @@ func TestMain(m *testing.M) {
 
 	sampleDoctorUUID = uuid.Must(uuid.NewRandom())
 	sampleAdminUUID = uuid.Must(uuid.NewRandom())
+	sampleNurseUUID = uuid.Must(uuid.NewRandom())
 
 	samplePassword = "thestrongestpassword"
 	hashedSamplePassword, _ := utils.CreateHash(samplePassword)
+
+	sampleNIP = "2015 031033 32"
 
 	sampleDoctorAccountDomain = account.Domain{
 		ID:       sampleDoctorUUID,
@@ -50,18 +58,30 @@ func TestMain(m *testing.M) {
 		Password: hashedSamplePassword,
 		Role:     types.ADMIN,
 	}
+	sampleNurseAccountDomain = account.Domain{
+		ID:       sampleNurseUUID,
+		Email:    "nurse.capstone@example.com",
+		Password: hashedSamplePassword,
+		Role:     types.NURSE,
+	}
 
 	sampleDoctorUserDataDomain = account.UserDataDomain{
 		ID:   sampleDoctorUUID,
 		Name: "dr. Capstone",
-		NIP:  "2015 031033 32",
+		NIP:  sampleNIP,
 		Role: types.ADMIN,
 	}
 	sampleAdminUserDataDomain = account.UserDataDomain{
 		ID:   sampleAdminUUID,
 		Name: "Admin Capstone",
-		NIP:  "2015 031033 32",
+		NIP:  sampleNIP,
 		Role: types.ADMIN,
+	}
+	sampleNurseUserDataDomain = account.UserDataDomain{
+		ID:   sampleNurseUUID,
+		Name: "Nurse Capstone",
+		NIP:  sampleNIP,
+		Role: types.NURSE,
 	}
 
 	os.Exit(m.Run())
@@ -161,6 +181,56 @@ func TestAttemptLogin(t *testing.T) {
 
 		mockRepo.On("LookupAccountByEmail", loginData.Email).
 			Return(&sampleAdminAccountDomain, nil).Once()
+		token, role, err := services.AttemptLogin(loginData)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
+	})
+
+	// nurse tests
+	t.Run("should got nurse login information", func(t *testing.T) {
+		loginData := account.Domain{
+			Email:    sampleNurseAccountDomain.Email,
+			Password: samplePassword,
+		}
+
+		mockRepo.On("LookupAccountByEmail", loginData.Email).
+			Return(&sampleNurseAccountDomain, nil).Once()
+		mockRepo.On("LookupNurseByUserID", sampleNurseAccountDomain.ID.String()).
+			Return(&sampleNurseUserDataDomain, nil).Once()
+		token, role, err := services.AttemptLogin(loginData)
+
+		assert.Nil(t, err)
+		assert.NotEqual(t, "", token)
+		assert.Equal(t, types.NURSE, role)
+	})
+
+	t.Run("should got database error while querying nurse data", func(t *testing.T) {
+		loginData := account.Domain{
+			Email:    sampleNurseAccountDomain.Email,
+			Password: samplePassword,
+		}
+
+		mockRepo.On("LookupAccountByEmail", loginData.Email).
+			Return(&sampleNurseAccountDomain, nil).Once()
+		mockRepo.On("LookupNurseByUserID", sampleNurseAccountDomain.ID.String()).
+			Return(nil, errors.New("something error with database")).Once()
+		token, role, err := services.AttemptLogin(loginData)
+
+		assert.NotNil(t, err)
+		assert.Equal(t, "", token)
+		assert.Equal(t, types.UserRoleEnum(""), role)
+	})
+
+	t.Run("should got wrong passphrase nurse account error", func(t *testing.T) {
+		loginData := account.Domain{
+			Email:    sampleNurseAccountDomain.Email,
+			Password: "anotherpassword",
+		}
+
+		mockRepo.On("LookupAccountByEmail", loginData.Email).
+			Return(&sampleNurseAccountDomain, nil).Once()
 		token, role, err := services.AttemptLogin(loginData)
 
 		assert.NotNil(t, err)
