@@ -75,7 +75,7 @@ func (repo *repository) SelectDataByPatientID(id string) ([]medicalrecord.Domain
 	if err := repo.DB.
 		Preload("Patient").
 		Preload("Doctor").Preload("Polyclinic").
-		Find(&records, "id = ?", id).Error; err != nil {
+		Find(&records, "patient_id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return MapToBatchDomain(records), nil
