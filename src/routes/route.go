@@ -5,10 +5,12 @@ import (
 	"clinic-api/src/middlewares"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo {
 	route := echo.New()
+	route.Use(middleware.CORS())
 	caHandler := adapters.Init()
 
 	// docs
