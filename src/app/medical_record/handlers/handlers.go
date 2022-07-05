@@ -43,6 +43,22 @@ func (h *Handler) CreateMedicalRecordHandler(c echo.Context) error {
 	)
 }
 
+// onShowByPatientID
+func (h *Handler) ShowMedicalRecordByPatientIDHandler(c echo.Context) error {
+	data, err := h.services.FindMedicalRecordByPatientID(c.Param("id"))
+
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
+		}
+
+		utils.CreateLog(c, err.Error())
+		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
+	}
+
+	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToBatchResponse(data))
+}
+
 // onShowByPateintNIK
 func (h *Handler) ShowMedicalRecordByPatientNIKHandler(c echo.Context) error {
 	data, err := h.services.FindMedicalRecordByPatientNIK(c.Param("nik"))
