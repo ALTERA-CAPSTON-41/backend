@@ -70,7 +70,8 @@ func New() *echo.Echo {
 	// medical record
 	medicalRecord := authenticatedRoute.Group("/medical-records", middlewares.VerifyAuthentication())
 	medicalRecord.POST("", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
-	medicalRecord.GET("/patient/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
+	medicalRecord.GET("/patient/id/:id", caHandler.MedicalRecord.ShowMedicalRecordByPatientIDHandler)
+	medicalRecord.GET("/patient/nik/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
 	medicalRecord.GET("/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
 
 	return route

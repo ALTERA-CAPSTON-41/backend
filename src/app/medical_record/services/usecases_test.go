@@ -121,9 +121,31 @@ func TestCreateMedicalRecord(t *testing.T) {
 	})
 }
 
+func TestGetAllMedicalRecordByPatientID(t *testing.T) {
+	t.Run("should found some records", func(t *testing.T) {
+		mockRepo.On("SelectDataByPatientID", sampleDomain.Patient.ID.String()).
+			Return(sampleDomainList, nil).Once()
+		domains, err := services.FindMedicalRecordByPatientID(sampleDomain.Patient.ID.String())
+
+		assert.Nil(t, err)
+		assert.Greater(t, len(domains), 0)
+	})
+
+	t.Run("should got database error", func(t *testing.T) {
+		mockRepo.On("SelectDataByPatientID", sampleDomain.Patient.ID.String()).
+			Return(nil, errors.New("can't connect to the database")).Once()
+		domains, err := services.FindMedicalRecordByPatientID(sampleDomain.Patient.ID.String())
+
+		assert.NotNil(t, err)
+		assert.Nil(t, domains)
+	})
+}
+
 func TestGetAllMedicalRecordByPatientNIK(t *testing.T) {
 	t.Run("should found some records", func(t *testing.T) {
-		mockRepo.On("SelectDataByPatientNIK", sampleDomain.Patient.NIK).
+		mockRepo.On("SelectPatientIDByNIK", sampleDomain.Patient.NIK).
+			Return(sampleDomain.Patient.ID.String(), nil).Once()
+		mockRepo.On("SelectDataByPatientID", sampleDomain.Patient.ID.String()).
 			Return(sampleDomainList, nil).Once()
 		domains, err := services.FindMedicalRecordByPatientNIK(sampleDomain.Patient.NIK)
 
@@ -131,8 +153,19 @@ func TestGetAllMedicalRecordByPatientNIK(t *testing.T) {
 		assert.Greater(t, len(domains), 0)
 	})
 
-	t.Run("should get database error", func(t *testing.T) {
-		mockRepo.On("SelectDataByPatientNIK", sampleDomain.Patient.NIK).
+	t.Run("should got database error", func(t *testing.T) {
+		mockRepo.On("SelectPatientIDByNIK", sampleDomain.Patient.NIK).
+			Return("", errors.New("can't connect to the database")).Once()
+		domains, err := services.FindMedicalRecordByPatientNIK(sampleDomain.Patient.NIK)
+
+		assert.NotNil(t, err)
+		assert.Zero(t, domains)
+	})
+
+	t.Run("should got an error while select data by patient id", func(t *testing.T) {
+		mockRepo.On("SelectPatientIDByNIK", sampleDomain.Patient.NIK).
+			Return(sampleDomain.Patient.ID.String(), nil).Once()
+		mockRepo.On("SelectDataByPatientID", sampleDomain.Patient.ID.String()).
 			Return(nil, errors.New("can't connect to the database")).Once()
 		domains, err := services.FindMedicalRecordByPatientNIK(sampleDomain.Patient.NIK)
 
@@ -141,7 +174,8 @@ func TestGetAllMedicalRecordByPatientNIK(t *testing.T) {
 	})
 
 	t.Run("should get no data", func(t *testing.T) {
-		mockRepo.On("SelectDataByPatientNIK", sampleDomain.Patient.NIK).
+		mockRepo.On("SelectPatientIDByNIK", sampleDomain.Patient.NIK).Return(sampleDomain.Patient.ID.String(), nil).Once()
+		mockRepo.On("SelectDataByPatientID", sampleDomain.Patient.ID.String()).
 			Return(nil, errors.New("record not found"))
 		domains, err := services.FindMedicalRecordByPatientNIK(sampleDomain.Patient.NIK)
 

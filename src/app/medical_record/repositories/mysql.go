@@ -54,14 +54,24 @@ func (repo *repository) SelectDataByID(id string) (*medicalrecord.Domain, error)
 	return &result, nil
 }
 
-// SelectDataByPatientNIK implements medicalrecord.Repositories
-func (repo *repository) SelectDataByPatientNIK(nik string) ([]medicalrecord.Domain, error) {
+// SelectPatientIDByNIK implements medicalrecord.Repositories
+func (repo *repository) SelectPatientIDByNIK(nik string) (string, error) {
+	var id string
+	if err := repo.DB.Model(&Patient{}).Select("id").First(&id, "nik = ?", nik).Error; err != nil {
+		return "", err
+	}
+
+	return id, nil
+}
+
+// SelectDataByPatientID implements medicalrecord.Repositories
+func (repo *repository) SelectDataByPatientID(id string) ([]medicalrecord.Domain, error) {
 	var records []MedicalRecord
 
 	if err := repo.DB.
-		Joins("JOIN patients ON patients.nik = ?", nik).Preload("Patient").
+		Preload("Patient").
 		Preload("Doctor").Preload("Polyclinic").
-		Find(&records).Error; err != nil {
+		Find(&records, "patient_id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return MapToBatchDomain(records), nil

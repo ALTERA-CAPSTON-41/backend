@@ -47,12 +47,14 @@ type PolyclinicReference struct {
 
 type Services interface {
 	FindMedicalRecordByID(id string) (*Domain, error)
+	FindMedicalRecordByPatientID(patientID string) ([]Domain, error)
 	FindMedicalRecordByPatientNIK(nik string) ([]Domain, error)
 	CreateMedicalRecord(domain Domain) (id string, err error)
 }
 
 type Repositories interface {
-	SelectDataByPatientNIK(nik string) ([]Domain, error)
+	SelectPatientIDByNIK(nik string) (string, error)
+	SelectDataByPatientID(id string) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	LookupICD10Data(icd10Code string) (ICD10Description string, err error)
 	InsertData(domain Domain) (id string, err error)
