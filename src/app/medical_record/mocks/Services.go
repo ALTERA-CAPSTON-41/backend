@@ -59,6 +59,29 @@ func (_m *Services) FindMedicalRecordByID(id string) (*medicalrecord.Domain, err
 	return r0, r1
 }
 
+// FindMedicalRecordByPatientID provides a mock function with given fields: patientID
+func (_m *Services) FindMedicalRecordByPatientID(patientID string) ([]medicalrecord.Domain, error) {
+	ret := _m.Called(patientID)
+
+	var r0 []medicalrecord.Domain
+	if rf, ok := ret.Get(0).(func(string) []medicalrecord.Domain); ok {
+		r0 = rf(patientID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]medicalrecord.Domain)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(patientID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // FindMedicalRecordByPatientNIK provides a mock function with given fields: nik
 func (_m *Services) FindMedicalRecordByPatientNIK(nik string) ([]medicalrecord.Domain, error) {
 	ret := _m.Called(nik)
