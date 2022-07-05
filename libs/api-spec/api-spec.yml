@@ -822,7 +822,34 @@ paths:
         '500':
           $ref: '#/components/responses/500_InternalServerError'
       operationId: get-icd10-code
-  '/medical-records/patient/{nik}':
+  '/medical-records/patient/id/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Medical Record List by patient id lookup
+      tags:
+        - Medical Record
+      responses:
+        '200':
+          $ref: '#/components/responses/200_MedicalRecordList'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      operationId: get-medical-records-patient-nik
+      description: Get list of medical record based on patient NIK.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
+          required: true
+  '/medical-records/patient/nik/{nik}':
     parameters:
       - schema:
           type: string
