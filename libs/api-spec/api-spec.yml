@@ -830,7 +830,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Medical Record List by patient id lookup
+      summary: Medical Record List by patient ID lookup
       tags:
         - Medical Record
       responses:
@@ -840,8 +840,8 @@ paths:
           $ref: '#/components/responses/401_Unauthorized'
         '500':
           $ref: '#/components/responses/500_InternalServerError'
-      operationId: get-medical-records-patient-nik
-      description: Get list of medical record based on patient NIK.
+      operationId: get-medical-records-patient-id
+      description: Get list of medical record based on patient ID.
       parameters:
         - schema:
             type: string
