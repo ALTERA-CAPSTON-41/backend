@@ -47,6 +47,7 @@ type PolyclinicReference struct {
 
 type Services interface {
 	FindMedicalRecordByID(id string) (*Domain, error)
+	FindMedicalRecordByPatientID(patientID string) ([]Domain, error)
 	FindMedicalRecordByPatientNIK(nik string) ([]Domain, error)
 	CreateMedicalRecord(domain Domain) (id string, err error)
 }
