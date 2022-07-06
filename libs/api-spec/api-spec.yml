@@ -22,6 +22,7 @@ tags:
   - name: Doctor
   - name: ICD10
   - name: Medical Record
+  - name: Prescription
   - name: Nurse
   - name: Patient
   - name: Polyclinic
@@ -932,6 +933,100 @@ paths:
       description: Create medical record by doctor.
       requestBody:
         $ref: '#/components/requestBodies/NewMedicalRecord'
+  '/prescriptions/medical-record/{id}':
+    get:
+      summary: Prescription by medical record ID lookup
+      operationId: get-prescriptions-medical-record-id
+      tags:
+        - Prescription
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/200_Prescription'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+  '/prescriptions/{id}':
+    parameters:
+      - schema:
+          type: string
+        in: header
+        name: Authorization
+        description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
+        required: true
+      - schema:
+          type: string
+        in: path
+        name: id
+        required: true
+    put:
+      summary: Update Prescription by ID
+      operationId: put-prescriptions-id
+      tags:
+        - Prescription
+      requestBody:
+        $ref: '#/components/requestBodies/ExistingPrescription'
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+    delete:
+      summary: Delete prescription by ID
+      operationId: delete-prescription-id
+      tags:
+        - Prescription
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+  /prescriptions:
+    post:
+      summary: Add Prescription
+      operationId: post-prescriptions
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
+          required: true
+      tags:
+        - Prescription
+      requestBody:
+        $ref: '#/components/requestBodies/NewPrescription'
+      responses:
+        '201':
+          $ref: '#/components/responses/201_CreatePrescription'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
 components:
   schemas:
     Login:
@@ -1393,6 +1488,28 @@ components:
             id: 2
             name: General
       description: Model of Medical Record.
+    Prescription:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 899cc146-3cff-45ce-bc41-32515de0c882
+        name:
+          type: string
+          example: Paracetamol 500mg
+        quantity:
+          type: integer
+          example: 10
+        dosage:
+          type: string
+          example: 3x1
+        preparatory:
+          type: string
+          example: tablet
+        description:
+          type: string
+          example: after meals
+      description:  Model of Prescription
     ICD10:
       type: object
       properties:
@@ -1453,6 +1570,19 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/ICD10'
+    200_Prescription:
+      description: example response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_200OK'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Prescription'
     204_NoContent:
       description: Example response
       content:
@@ -1842,6 +1972,21 @@ components:
                 properties:
                   data:
                     $ref: '#/components/schemas/MedicalRecord'
+    201_CreatePrescription:
+      description: Example Response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Meta_201Created'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 899cc146-3cff-45ce-bc41-32515de0c882
   requestBodies:
     Login:
       content:
@@ -2256,3 +2401,49 @@ components:
                 type: integer
                 example: 1
       description: Request body to create new medical record.
+    NewPrescription:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              medical_record_id:
+                type: string
+                example: 516a962a-802f-41f5-a2e0-c315146ad2d4
+              name:
+                type: string
+                example: Paracetamol 500mg
+              quantity:
+                type: integer
+                example: 10
+              dosage:
+                type: string
+                example: 3x1
+              preparatory:
+                type: string
+                example: tablet
+              description:
+                type: string
+                example: after meals
+      description: Request body to create new prescription
+    ExistingPrescription:
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                type: string
+                example: Paracetamol 500mg
+              quantity:
+                type: integer
+                example: 10
+              dosage:
+                type: string
+                example: 3x1
+              preparatory:
+                type: string
+                example: tablet
+              description:
+                type: string
+                example: after meals
+      description: Request body to update prescription
