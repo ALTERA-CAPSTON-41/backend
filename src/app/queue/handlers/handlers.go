@@ -38,13 +38,26 @@ func (h *Handler) CreateQueueHandler(c echo.Context) error {
 
 // onShowAll
 func (h *Handler) ShowAllQueuesHandler(c echo.Context) error {
-	polyclinic := c.QueryParam("polyclinic")
+	var polyclinic int
+	strPolyclinic := c.QueryParam("polyclinic")
+	if strPolyclinic != "" {
+		var err error
+		polyclinic, err = strconv.Atoi(strPolyclinic)
+		if err != nil {
+			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
+		}
+	}
+
 	fromDate := c.QueryParam("from-date")
 	page, _ := strconv.Atoi(c.QueryParam("page"))
-	data, err := h.services.GetAllQueues(polyclinic, fromDate, page)
+	data, err := h.services.GetAllQueues(fromDate, polyclinic, page)
 	if err != nil {
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
+	}
+
+	if data == nil {
+		return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 	}
 
 	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToBatchResponse(data))
