@@ -39,9 +39,9 @@ func (h *Handler) CreateQueueHandler(c echo.Context) error {
 // onShowAll
 func (h *Handler) ShowAllQueuesHandler(c echo.Context) error {
 	polyclinic := c.QueryParam("polyclinic")
-	from := c.QueryParam("from")
+	fromDate := c.QueryParam("from-date")
 	page, _ := strconv.Atoi(c.QueryParam("page"))
-	data, err := h.services.GetAllQueues(polyclinic, from, page)
+	data, err := h.services.GetAllQueues(polyclinic, fromDate, page)
 	if err != nil {
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
