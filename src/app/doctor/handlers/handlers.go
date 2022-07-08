@@ -9,11 +9,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	services doctor.Services
+	services  doctor.Services
+	validator *validator.Validate
 }
 
 // onCreate
@@ -21,6 +23,10 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 	var doctorRequest request.NewRequest
 
 	if err := c.Bind(&doctorRequest); err != nil {
+		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if err := h.validator.Struct(doctorRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
 	}
 
@@ -103,5 +109,8 @@ func (h *Handler) RemoveDoctorByIDHandler(c echo.Context) error {
 }
 
 func NewHandler(service doctor.Services) *Handler {
-	return &Handler{service}
+	return &Handler{
+		service,
+		validator.New(),
+	}
 }
