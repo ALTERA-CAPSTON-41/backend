@@ -1,9 +1,9 @@
 package prescription_factories
 
 import (
-	"clinic-api/src/app/prescription/services"
 	prescription_handlers "clinic-api/src/app/prescription/handlers"
 	prescription_repositories "clinic-api/src/app/prescription/repositories"
+	"clinic-api/src/app/prescription/services"
 
 	"gorm.io/gorm"
 )
