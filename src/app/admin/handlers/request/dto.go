@@ -5,8 +5,8 @@ import "clinic-api/src/app/admin"
 type NewRequest struct {
 	Name      string `json:"name"`
 	NIPNumber string `json:"nip"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+	Email     string `json:"email" validate:"required,email"`
+	Password  string `json:"password" validate:"required,min=8"`
 }
 
 type UpdateRequest struct {
