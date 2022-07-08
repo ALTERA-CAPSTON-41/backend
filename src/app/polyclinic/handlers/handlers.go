@@ -62,6 +62,21 @@ func (h *Handler) ShowPolyclinicByIDHandler(c echo.Context) error {
 	return utils.CreateEchoResponse(c, http.StatusOK, response.MapToResponse(*data))
 }
 
+// onShowAllWithStats
+func (h *Handler) ShowAllPolyclinicsWithStatsHandler(c echo.Context) error {
+	data, err := h.services.GetAllPolyclinicsWithStats()
+	if err != nil {
+		utils.CreateLog(c, err.Error())
+		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
+	}
+
+	return utils.CreateEchoResponse(
+		c,
+		http.StatusOK,
+		response.MapToBatchResponseWithStats(data),
+	)
+}
+
 // onUpdate
 func (h *Handler) AmendPolyclinicByIDHandler(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))

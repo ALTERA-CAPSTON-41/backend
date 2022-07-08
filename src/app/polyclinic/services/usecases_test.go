@@ -11,19 +11,24 @@ import (
 )
 
 var (
-	mockRepo                 mocks.Repositories
-	services                 polyclinic.Services
-	sampleDomainList         []polyclinic.Domain
-	sampleDomainUmum         polyclinic.Domain
-	sampleDomainUmumWithNoID polyclinic.Domain
-	sampleIDUmum             int
-	sampleIDMata             int
+	mockRepo                  mocks.Repositories
+	services                  polyclinic.Services
+	sampleDomainList          []polyclinic.Domain
+	sampleDomainUmum          polyclinic.Domain
+	sampleDomainListWithStats []polyclinic.Domain
+	sampleDomainUmumWithNoID  polyclinic.Domain
+	sampleIDUmum              int
+	sampleIDMata              int
+	sampleTotalDoctor         int
+	sampleTotalNurse          int
 )
 
 func TestMain(m *testing.M) {
 	services = NewService(&mockRepo)
 	sampleIDUmum = 1
 	sampleIDMata = 2
+	sampleTotalDoctor = 10
+	sampleTotalNurse = 15
 
 	sampleDomainUmum = polyclinic.Domain{
 		ID:   sampleIDUmum,
@@ -34,7 +39,22 @@ func TestMain(m *testing.M) {
 		sampleDomainUmum,
 		{
 			ID:   sampleIDMata,
-			Name: "umum",
+			Name: "mata",
+		},
+	}
+
+	sampleDomainListWithStats = []polyclinic.Domain{
+		{
+			ID:          sampleIDUmum,
+			Name:        "umum",
+			TotalDoctor: sampleTotalDoctor,
+			TotalNurse:  sampleTotalNurse,
+		},
+		{
+			ID:          sampleIDMata,
+			Name:        "mata",
+			TotalDoctor: sampleTotalDoctor,
+			TotalNurse:  sampleTotalNurse,
 		},
 	}
 
@@ -75,6 +95,48 @@ func TestGetAllPolyclinics(t *testing.T) {
 		mockRepo.On("SelectAllData").
 			Return(nil, errors.New("can't connect to the database")).Once()
 		result, err := services.GetAllPolyclinics()
+
+		assert.NotNil(t, err)
+		assert.Nil(t, result)
+	})
+}
+
+func TestGetAllPolyclinicsWithStats(t *testing.T) {
+	t.Run("should got all data", func(t *testing.T) {
+		mockRepo.On("SelectAllData").Return(sampleDomainList, nil).Once()
+		for _, domain := range sampleDomainList {
+			mockRepo.On("CountDoctorByPolyclinic", domain.ID).Return(sampleTotalDoctor, nil).Once()
+			mockRepo.On("CountNurseByPolyclinic", domain.ID).Return(sampleTotalNurse, nil).Once()
+		}
+		result, err := services.GetAllPolyclinicsWithStats()
+
+		assert.Nil(t, err)
+		assert.Greater(t, len(result), 1)
+
+	})
+
+	t.Run("should got database error", func(t *testing.T) {
+		mockRepo.On("SelectAllData").Return(nil, errors.New("can't connect to the database")).Once()
+		result, err := services.GetAllPolyclinicsWithStats()
+
+		assert.NotNil(t, err)
+		assert.Nil(t, result)
+	})
+
+	t.Run("should got an error while counting doctor", func(t *testing.T) {
+		mockRepo.On("SelectAllData").Return(sampleDomainList, nil).Once()
+		mockRepo.On("CountDoctorByPolyclinic", sampleIDUmum).Return(0, errors.New("whoa there is an error")).Once()
+		result, err := services.GetAllPolyclinicsWithStats()
+
+		assert.NotNil(t, err)
+		assert.Nil(t, result)
+	})
+
+	t.Run("should got an error while counting nurse", func(t *testing.T) {
+		mockRepo.On("SelectAllData").Return(sampleDomainList, nil).Once()
+		mockRepo.On("CountDoctorByPolyclinic", sampleIDUmum).Return(sampleTotalDoctor, nil).Once()
+		mockRepo.On("CountNurseByPolyclinic", sampleIDUmum).Return(0, errors.New("whoa there is an error")).Once()
+		result, err := services.GetAllPolyclinicsWithStats()
 
 		assert.NotNil(t, err)
 		assert.Nil(t, result)

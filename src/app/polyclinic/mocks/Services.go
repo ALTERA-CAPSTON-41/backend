@@ -73,6 +73,29 @@ func (_m *Services) GetAllPolyclinics() ([]polyclinic.Domain, error) {
 	return r0, r1
 }
 
+// GetAllPolyclinicsWithStats provides a mock function with given fields:
+func (_m *Services) GetAllPolyclinicsWithStats() ([]polyclinic.Domain, error) {
+	ret := _m.Called()
+
+	var r0 []polyclinic.Domain
+	if rf, ok := ret.Get(0).(func() []polyclinic.Domain); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]polyclinic.Domain)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func() error); ok {
+		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetPolyclinicByID provides a mock function with given fields: id
 func (_m *Services) GetPolyclinicByID(id int) (*polyclinic.Domain, error) {
 	ret := _m.Called(id)

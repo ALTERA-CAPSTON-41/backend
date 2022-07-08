@@ -63,6 +63,20 @@ func (repo *repository) DeleteByID(id int) error {
 	return deletion.Error
 }
 
+// CountDoctorByPolyclinic implements polyclinic.Repositories
+func (repo *repository) CountDoctorByPolyclinic(polyclinic int) (int, error) {
+	var total int64
+	err := repo.DB.Table("doctors").Where("polyclinic_id = ? AND deleted_at IS NULL", polyclinic).Count(&total).Error
+	return int(total), err
+}
+
+// CountNurseByPolyclinic implements polyclinic.Repositories
+func (repo *repository) CountNurseByPolyclinic(polyclinic int) (int, error) {
+	var total int64
+	err := repo.DB.Table("nurses").Where("polyclinic_id = ? AND deleted_at IS NULL", polyclinic).Count(&total).Error
+	return int(total), err
+}
+
 func NewMySQLRepository(DB *gorm.DB) polyclinic.Repositories {
 	return &repository{DB}
 }

@@ -36,6 +36,7 @@ func New() *echo.Echo {
 	polyclinic := authenticatedRoute.Group("/polyclinics")
 	polyclinic.POST("", caHandler.Polyclinic.CreatePolyclinicHandler, middlewares.GrantAdmin)
 	polyclinic.GET("", caHandler.Polyclinic.ShowAllPolyclinicsHandler)
+	polyclinic.GET("/stats", caHandler.Polyclinic.ShowAllPolyclinicsWithStatsHandler)
 	polyclinic.GET("/:id", caHandler.Polyclinic.ShowPolyclinicByIDHandler)
 	polyclinic.PUT("/:id", caHandler.Polyclinic.AmendPolyclinicByIDHandler, middlewares.GrantAdmin)
 	polyclinic.DELETE("/:id", caHandler.Polyclinic.RemovePolyclinicByIDHandler, middlewares.GrantAdmin)
