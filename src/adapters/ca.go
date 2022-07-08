@@ -21,6 +21,8 @@ import (
 	patient_handlers "clinic-api/src/app/patient/handlers"
 	polyclinic_factories "clinic-api/src/app/polyclinic/factories"
 	polyclinic_handlers "clinic-api/src/app/polyclinic/handlers"
+	prescription_factories "clinic-api/src/app/prescription/factories"
+	prescription_handlers "clinic-api/src/app/prescription/handlers"
 	queue_factories "clinic-api/src/app/queue/factories"
 	queue_handlers "clinic-api/src/app/queue/handlers"
 	"clinic-api/src/database"
@@ -38,6 +40,7 @@ type handlers struct {
 	Dashboard     dashboard_handlers.Handler
 	MedicalRecord medicalrecord_handlers.Handler
 	ICD10         icd10_handlers.Handler
+	Presciption   prescription_handlers.Handler
 }
 
 func Init() handlers {
@@ -55,5 +58,6 @@ func Init() handlers {
 		Dashboard:     dashboard_factories.Factory(conn.DB),
 		MedicalRecord: medicalrecord_factories.Factory(conn.DB),
 		ICD10:         icd10_factories.Factory(),
+		Presciption:   prescription_factories.Factory(conn.DB),
 	}
 }

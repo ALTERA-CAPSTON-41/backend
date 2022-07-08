@@ -74,14 +74,14 @@ func (h *Handler) ShowPatientByIDHandler(c echo.Context) error {
 
 // onUpdate
 func (h *Handler) AmendPatientByIDHandler(c echo.Context) error {
-	var adminRequest request.Request
+	var patientRequest request.Request
 	id := c.Param("id")
 
-	if err := c.Bind(&adminRequest); err != nil {
+	if err := c.Bind(&patientRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
 	}
 
-	if err := h.services.AmendPatientByID(id, adminRequest.MapToDomain()); err != nil {
+	if err := h.services.AmendPatientByID(id, patientRequest.MapToDomain()); err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
 		}

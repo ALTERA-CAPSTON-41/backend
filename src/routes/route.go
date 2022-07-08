@@ -70,11 +70,18 @@ func New() *echo.Echo {
 	authenticatedRoute.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
 
 	// medical record
-	medicalRecord := authenticatedRoute.Group("/medical-records", middlewares.VerifyAuthentication())
+	medicalRecord := authenticatedRoute.Group("/medical-records")
 	medicalRecord.POST("", caHandler.MedicalRecord.CreateMedicalRecordHandler, middlewares.GrantDoctor)
 	medicalRecord.GET("/patient/id/:id", caHandler.MedicalRecord.ShowMedicalRecordByPatientIDHandler)
 	medicalRecord.GET("/patient/nik/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
 	medicalRecord.GET("/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
+
+	// prescription
+	prescription := authenticatedRoute.Group("/prescriptions")
+	prescription.POST("", caHandler.Presciption.CreatePrescriptionHandler, middlewares.GrantDoctor)
+	prescription.GET("/medical-record/:id", caHandler.Presciption.ShowAllPresciptionsByIDHandler)
+	prescription.PUT("/:id", caHandler.Presciption.AmendPrescriptionByIDHandler, middlewares.GrantDoctor)
+	prescription.DELETE("/:id", caHandler.Presciption.RemovePrescriptionByIDHandler, middlewares.GrantDoctor)
 
 	return route
 }

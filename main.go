@@ -8,6 +8,7 @@ import (
 	nurse_repositories "clinic-api/src/app/nurse/repositories"
 	patient_repositories "clinic-api/src/app/patient/repositories"
 	polyclinic_repositories "clinic-api/src/app/polyclinic/repositories"
+	prescription_repositories "clinic-api/src/app/prescription/repositories"
 	queue_repositories "clinic-api/src/app/queue/repositories"
 	"clinic-api/src/database"
 	"clinic-api/src/routes"
@@ -28,6 +29,7 @@ func init() {
 		queue_repositories.Queue{},
 		nurse_repositories.Nurse{},
 		medicalrecord_repositories.MedicalRecord{},
+		prescription_repositories.Presciption{},
 	)
 
 	client := database.InitDB()
