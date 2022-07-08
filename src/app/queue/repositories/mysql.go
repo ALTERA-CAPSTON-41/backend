@@ -34,8 +34,8 @@ func (repo *repository) InsertData(data queue.Domain) (string, error) {
 
 // SelectAllData implements queue.Repositories
 func (repo *repository) SelectAllData(
-	polyclinic,
 	fromDate string,
+	polyclinic,
 	offset int,
 ) ([]queue.Domain, error) {
 	var (
@@ -44,8 +44,8 @@ func (repo *repository) SelectAllData(
 		byDate       = " AND daily_queue_date = CURDATE()"
 	)
 
-	if polyclinic != "" {
-		byPolyclinic = fmt.Sprint(" AND polyclinic_id = ", polyclinic)
+	if polyclinic != 0 {
+		byPolyclinic = fmt.Sprintf(" AND polyclinic_id = %d", polyclinic)
 	}
 
 	if fromDate != "" {

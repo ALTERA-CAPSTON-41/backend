@@ -724,7 +724,14 @@ paths:
             type: string
           in: query
           name: polyclinic
-          description: '1'
+          description: 'Get by polyclinic id'
+          example: 1
+        - schema:
+            type: string
+          in: query
+          name: from-date
+          description: 'Get from date to latest'
+          example: '2021-06-14'
     post:
       summary: Create New Queue
       operationId: post-queues
