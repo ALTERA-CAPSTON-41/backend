@@ -9,14 +9,15 @@ import (
 )
 
 type Response struct {
-	ID               uuid.UUID           `json:"id"`
-	Symptoms         string              `json:"symptoms"`
-	ICD10Code        string              `json:"icd10_code"`
-	ICD10Description string              `json:"icd10_description"`
-	Suggestions      string              `json:"suggestions"`
-	Patient          PatientReference    `json:"patient"`
-	Doctor           DoctorReference     `json:"doctor"`
-	Polyclinic       PolyclinicReference `json:"polyclinic"`
+	ID               uuid.UUID               `json:"id"`
+	PatientStatus    types.PatientStatusEnum `json:"patient_status"`
+	Symptoms         string                  `json:"symptoms"`
+	ICD10Code        string                  `json:"icd10_code"`
+	ICD10Description string                  `json:"icd10_description"`
+	Suggestions      string                  `json:"suggestions"`
+	Patient          PatientReference        `json:"patient"`
+	Doctor           DoctorReference         `json:"doctor"`
+	Polyclinic       PolyclinicReference     `json:"polyclinic"`
 }
 
 type PatientReference struct {
@@ -51,6 +52,7 @@ type CreateResponse struct {
 func MapToResponse(domain medicalrecord.Domain) Response {
 	return Response{
 		ID:               domain.ID,
+		PatientStatus:    domain.PatientStatus,
 		Symptoms:         domain.Symptoms,
 		ICD10Code:        domain.ICD10Code,
 		ICD10Description: domain.ICD10Description,

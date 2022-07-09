@@ -13,6 +13,7 @@ import (
 type MedicalRecord struct {
 	gorm.Model
 	ID               uuid.UUID `gorm:"primaryKey;size:191"`
+	PatientStatus    types.PatientStatusEnum
 	Symptoms         string
 	ICD10Code        string
 	ICD10Description string
@@ -56,6 +57,7 @@ type ICDResponse struct {
 func (mr *MedicalRecord) MapToDomain() medicalrecord.Domain {
 	return medicalrecord.Domain{
 		ID:               mr.ID,
+		PatientStatus:    mr.PatientStatus,
 		Symptoms:         mr.Symptoms,
 		ICD10Code:        mr.ICD10Code,
 		ICD10Description: mr.ICD10Description,
@@ -89,6 +91,7 @@ func (mr *MedicalRecord) MapToDomain() medicalrecord.Domain {
 func MapToNewRecord(domain medicalrecord.Domain) MedicalRecord {
 	return MedicalRecord{
 		ID:               uuid.Must(uuid.NewRandom()),
+		PatientStatus:    domain.PatientStatus,
 		Symptoms:         domain.Symptoms,
 		ICD10Code:        domain.ICD10Code,
 		ICD10Description: domain.ICD10Description,

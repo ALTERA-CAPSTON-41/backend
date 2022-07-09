@@ -9,6 +9,7 @@ import (
 
 type Domain struct {
 	ID               uuid.UUID
+	PatientStatus    types.PatientStatusEnum
 	Symptoms         string
 	ICD10Code        string
 	ICD10Description string
