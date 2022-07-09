@@ -23,6 +23,10 @@ type CreateResponse struct {
 	ID string `json:"id"`
 }
 
+type ErrorResponse struct {
+	Reason string `json:"reason"`
+}
+
 func MapToResponse(domain patient.Domain) Response {
 	return Response{
 		ID:        domain.ID,
