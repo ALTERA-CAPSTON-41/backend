@@ -27,7 +27,11 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(patientRequest); err != nil {
-		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: validation(err.Error())},
+		)
 	}
 
 	id, err := h.services.CreatePatient(patientRequest.MapToDomain())
@@ -88,7 +92,11 @@ func (h *Handler) AmendPatientByIDHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(patientRequest); err != nil {
-		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: validation(err.Error())},
+		)
 	}
 
 	if err := h.services.AmendPatientByID(id, patientRequest.MapToDomain()); err != nil {
@@ -122,4 +130,11 @@ func NewHandler(service patient.Services) *Handler {
 		service,
 		validator.New(),
 	}
+}
+
+func validation(err string) string {
+	if strings.Contains(err, "NIK") {
+		return "nik is invalid"
+	}
+	return "phone is invalid"
 }

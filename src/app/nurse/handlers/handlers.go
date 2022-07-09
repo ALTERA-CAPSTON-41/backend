@@ -26,7 +26,23 @@ func (h *Handler) CreateNurseHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(nurseRequest); err != nil {
-		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+		if strings.Contains(err.Error(), "email") {
+			return utils.CreateEchoResponse(
+				c,
+				http.StatusBadRequest,
+				response.ErrorResponse{Reason: "email is invalid"},
+			)
+		}
+
+		if strings.Contains(err.Error(), "password") {
+			return utils.CreateEchoResponse(
+				c,
+				http.StatusBadRequest,
+				response.ErrorResponse{
+					Reason: "password must have at least 8 characters",
+				},
+			)
+		}
 	}
 
 	id, err := h.services.CreateNurse(nurseRequest.MapToDomain())
