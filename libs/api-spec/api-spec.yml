@@ -1416,33 +1416,6 @@ components:
           type: string
     MedicalRecord:
       type: object
-      x-examples:
-        example-1:
-          id: 899cc146-3cff-45ce-bc41-32515de0c882
-          patient_satatus: OUTPATIENT
-          symptoms: panas
-          icd10_code: A750
-          icd10_description: Epidemic louse-borne typhus fever due to Rickettsia prowazekii
-          suggestions: ketemu dia
-          patient:
-            id: 516a962a-802f-41f5-a2e0-c315146ad2d4
-            name: capstone
-            nik: '241092980'
-            phone: '825020882'
-            address: 'North Way Street, Antartica Regency'
-            dob: '1997-08-10T07:00:00+07:00'
-            age: 24
-            gender: MALE
-            blood_type: A
-          doctor:
-            id: 8d01edf9-72ca-40b4-a1dd-20b614d597e7
-            name: dr. Capstone X
-            nip: 2015 028171 45
-            sip: SIP.89173.2015.12
-            gender: MALE
-          polyclinic:
-            id: 2
-            name: General
       description: Model of Medical Record.
       properties:
         id:
