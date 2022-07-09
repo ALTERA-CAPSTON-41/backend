@@ -27,23 +27,24 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(doctorRequest); err != nil {
-		if strings.Contains(err.Error(), "email") {
-			return utils.CreateEchoResponse(
-				c,
-				http.StatusBadRequest,
-				response.ErrorResponse{Reason: "email is invalid"},
-			)
+		var reason interface{}
+		if strings.Contains(err.Error(), "email") &&
+			strings.Contains(err.Error(), "Password") {
+			reason = []string{
+				"email is invalid",
+				"password must have at least 8 characters",
+			}
+		} else if strings.Contains(err.Error(), "email") {
+			reason = "email is invalid"
+		} else {
+			reason = "password must have at least 8 characters"
 		}
 
-		if strings.Contains(err.Error(), "password") {
-			return utils.CreateEchoResponse(
-				c,
-				http.StatusBadRequest,
-				response.ErrorResponse{
-					Reason: "password must have at least 8 characters",
-				},
-			)
-		}
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: reason},
+		)
 	}
 
 	id, err := h.services.CreateDoctor(doctorRequest.MapToDomain())

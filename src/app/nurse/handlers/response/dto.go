@@ -30,7 +30,7 @@ type CreateResponse struct {
 }
 
 type ErrorResponse struct {
-	Reason string `json:"reason"`
+	Reason interface{} `json:"reason"`
 }
 
 func MapToResponse(domain nurse.Domain) Response {
