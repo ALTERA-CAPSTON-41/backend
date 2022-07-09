@@ -34,6 +34,7 @@ func TestMain(m *testing.M) {
 
 	sampleDomain = medicalrecord.Domain{
 		ID:               sampleMedicalRecordUUID,
+		PatientStatus:    types.OUTPATIENT,
 		Symptoms:         "fever, sneeze",
 		ICD10Code:        "A750",
 		ICD10Description: "Epidemic louse-borne typhus fever due to Rickettsia prowazekii",
@@ -65,10 +66,11 @@ func TestMain(m *testing.M) {
 	sampleDomain.Patient.Age = utils.CountIntervalByYearRoundDown(sampleDomain.Patient.DOB, sampleDomain.CreatedAt)
 
 	sampleNewDomainInput = medicalrecord.Domain{
-		ID:          sampleMedicalRecordUUID,
-		Symptoms:    "fever, sneeze",
-		ICD10Code:   "A750",
-		Suggestions: "total rest 10 days",
+		ID:            sampleMedicalRecordUUID,
+		PatientStatus: types.OUTPATIENT,
+		Symptoms:      "fever, sneeze",
+		ICD10Code:     "A750",
+		Suggestions:   "total rest 10 days",
 		Patient: medicalrecord.PatientReference{
 			ID: samplePatientUUID,
 		},
