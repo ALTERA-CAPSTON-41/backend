@@ -2,10 +2,12 @@ package medicalrecord_repositories
 
 import (
 	medicalrecord "clinic-api/src/app/medical_record"
+	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -16,6 +18,11 @@ type repository struct {
 
 // InsertData implements medicalrecord.Repositories
 func (repo *repository) InsertData(domain medicalrecord.Domain) (id string, err error) {
+	// set default value of patient status
+	if strings.ToUpper(string(domain.PatientStatus)) != string(types.OUTPATIENT) ||
+		strings.ToUpper(string(domain.PatientStatus)) != string(types.REFERRED) {
+		domain.PatientStatus = types.OUTPATIENT
+	}
 	record := MapToNewRecord(domain)
 
 	if err := repo.DB.Create(&record).Error; err != nil {
