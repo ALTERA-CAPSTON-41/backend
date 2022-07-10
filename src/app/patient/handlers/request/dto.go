@@ -8,8 +8,8 @@ import (
 
 type Request struct {
 	Name      string `json:"name"`
-	NIK       string `json:"nik"`
-	Phone     string `json:"phone"`
+	NIK       string `json:"nik" validate:"numeric,min=16"`
+	Phone     string `json:"phone" validate:"numeric,min=10"`
 	Address   string `json:"address"`
 	DOB       string `json:"dob"`
 	Gender    string `json:"gender"`

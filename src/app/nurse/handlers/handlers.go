@@ -9,11 +9,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	services nurse.Services
+	services  nurse.Services
+	validator *validator.Validate
 }
 
 // onCreate
@@ -21,6 +23,27 @@ func (h *Handler) CreateNurseHandler(c echo.Context) error {
 	var nurseRequest request.NewRequest
 	if err := c.Bind(&nurseRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if err := h.validator.Struct(nurseRequest); err != nil {
+		var reason interface{}
+		if strings.Contains(err.Error(), "email") &&
+			strings.Contains(err.Error(), "Password") {
+			reason = []string{
+				"email is invalid",
+				"password must have at least 8 characters",
+			}
+		} else if strings.Contains(err.Error(), "email") {
+			reason = "email is invalid"
+		} else {
+			reason = "password must have at least 8 characters"
+		}
+
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: reason},
+		)
 	}
 
 	id, err := h.services.CreateNurse(nurseRequest.MapToDomain())
@@ -98,5 +121,8 @@ func (h *Handler) RemoveNurseByIDHandler(c echo.Context) error {
 }
 
 func NewHandler(service nurse.Services) *Handler {
-	return &Handler{service}
+	return &Handler{
+		service,
+		validator.New(),
+	}
 }

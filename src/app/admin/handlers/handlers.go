@@ -8,11 +8,13 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	services admin.Services
+	services  admin.Services
+	validator *validator.Validate
 }
 
 // onCreate
@@ -20,6 +22,10 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 	var adminRequest request.NewRequest
 
 	if err := c.Bind(&adminRequest); err != nil {
+		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if err := h.validator.Struct(adminRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
 	}
 
@@ -101,5 +107,8 @@ func (h *Handler) RemoveAdminByIDHandler(c echo.Context) error {
 }
 
 func NewHandler(service admin.Services) *Handler {
-	return &Handler{service}
+	return &Handler{
+		service,
+		validator.New(),
+	}
 }

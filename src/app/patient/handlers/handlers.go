@@ -9,11 +9,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	services patient.Services
+	services  patient.Services
+	validator *validator.Validate
 }
 
 // onCreate
@@ -22,6 +24,14 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 
 	if err := c.Bind(&patientRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if err := h.validator.Struct(patientRequest); err != nil {
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: validation(err.Error())},
+		)
 	}
 
 	id, err := h.services.CreatePatient(patientRequest.MapToDomain())
@@ -81,6 +91,14 @@ func (h *Handler) AmendPatientByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
 	}
 
+	if err := h.validator.Struct(patientRequest); err != nil {
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: validation(err.Error())},
+		)
+	}
+
 	if err := h.services.AmendPatientByID(id, patientRequest.MapToDomain()); err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
@@ -108,5 +126,15 @@ func (h *Handler) RemovePatientByIDHandler(c echo.Context) error {
 }
 
 func NewHandler(service patient.Services) *Handler {
-	return &Handler{service}
+	return &Handler{
+		service,
+		validator.New(),
+	}
+}
+
+func validation(err string) string {
+	if strings.Contains(err, "NIK") {
+		return "nik is invalid"
+	}
+	return "phone is invalid"
 }
