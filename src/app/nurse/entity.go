@@ -34,7 +34,7 @@ type UserReference struct {
 
 type Services interface {
 	CreateNurse(nurse Domain) (string, error)
-	GetAllNurses(page int) ([]Domain, error)
+	GetAllNurses(polyclinic, page int) ([]Domain, error)
 	GetNurseByID(id string) (*Domain, error)
 	AmendNurseByID(id string, nurse Domain) error
 	RemoveNurseByID(id string) error
@@ -42,7 +42,7 @@ type Services interface {
 
 type Repositories interface {
 	InsertData(data Domain) (string, error)
-	SelectAllData(offset int) ([]Domain, error)
+	SelectAllData(polyclinic, offset int) ([]Domain, error)
 	SelectDataByID(id string) (*Domain, error)
 	LookupDataByEmail(email string) (string, error)
 	UpdateByID(id string, domain Domain) error

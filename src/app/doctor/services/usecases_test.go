@@ -104,17 +104,17 @@ func TestMain(m *testing.M) {
 
 func TestGetAllDoctors(t *testing.T) {
 	t.Run("should got all data", func(t *testing.T) {
-		mockRepo.On("SelectAllData", 0).Return(sampleDomainList, nil).Once()
-		result, err := services.GetAllDoctors(1)
+		mockRepo.On("SelectAllData", 0, 0).Return(sampleDomainList, nil).Once()
+		result, err := services.GetAllDoctors(0, 1)
 
 		assert.Nil(t, err)
 		assert.Greater(t, len(result), 0)
 	})
 
 	t.Run("should got server error", func(t *testing.T) {
-		mockRepo.On("SelectAllData", 0).
+		mockRepo.On("SelectAllData", 0, 0).
 			Return(nil, errors.New("can't connect to the database")).Once()
-		result, err := services.GetAllDoctors(1)
+		result, err := services.GetAllDoctors(0, 1)
 
 		assert.NotNil(t, err)
 		assert.Nil(t, result)

@@ -3,6 +3,7 @@ package doctor_repositories
 import (
 	"clinic-api/src/app/doctor"
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -49,11 +50,17 @@ func (repo *repository) InsertData(data doctor.Domain) (string, error) {
 }
 
 // SelectAllData implements doctor.Repositories
-func (repo *repository) SelectAllData(offset int) ([]doctor.Domain, error) {
-	var records []Doctor
+func (repo *repository) SelectAllData(polyclinic, offset int) ([]doctor.Domain, error) {
+	var (
+		records []Doctor
+		query   string
+	)
+	if polyclinic != 0 {
+		query = fmt.Sprintf("polyclinic_id = %d", polyclinic)
+	}
 	err := repo.DB.Preload("User").Preload("Polyclinic").
 		Offset(offset).Limit(10).
-		Find(&records).Error
+		Find(&records, query).Error
 	return MapToBatchDomain(records), err
 }
 

@@ -24,9 +24,9 @@ func (uc *usecase) CreateNurse(nurse nurse.Domain) (string, error) {
 }
 
 // GetAllNurses implements nurse.Services
-func (uc *usecase) GetAllNurses(page int) ([]nurse.Domain, error) {
+func (uc *usecase) GetAllNurses(polyclinic, page int) ([]nurse.Domain, error) {
 	offset := (page - 1) * 10
-	return uc.repo.SelectAllData(offset)
+	return uc.repo.SelectAllData(polyclinic, offset)
 }
 
 // GetNurseByID implements nurse.Services

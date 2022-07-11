@@ -132,7 +132,14 @@ func NewHandler(service patient.Services) *Handler {
 	}
 }
 
-func validation(err string) string {
+func validation(err string) interface{} {
+	if strings.Contains(err, "NIK") &&
+		strings.Contains(err, "Phone") {
+		return []string{
+			"nik is invalid",
+			"phone is invalid",
+		}
+	}
 	if strings.Contains(err, "NIK") {
 		return "nik is invalid"
 	}
