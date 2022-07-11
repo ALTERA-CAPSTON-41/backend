@@ -221,7 +221,7 @@ func TestAmendMedicalRecordByID(t *testing.T) {
 	t.Run("should update record", func(t *testing.T) {
 		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
 			Return(icd10DescriptionOfA750, nil).Once()
-		mockRepo.On("UpdateDataByID", sampleNewDomainInput, samplePatientUUID.String()).
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
 			Return(nil).Once()
 		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
 
@@ -239,7 +239,7 @@ func TestAmendMedicalRecordByID(t *testing.T) {
 	t.Run("should return error not found", func(t *testing.T) {
 		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
 			Return(icd10DescriptionOfA750, nil).Once()
-		mockRepo.On("UpdateDataByID", sampleNewDomainInput, samplePatientUUID.String()).
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
 			Return(errors.New("record not found")).Once()
 		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
 
@@ -249,7 +249,7 @@ func TestAmendMedicalRecordByID(t *testing.T) {
 	t.Run("should return database error", func(t *testing.T) {
 		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
 			Return(icd10DescriptionOfA750, nil).Once()
-		mockRepo.On("UpdateDataByID", sampleNewDomainInput, samplePatientUUID.String()).
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
 			Return(errors.New("can't connect to the database")).Once()
 		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
 
