@@ -16,7 +16,9 @@ jobs:
         with:
           go-version: 1.18
       - name: running unit test
-        run: go test ./... -cover
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic
+      - name: upload static analysis
+        uses: codecov/codecov-action@v3
 
   build:
     name: build program
