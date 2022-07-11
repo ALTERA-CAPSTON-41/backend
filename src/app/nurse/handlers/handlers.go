@@ -64,8 +64,18 @@ func (h *Handler) CreateNurseHandler(c echo.Context) error {
 
 // onShowALl
 func (h *Handler) ShowAllNursesHandler(c echo.Context) error {
+	var polyclinic int
 	page, _ := strconv.Atoi(c.QueryParam("page"))
-	data, err := h.services.GetAllNurses(page)
+	strPolyclinic := c.QueryParam("polyclinic")
+	if strPolyclinic != "" {
+		var err error
+		polyclinic, err = strconv.Atoi(strPolyclinic)
+		if err != nil {
+			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
+		}
+	}
+
+	data, err := h.services.GetAllNurses(polyclinic, page)
 	if err != nil {
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
