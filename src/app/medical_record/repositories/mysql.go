@@ -5,6 +5,7 @@ import (
 	"clinic-api/src/types"
 	"clinic-api/src/utils"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -17,8 +18,14 @@ type repository struct {
 }
 
 // DeleteByID implements medicalrecord.Repositories
-func (*repository) DeleteByID(id string) error {
-	panic("unimplemented")
+func (repo *repository) DeleteByID(id string) error {
+	result := repo.DB.Where("ID = ?", id).Delete(new(MedicalRecord))
+
+	if result.RowsAffected == 0 {
+		return errors.New("record not found")
+	}
+
+	return result.Error
 }
 
 // InsertData implements medicalrecord.Repositories
@@ -90,8 +97,16 @@ func (repo *repository) SelectDataByPatientID(id string) ([]medicalrecord.Domain
 }
 
 // UpdateByID implements medicalrecord.Repositories
-func (*repository) UpdateByID(domain medicalrecord.Domain, id string) error {
-	panic("unimplemented")
+func (repo *repository) UpdateByID(domain medicalrecord.Domain, id string) error {
+	record := MapToExistingRecord(domain)
+	query := repo.DB.Where("ID = ?", id).Omit("ID").Updates(&record)
+
+	println(id, query)
+	if query.RowsAffected <= 0 && query.Error == nil {
+		return errors.New("record not found")
+	}
+
+	return query.Error
 }
 
 func NewMySQLRepository(conn *gorm.DB) medicalrecord.Repositories {

@@ -9,8 +9,12 @@ type usecase struct {
 }
 
 // AmendMedicalRecordByID implements medicalrecord.Services
-func (*usecase) AmendMedicalRecordByID(domain medicalrecord.Domain, id string) error {
-	panic("unimplemented")
+func (uc *usecase) AmendMedicalRecordByID(domain medicalrecord.Domain, id string) error {
+	var err error
+	if domain.ICD10Description, err = uc.repo.LookupICD10Data(domain.ICD10Code); err != nil {
+		return err
+	}
+	return uc.repo.UpdateByID(domain, id)
 }
 
 // CreateMedicalRecord implements medicalrecord.Services
@@ -42,8 +46,8 @@ func (uc *usecase) FindMedicalRecordByPatientNIK(nik string) ([]medicalrecord.Do
 }
 
 // RemoveMedicalRecordByID implements medicalrecord.Services
-func (*usecase) RemoveMedicalRecordByID(id string) error {
-	panic("unimplemented")
+func (uc *usecase) RemoveMedicalRecordByID(id string) error {
+	return uc.repo.DeleteByID(id)
 }
 
 func NewServices(repo medicalrecord.Repositories) medicalrecord.Services {
