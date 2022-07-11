@@ -102,6 +102,19 @@ func MapToNewRecord(domain medicalrecord.Domain) MedicalRecord {
 	}
 }
 
+func MapToExistingRecord(domain medicalrecord.Domain) MedicalRecord {
+	return MedicalRecord{
+		PatientStatus:    domain.PatientStatus,
+		Symptoms:         domain.Symptoms,
+		ICD10Code:        domain.ICD10Code,
+		ICD10Description: domain.ICD10Description,
+		Suggestions:      domain.Suggestions,
+		PolyclinicID:     domain.Polyclinic.ID,
+		PatientID:        domain.Patient.ID,
+		DoctorID:         domain.Doctor.ID,
+	}
+}
+
 func MapToBatchDomain(records []MedicalRecord) []medicalrecord.Domain {
 	var domains []medicalrecord.Domain
 
