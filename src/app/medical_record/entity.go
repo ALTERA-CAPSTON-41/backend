@@ -51,6 +51,8 @@ type Services interface {
 	FindMedicalRecordByPatientID(patientID string) ([]Domain, error)
 	FindMedicalRecordByPatientNIK(nik string) ([]Domain, error)
 	CreateMedicalRecord(domain Domain) (id string, err error)
+	AmendMedicalRecordByID(domain Domain, id string) error
+	RemoveMedicalRecordByID(id string) error
 }
 
 type Repositories interface {
@@ -59,4 +61,6 @@ type Repositories interface {
 	SelectDataByID(id string) (*Domain, error)
 	LookupICD10Data(icd10Code string) (ICD10Description string, err error)
 	InsertData(domain Domain) (id string, err error)
+	UpdateByID(domain Domain, id string) error
+	DeleteByID(id string) error
 }

@@ -16,6 +16,11 @@ type repository struct {
 	DB *gorm.DB
 }
 
+// DeleteByID implements medicalrecord.Repositories
+func (*repository) DeleteByID(id string) error {
+	panic("unimplemented")
+}
+
 // InsertData implements medicalrecord.Repositories
 func (repo *repository) InsertData(domain medicalrecord.Domain) (id string, err error) {
 	// set default value of patient status
@@ -82,6 +87,11 @@ func (repo *repository) SelectDataByPatientID(id string) ([]medicalrecord.Domain
 		return nil, err
 	}
 	return MapToBatchDomain(records), nil
+}
+
+// UpdateByID implements medicalrecord.Repositories
+func (*repository) UpdateByID(domain medicalrecord.Domain, id string) error {
+	panic("unimplemented")
 }
 
 func NewMySQLRepository(conn *gorm.DB) medicalrecord.Repositories {
