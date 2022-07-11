@@ -2361,17 +2361,20 @@ components:
             properties:
               patient_id:
                 type: string
+                example: 516a962a-802f-41f5-a2e0-c315146ad2d4
               polyclinic_id:
                 type: number
+                example: 1
               patient_status:
                 type: string
-              daily_queue_date:
-                type: string
+                enum:
+                  - OUTPATIENT
+                  - REFERRED
+                example: OUTPATIENT
           example:
             patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
             polyclinic_id: 1
             patient_status: OUTPATIENT
-            daily_queue_date: '2022-06-15'
     ExistingQueue:
       content:
         application/json:
