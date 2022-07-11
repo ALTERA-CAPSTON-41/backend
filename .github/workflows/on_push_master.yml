@@ -1,10 +1,7 @@
-name: "running unit test"
+name: "release and deploy"
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
     branches:
       - master
 
@@ -19,26 +16,13 @@ jobs:
         with:
           go-version: 1.18
       - name: running unit test
-        run: go test ./... -cover
-
-  build:
-    name: build program
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: setup go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.18
-      - name: build on go
-        run: go build main.go
+        run: go test ./... -coverprofile=coverage.txt -covermode=atomic
+      - name: upload static analysis
+        uses: codecov/codecov-action@v3
 
   release:
     name: semantic release
     runs-on: ubuntu-latest
-    needs:
-      - build
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -56,8 +40,6 @@ jobs:
       packages: write
       contents: read
     needs:
-      - unit-test
-      - build
       - release
     steps:
       - name: checkout
