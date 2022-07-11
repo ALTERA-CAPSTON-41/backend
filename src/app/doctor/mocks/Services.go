@@ -50,13 +50,13 @@ func (_m *Services) CreateDoctor(_a0 doctor.Domain) (string, error) {
 	return r0, r1
 }
 
-// GetAllDoctors provides a mock function with given fields: page
-func (_m *Services) GetAllDoctors(page int) ([]doctor.Domain, error) {
-	ret := _m.Called(page)
+// GetAllDoctors provides a mock function with given fields: polyclinic, page
+func (_m *Services) GetAllDoctors(polyclinic int, page int) ([]doctor.Domain, error) {
+	ret := _m.Called(polyclinic, page)
 
 	var r0 []doctor.Domain
-	if rf, ok := ret.Get(0).(func(int) []doctor.Domain); ok {
-		r0 = rf(page)
+	if rf, ok := ret.Get(0).(func(int, int) []doctor.Domain); ok {
+		r0 = rf(polyclinic, page)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]doctor.Domain)
@@ -64,8 +64,8 @@ func (_m *Services) GetAllDoctors(page int) ([]doctor.Domain, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(page)
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(polyclinic, page)
 	} else {
 		r1 = ret.Error(1)
 	}
