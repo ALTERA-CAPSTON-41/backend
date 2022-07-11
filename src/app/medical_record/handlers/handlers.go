@@ -120,12 +120,7 @@ func (h *Handler) ShowMedicalRecordByIDHandler(c echo.Context) error {
 
 // onRemove
 func (h *Handler) RemoveMedicalRecordByIDHandler(c echo.Context) error {
-	var medicalrecordRequest request.Request
 	id := c.Param("id")
-
-	if err := c.Bind(&medicalrecordRequest); err != nil {
-		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
-	}
 
 	if err := h.services.RemoveMedicalRecordByID(id); err != nil {
 		if strings.Contains(err.Error(), "not found") {
