@@ -76,8 +76,8 @@ func New() *echo.Echo {
 	medicalRecord.GET("/patient/id/:id", caHandler.MedicalRecord.ShowMedicalRecordByPatientIDHandler)
 	medicalRecord.GET("/patient/nik/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
 	medicalRecord.GET("/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
-	medicalRecord.PUT("/:id", caHandler.MedicalRecord.AmendMedicalRecordByIDHandler)
-	medicalRecord.DELETE("/:id", caHandler.MedicalRecord.RemoveMedicalRecordByIDHandler)
+	medicalRecord.PUT("/:id", caHandler.MedicalRecord.AmendMedicalRecordByIDHandler, middlewares.GrantDoctor)
+	medicalRecord.DELETE("/:id", caHandler.MedicalRecord.RemoveMedicalRecordByIDHandler, middlewares.GrantDoctor)
 
 	// prescription
 	prescription := authenticatedRoute.Group("/prescriptions")
