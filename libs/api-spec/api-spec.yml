@@ -2529,14 +2529,6 @@ components:
         application/json:
           schema:
             type: object
-            x-examples:
-              example-1:
-                patient_status: string
-                symptoms: 'fever, sneeze'
-                icd10_code: A750
-                suggestions: full rest 10 days
-                patient_id: 516a962a-802f-41f5-a2e0-c315146ad2d4
-                polyclinic_id: 1
             properties:
               patient_status:
                 type: string
@@ -2559,5 +2551,4 @@ components:
               polyclinic_id:
                 type: integer
                 example: 1
-          examples: {}
       description: ''
