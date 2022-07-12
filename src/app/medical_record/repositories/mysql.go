@@ -21,7 +21,7 @@ type repository struct {
 func (repo *repository) DeleteByID(id string) error {
 	result := repo.DB.Where("ID = ?", id).Delete(new(MedicalRecord))
 
-	if result.RowsAffected == 0 {
+	if result.RowsAffected == 0 && result.Error == nil {
 		return errors.New("record not found")
 	}
 
