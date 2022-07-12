@@ -16,6 +16,13 @@ type Request struct {
 	PolyclinicID  int    `json:"polyclinic_id"`
 }
 
+type UpdateRequest struct {
+	PatientStatus string `json:"patient_status"`
+	Symptoms      string `json:"symptoms"`
+	ICD10Code     string `json:"icd10_code"`
+	Suggestions   string `json:"suggestions"`
+}
+
 func (req *Request) MapToDomain() medicalrecord.Domain {
 	return medicalrecord.Domain{
 		PatientStatus: types.PatientStatusEnum(req.PatientStatus),
@@ -28,5 +35,14 @@ func (req *Request) MapToDomain() medicalrecord.Domain {
 		Polyclinic: medicalrecord.PolyclinicReference{
 			ID: req.PolyclinicID,
 		},
+	}
+}
+
+func (req *UpdateRequest) MapToDomain() medicalrecord.Domain {
+	return medicalrecord.Domain{
+		PatientStatus: types.PatientStatusEnum(req.PatientStatus),
+		Symptoms:      req.Symptoms,
+		ICD10Code:     req.ICD10Code,
+		Suggestions:   req.Suggestions,
 	}
 }

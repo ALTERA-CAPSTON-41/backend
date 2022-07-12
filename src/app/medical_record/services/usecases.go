@@ -8,6 +8,15 @@ type usecase struct {
 	repo medicalrecord.Repositories
 }
 
+// AmendMedicalRecordByID implements medicalrecord.Services
+func (uc *usecase) AmendMedicalRecordByID(domain medicalrecord.Domain, id string) error {
+	var err error
+	if domain.ICD10Description, err = uc.repo.LookupICD10Data(domain.ICD10Code); err != nil {
+		return err
+	}
+	return uc.repo.UpdateByID(domain, id)
+}
+
 // CreateMedicalRecord implements medicalrecord.Services
 func (uc *usecase) CreateMedicalRecord(domain medicalrecord.Domain) (id string, err error) {
 	if domain.ICD10Description, err = uc.repo.LookupICD10Data(domain.ICD10Code); err != nil {
@@ -34,6 +43,11 @@ func (uc *usecase) FindMedicalRecordByPatientNIK(nik string) ([]medicalrecord.Do
 	}
 
 	return uc.repo.SelectDataByPatientID(id)
+}
+
+// RemoveMedicalRecordByID implements medicalrecord.Services
+func (uc *usecase) RemoveMedicalRecordByID(id string) error {
+	return uc.repo.DeleteByID(id)
 }
 
 func NewServices(repo medicalrecord.Repositories) medicalrecord.Services {

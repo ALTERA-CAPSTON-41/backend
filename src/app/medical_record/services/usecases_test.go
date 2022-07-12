@@ -214,3 +214,71 @@ func TestGetMedicalRecordByID(t *testing.T) {
 		assert.Nil(t, domain)
 	})
 }
+
+func TestAmendMedicalRecordByID(t *testing.T) {
+	const icd10DescriptionOfA750 string = "Epidemic louse-borne typhus fever due to Rickettsia prowazekii"
+
+	t.Run("should update record", func(t *testing.T) {
+		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
+			Return(icd10DescriptionOfA750, nil).Once()
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
+			Return(nil).Once()
+		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
+
+		assert.Nil(t, err)
+	})
+
+	t.Run("should return error fetch external", func(t *testing.T) {
+		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
+			Return("", errors.New("can't get data from server")).Once()
+		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
+
+		assert.NotNil(t, err)
+	})
+
+	t.Run("should return error not found", func(t *testing.T) {
+		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
+			Return(icd10DescriptionOfA750, nil).Once()
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
+			Return(errors.New("record not found")).Once()
+		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
+
+		assert.NotNil(t, err)
+	})
+
+	t.Run("should return database error", func(t *testing.T) {
+		mockRepo.On("LookupICD10Data", sampleNewDomainInput.ICD10Code).
+			Return(icd10DescriptionOfA750, nil).Once()
+		mockRepo.On("UpdateByID", sampleNewDomainInput, samplePatientUUID.String()).
+			Return(errors.New("can't connect to the database")).Once()
+		err := services.AmendMedicalRecordByID(sampleNewDomainInput, samplePatientUUID.String())
+
+		assert.NotNil(t, err)
+	})
+}
+
+func TestRemoveMedicalRecordByID(t *testing.T) {
+	t.Run("should success remove record", func(t *testing.T) {
+		mockRepo.On("DeleteByID", samplePatientUUID.String()).
+			Return(nil).Once()
+		err := services.RemoveMedicalRecordByID(samplePatientUUID.String())
+
+		assert.Nil(t, err)
+	})
+
+	t.Run("should return not found error", func(t *testing.T) {
+		mockRepo.On("DeleteByID", samplePatientUUID.String()).
+			Return(errors.New("record not found")).Once()
+		err := services.RemoveMedicalRecordByID(samplePatientUUID.String())
+
+		assert.NotNil(t, err)
+	})
+
+	t.Run("should success remove record", func(t *testing.T) {
+		mockRepo.On("DeleteByID", samplePatientUUID.String()).
+			Return(errors.New("cn't connect to the database")).Once()
+		err := services.RemoveMedicalRecordByID(samplePatientUUID.String())
+
+		assert.NotNil(t, err)
+	})
+}

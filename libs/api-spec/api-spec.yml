@@ -925,6 +925,55 @@ paths:
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
           required: true
+    put:
+      summary: Medical Record Update by ID Lookup
+      operationId: put-medical-records-id
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '400':
+          $ref: '#/components/responses/400_BadRequest'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      requestBody:
+        $ref: '#/components/requestBodies/ExistingMedicalRecord'
+      tags:
+        - Medical Record
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
+          required: true
+    delete:
+      summary: Medical Record Delete by ID Lookup
+      operationId: delete-medical-records-id
+      responses:
+        '204':
+          $ref: '#/components/responses/204_NoContent'
+        '401':
+          $ref: '#/components/responses/401_Unauthorized'
+        '403':
+          $ref: '#/components/responses/403_Forbidden'
+        '404':
+          $ref: '#/components/responses/404_NotFound'
+        '500':
+          $ref: '#/components/responses/500_InternalServerError'
+      tags:
+        - Medical Record
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
   /medical-records:
     post:
       summary: Add Medical Record
@@ -2409,6 +2458,10 @@ components:
             properties:
               patient_status:
                 type: string
+                enum:
+                  - OUTPATIENT
+                  - REFERRED
+                example: OUTPATIENT
               symptoms:
                 type: string
                 example: 'fever, sneeze'
@@ -2471,3 +2524,25 @@ components:
                 type: string
                 example: after meals
       description: Request body to update prescription
+    ExistingMedicalRecord:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              patient_status:
+                type: string
+                enum:
+                  - OUTPATIENT
+                  - REFERRED
+                example: OUTPATIENT
+              symptoms:
+                type: string
+                example: fever
+              icd10_code:
+                type: string
+                example: A750
+              suggestions:
+                type: string
+                example: bed rest
+      description: ''
