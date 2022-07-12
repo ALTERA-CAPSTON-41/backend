@@ -2545,10 +2545,4 @@ components:
               suggestions:
                 type: string
                 example: bed rest
-              patient_id:
-                type: string
-                example: 516a962a-802f-41f5-a2e0-c315146ad2d4
-              polyclinic_id:
-                type: integer
-                example: 1
       description: ''
