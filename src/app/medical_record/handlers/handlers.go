@@ -18,7 +18,7 @@ type Handler struct {
 
 // onAmend
 func (h *Handler) AmendMedicalRecordByIDHandler(c echo.Context) error {
-	var medicalrecordRequest request.Request
+	var medicalrecordRequest request.UpdateRequest
 
 	token := utils.GetJwtTokenFromRequest(c)
 	claims, _ := utils.ExtractClaims((token))
