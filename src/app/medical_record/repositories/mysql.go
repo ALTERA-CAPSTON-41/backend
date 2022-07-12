@@ -101,7 +101,6 @@ func (repo *repository) UpdateByID(domain medicalrecord.Domain, id string) error
 	record := MapToExistingRecord(domain)
 	query := repo.DB.Where("ID = ?", id).Omit("ID").Updates(&record)
 
-	println(id, query)
 	if query.RowsAffected <= 0 && query.Error == nil {
 		return errors.New("record not found")
 	}
