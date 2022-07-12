@@ -2371,10 +2371,6 @@ components:
                   - OUTPATIENT
                   - REFERRED
                 example: OUTPATIENT
-          example:
-            patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-            polyclinic_id: 1
-            patient_status: OUTPATIENT
     ExistingQueue:
       content:
         application/json:
