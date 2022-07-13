@@ -30,7 +30,9 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(
 			c,
 			http.StatusBadRequest,
-			response.ErrorResponse{Reason: validation(err.Error())},
+			response.ErrorResponse{
+				Reason: validation(patientRequest.Name, err.Error()),
+			},
 		)
 	}
 
@@ -95,7 +97,9 @@ func (h *Handler) AmendPatientByIDHandler(c echo.Context) error {
 		return utils.CreateEchoResponse(
 			c,
 			http.StatusBadRequest,
-			response.ErrorResponse{Reason: validation(err.Error())},
+			response.ErrorResponse{
+				Reason: validation(patientRequest.Name, err.Error()),
+			},
 		)
 	}
 
@@ -132,16 +136,17 @@ func NewHandler(service patient.Services) *Handler {
 	}
 }
 
-func validation(err string) interface{} {
-	if strings.Contains(err, "NIK") &&
-		strings.Contains(err, "Phone") {
-		return []string{
-			"nik is invalid",
-			"phone is invalid",
-		}
+func validation(name, err string) (reasons []string) {
+	if !utils.ValidateName(name) {
+		reasons = append(reasons, "name is invalid")
 	}
+
 	if strings.Contains(err, "NIK") {
-		return "nik is invalid"
+		reasons = append(reasons, "nik is invalid")
 	}
-	return "phone is invalid"
+
+	if strings.Contains(err, "NIK") {
+		reasons = append(reasons, "phone is invalid")
+	}
+	return
 }
