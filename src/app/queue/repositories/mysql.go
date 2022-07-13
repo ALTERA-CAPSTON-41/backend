@@ -67,7 +67,9 @@ func (repo *repository) SelectAllData(
 // UpdateByID implements queue.Repositories
 func (repo *repository) UpdateByID(id string, data queue.Domain) error {
 	record := MapToExistingRecord(id, data)
-	alteration := repo.DB.Where("id", id).Updates(&record)
+	alteration := repo.DB.Where("id", id).
+		Omit("id", "patient_id", "daily_queue_date", "patient_status", "daily_queue_number").
+		Updates(&record)
 	if alteration.RowsAffected < 1 && alteration.Error == nil {
 		return errors.New("record not found")
 	}
