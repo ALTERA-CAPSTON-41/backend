@@ -13,7 +13,7 @@ type Patient struct {
 	gorm.Model
 	ID        uuid.UUID `gorm:"primaryKey;size:191"`
 	Name      string
-	NIK       string
+	NIK       string `gorm:"unique"`
 	Phone     string
 	Address   string
 	DOB       time.Time
