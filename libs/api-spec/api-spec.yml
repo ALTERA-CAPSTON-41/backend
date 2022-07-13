@@ -2377,16 +2377,9 @@ components:
           schema:
             type: object
             properties:
-              patient_id:
-                type: string
-              polyclinic_id:
-                type: integer
-              patient_status:
-                type: string
-              daily_queue_date:
-                type: string
               service_done_at:
                 type: string
+                example: '2022-07-13 08:41:02'
           example:
             patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
             polyclinic_id: 1
