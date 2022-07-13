@@ -26,7 +26,20 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(adminRequest); err != nil {
-		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+		var reason []string
+		if strings.Contains(err.Error(), "email") {
+			reason = append(reason, "email is invalid")
+		}
+
+		if strings.Contains(err.Error(), "Password") {
+			reason = append(reason, "password must have at least 8 characters")
+		}
+
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: reason},
+		)
 	}
 
 	id, err := h.services.CreateAdmin(adminRequest.MapToDomain())
