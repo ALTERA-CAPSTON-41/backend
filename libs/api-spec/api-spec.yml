@@ -2410,33 +2410,25 @@ components:
             properties:
               patient_id:
                 type: string
+                example: 516a962a-802f-41f5-a2e0-c315146ad2d4
               polyclinic_id:
                 type: number
+                example: 1
               patient_status:
                 type: string
-              daily_queue_date:
-                type: string
-          example:
-            patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
-            polyclinic_id: 1
-            patient_status: OUTPATIENT
-            daily_queue_date: '2022-06-15'
+                enum:
+                  - OUTPATIENT
+                  - REFERRED
+                example: OUTPATIENT
     ExistingQueue:
       content:
         application/json:
           schema:
             type: object
             properties:
-              patient_id:
-                type: string
-              polyclinic_id:
-                type: integer
-              patient_status:
-                type: string
-              daily_queue_date:
-                type: string
               service_done_at:
                 type: string
+                example: '2022-07-13 08:41:02'
           example:
             patient_id: 63fb1473-1a8e-4e44-afe5-c74a79260a3e
             polyclinic_id: 1
