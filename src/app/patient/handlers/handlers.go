@@ -38,6 +38,13 @@ func (h *Handler) CreatePatientHandler(c echo.Context) error {
 
 	id, err := h.services.CreatePatient(patientRequest.MapToDomain())
 	if err != nil {
+		if strings.Contains(err.Error(), "Duplicate entry") {
+			return utils.CreateEchoResponse(
+				c,
+				http.StatusBadRequest,
+				response.ErrorResponse{Reason: "NIK is already used"},
+			)
+		}
 		utils.CreateLog(c, err.Error())
 		return utils.CreateEchoResponse(c, http.StatusInternalServerError, nil)
 	}
