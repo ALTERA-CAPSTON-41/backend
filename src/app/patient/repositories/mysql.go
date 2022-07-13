@@ -16,7 +16,7 @@ type repository struct {
 func (repo *repository) DeleteByID(id string) error {
 	query := repo.DB.Where("id = ?", id).Delete(new(Patient))
 
-	if query.RowsAffected < 1 {
+	if query.RowsAffected < 1 && query.Error == nil {
 		return errors.New("record not found")
 	}
 	return query.Error
@@ -71,7 +71,7 @@ func (repo *repository) UpdateByID(id string, domain patient.Domain) error {
 	record := MapToExistingRecord(domain)
 	query := repo.DB.Where("id = ?", id).Omit("id").Updates(&record)
 
-	if query.RowsAffected < 1 {
+	if query.RowsAffected < 1 && query.Error == nil {
 		return errors.New("record not found")
 	}
 

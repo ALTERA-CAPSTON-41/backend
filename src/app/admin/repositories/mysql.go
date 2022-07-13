@@ -79,7 +79,7 @@ func (repo *repository) UpdateByID(id string, data admin.Domain) (err error) {
 	record := MapToExistingRecord(data)
 	alteration := repo.DB.Model(new(Admin)).Where("user_ID = ?", id).Updates(&record)
 
-	if alteration.RowsAffected == 0 {
+	if alteration.RowsAffected == 0 && alteration.Error == nil {
 		return errors.New("record not found")
 	}
 	return alteration.Error
