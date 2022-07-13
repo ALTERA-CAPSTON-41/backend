@@ -35,6 +35,10 @@ func (h *Handler) CreateAdminHandler(c echo.Context) error {
 			reason = append(reason, "password must have at least 8 characters")
 		}
 
+		if !utils.ValidateName(adminRequest.Name) {
+			reason = append(reason, "name is invalid")
+		}
+
 		return utils.CreateEchoResponse(
 			c,
 			http.StatusBadRequest,
@@ -91,6 +95,14 @@ func (h *Handler) AmendAdminByIDHandler(c echo.Context) error {
 
 	if err := c.Bind(&adminRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if !utils.ValidateName(adminRequest.Name) {
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: "name is invalid"},
+		)
 	}
 
 	if err := h.services.AmendAdminByID(id, adminRequest.MapToDomain()); err != nil {

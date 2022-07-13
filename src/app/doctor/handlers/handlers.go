@@ -27,17 +27,17 @@ func (h *Handler) CreateDoctorHandler(c echo.Context) error {
 	}
 
 	if err := h.validator.Struct(doctorRequest); err != nil {
-		var reason interface{}
-		if strings.Contains(err.Error(), "email") &&
-			strings.Contains(err.Error(), "Password") {
-			reason = []string{
-				"email is invalid",
-				"password must have at least 8 characters",
-			}
-		} else if strings.Contains(err.Error(), "email") {
-			reason = "email is invalid"
-		} else {
-			reason = "password must have at least 8 characters"
+		var reason []string
+		if strings.Contains(err.Error(), "email") {
+			reason = append(reason, "email is invalid")
+		}
+
+		if strings.Contains(err.Error(), "Password") {
+			reason = append(reason, "password must have at least 8 characters")
+		}
+
+		if !utils.ValidateName(doctorRequest.Name) {
+			reason = append(reason, "name is invalid")
 		}
 
 		return utils.CreateEchoResponse(
@@ -107,6 +107,14 @@ func (h *Handler) AmendDoctorByIDHandler(c echo.Context) error {
 
 	if err := c.Bind(&doctorRequest); err != nil {
 		return utils.CreateEchoResponse(c, http.StatusBadRequest, nil)
+	}
+
+	if !utils.ValidateName(doctorRequest.Name) {
+		return utils.CreateEchoResponse(
+			c,
+			http.StatusBadRequest,
+			response.ErrorResponse{Reason: "name is invalid"},
+		)
 	}
 
 	if err := h.services.AmendDoctorByID(id, doctorRequest.MapToDomain()); err != nil {
