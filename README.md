@@ -77,7 +77,42 @@ $ go mod download
 $ go build -o main
 ```
 
-After build, move with the `public` folder next to executable  file. Then, execute with `./main` command. 
+After build, move with the `public` folder next to executable  file. Then, execute with `./main` command. Finally, configure the `.env` file to be configured trough your own MySQL database.
+
+#### Docker Build 
+```sh
+# clone if you don't have the code base
+$ git clone git@github.com:ALTERA-CAPSTON-41/backend.git
+
+# build a docker image
+$ docker build -t clinic-backend-api .
+
+# create a container that running at port :19000
+$ docker run -dp 19000:8000 --name clinic-backend-api clinic-backend-api
+
+# copy .env file to your container
+$ docker cp ./app.env clinic-backend-api:/app/.
+
+# restart container
+$ docker restart clinic-backend-api
+```
+If you decide to use docker method, you need to run docker daemon and create the .env file first. Then deployment can be done.
+
+#### GHCR.io Image
+```sh
+# pull docker image at latest version
+$ docker pull ghcr.io/altera-capston-41/backend:latest
+
+# create a container that running at port :19000
+$ docker run -dp 19000:8000 --name clinic-backend-api ghcr.io/altera-capston-41/backend:latest
+
+# copy .env file to your container
+$ docker cp ./app.env clinic-backend-api:/app/.
+
+# restart container
+$ docker restart clinic-backend-api
+```
+If you decide to use docker method, you need to run docker daemon and create the .env file first. Then deployment can be done.
 
 ## Features
 
@@ -156,7 +191,7 @@ All of this source code are licensed under the MIT licenses. Although this sourc
       </td>
     </tr>
 </table>
-
+<!-- ALL-CONTRIBUTORS-LIST:FINISH -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
