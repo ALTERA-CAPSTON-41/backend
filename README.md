@@ -12,6 +12,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![semantic-release: angular][semantic-badge]][semantic-url]
+[![codecov][codecov-shield]][codecov-url]
   
 </div>
 
@@ -32,8 +33,8 @@
     </li>
     <li><a href="#features">Features</a></li>
     <li><a href="#license">License</a></li>
-    <!-- <li><a href="#contact">Contact</a></li>
-    <li><a href="#contributors">Contributors</a></li> -->
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contributors">Contributors</a></li>
   </ol>
 </details>
 
@@ -64,26 +65,52 @@ $ go run main.go
 
 ### Deployment Guide
 
-*Later...*
+#### Self-Build
+```sh
+# clone if you don't have the code base
+$ git clone git@github.com:ALTERA-CAPSTON-41/backend.git
+
+# install the dependencies
+$ go mod download
+
+# compile 
+$ go build -o main
+```
+
+After build, move with the `public` folder next to executable  file. Then, execute with `./main` command. 
 
 ## Features
 
-*Later...*
+### 📝 Medical Record
+Medical records are recorded by doctors after observing patients. In the medical record, the doctor also records the diagnosis of the disease experienced by the patient.
+
+Recording of diagnoses is carried out with ICD-10 standardization so that it is easier to read and document. Observation results including symptoms and suggestions can be documented in this feature.
+
+Medical records can only be made by a doctor. However, admins and nurses will only get read-only access to medical records. Because, recording the diagnosis from the results of observations can only be done by a doctor.
+
+### 🎫 Service Queue Manager
+Queue is done before the observation by the doctor. Queue registration is done by the admin with the data source from the patient's ID card (aka. KTP). This queue registration is focused on outpatient services and referral patients.
+
+This feature does not include the type of registration of patients with insurance or patients without it. In addition, it does not include financial management or cashier for service fees.
+
+### 💊 Prescription
+Drug prescriptions are written based on the diagnosis based on the observation by the doctor. This feature only focuses on recipe writing. Not included in the drug stock management feature.
 
 ## Licenses
 
 All of this source code are licensed under the MIT licenses. Although this source code is related to the Alterra Academy.
 
-<!-- ## Contact
+## Contact
 
-- Hamdan Yuwafi - <yuwafi.hamdan365@gmail.com> -->
+- Adhicitta Masran - <adhicittamasran@gmail.com>
+- Hamdan Yuwafi - <yuwafi.hamdan365@gmail.com>
 
-<!-- ## Contributors
+## Contributors
 
-Thanks goes to these wonderful people: -->
+✨ Thanks goes to these wonderful people who speed up the development process: 
 
 <!-- ALL-CONTRIBUTORS-LIST:START -->
-<!-- <table>
+<table>
     <tr>
         <td align="center">
             <a href="https://github.com/dhichii">
@@ -99,17 +126,36 @@ Thanks goes to these wonderful people: -->
                 <sub><b>Hamdan Yuwafi</b></sub>
             </a>
         </td>
-
+        <td align="center">
+            <a href="https://github.com/hudabikhoir">
+                <img src="https://avatars.githubusercontent.com/u/35209506?v=4?s=100" width="100px;" alt=""/>
+                <br />
+                <sub><b>Nur Huda Bikhoir</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/bimbimprasetyoafif">
+                <img src="https://avatars.githubusercontent.com/u/26946357?v=4?s=100" width="100px;" alt=""/>
+                <br />
+                <sub><b>Bimo Prasetyo Afif</b></sub>
+            </a>
+        </td>
     </tr>
     <tr>
       <td align="center">
-        as a main contributor.
+        Main Contributor
       </td>
       <td align="center">
-        as a mentor.
+        Main Contributor
+      </td>
+      <td align="center">
+        Mentor
+      </td>
+      <td align="center">
+        Mentor
       </td>
     </tr>
-</table> -->
+</table>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -122,3 +168,5 @@ Thanks goes to these wonderful people: -->
 [license-url]: https://github.com/ALTERA-CAPSTON-41/backend/blob/master/LICENSE
 [semantic-badge]: https://img.shields.io/badge/semantic--release-angular-e10079?style=for-the-badge&logo=semantic-release
 [semantic-url]: https://github.com/semantic-release/semantic-release
+[codecov-shield]: https://img.shields.io/codecov/c/gh/ALTERA-CAPSTON-41/backend?label=CODECOV&logo=codecov&style=for-the-badge&token=YL5V1QWP2I
+[codecov-url]: https://codecov.io/gh/ALTERA-CAPSTON-41/backend
