@@ -32,6 +32,7 @@
       </ul>
     </li>
     <li><a href="#features">Features</a></li>
+    <li><a href="#contribution-guide">Contribution Guide</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#contributors">Contributors</a></li>
@@ -135,6 +136,9 @@ This feature does not include the type of registration of patients with insuranc
 
 ### 💊 Prescription
 Drug prescriptions are written based on the diagnosis based on the observation by the doctor. This feature only focuses on recipe writing. Not included in the drug stock management feature.
+
+## Contribution Guide
+This project development follows trunk-based development. Which is, we don't use dev branch to test or deploy in staging. A complete guide can be read at [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Licenses
 
