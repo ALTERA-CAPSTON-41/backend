@@ -67,7 +67,7 @@ table admins {
 }
 
 table nurses {
-  id uuid [pk]
+  user_id uuid [pk]
   polyclinic_id integer
   name varchar
   nip varchar
@@ -80,10 +80,10 @@ table nurses {
   deleted_at datetime
 }
 
-table service_queues {
+table queues {
   id uuid [pk]
-  doctor_id uuid
   patient_id uuid 
+  polyclinic_id integer
   patient_status PatientStatus
   daily_queue_number integer
   daily_queue_date date
@@ -109,63 +109,36 @@ table medical_records {
 }
 
 table prescriptions {
-  medical_record_id uuid [pk]
-  created_at timestamp
-  updated_at datetime 
-  deleted_at datetime
-}
-
-enum MedicineType {
-  GENERIC
-  PATENT
-}
-
-table medicines {
-  id integer [pk]
+  id uuid [pk]
+  medical_record_id uuid
   name varchar
-  medicine_type MedicineType
+  quantity integer
+  dosage string
+  preparatory string 
+  description string
   created_at timestamp
   updated_at datetime 
   deleted_at datetime
 }
 
-enum MedicinePreparatory {
-  PULVIS
-  TABLET
-  SYRUP
-  
-}
+Ref: "admins"."user_id" - "users"."id"
 
-table medicine_prescription_pivots {
-  prescription_id uuid [pk]
-  medicine_id uuid [pk]
-  quantity integer
-  dosage varchar
-  preparatory varchar
-}
+Ref: "nurses"."user_id" - "users"."id"
 
-Ref: "nurses"."polyclinic_id" < "polyclinics"."id"
+Ref: "doctors"."user_id" - "users"."id"
 
 Ref: "doctors"."polyclinic_id" < "polyclinics"."id"
 
-Ref: "users"."id" - "admins"."user_id"
-
-Ref: "users"."id" - "nurses"."id"
-
-Ref: "users"."id" - "doctors"."user_id"
-
-Ref: "prescriptions"."medical_record_id" < "medical_records"."id"
-
-Ref: "medicine_prescription_pivots"."medicine_id" < "medicines"."id"
-
-Ref: "medicine_prescription_pivots"."prescription_id" < "prescriptions"."medical_record_id"
-
-Ref: "medical_records"."patient_id" < "patients"."id"
+Ref: "medical_records"."polyclinic_id" < "polyclinics"."id"
 
 Ref: "medical_records"."doctor_id" < "doctors"."user_id"
 
-Ref: "medical_records"."polyclinic_id" < "polyclinics"."id"
+Ref: "medical_records"."patient_id" < "patients"."id"
 
-Ref: "service_queues"."doctor_id" < "doctors"."user_id"
+Ref: "nurses"."polyclinic_id" < "polyclinics"."id"
 
-Ref: "service_queues"."patient_id" < "patients"."id"
+Ref: "prescriptions"."medical_record_id" < "medical_records"."id"
+
+Ref: "queues"."patient_id" < "patients"."id"
+
+Ref: "queues"."polyclinic_id" < "polyclinics"."id"
