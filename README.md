@@ -39,8 +39,11 @@
 </details>
 
 ## About The Project
+Hospital has its own business process to serve the community for healthcare. They will need data that can improve their services. Digitalization of health record will be saved a lot of time to documentate and to look up service data and the patients.
 
-*Later...*
+This project aims to help digitize data from health facilities. The target of this project is level 1 and 2 health facilities. It is hoped that these health facilities can improve their services without having to think about archiving patient data and medical records.
+
+However, the features in this project are limited to the main features. Not included in the service payment and inventory management module at the pharmacy, which should be used as another topic in the capstone project in this batch.
 
 ## Getting Started
 
