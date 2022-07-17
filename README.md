@@ -45,6 +45,8 @@ This project aims to help digitize data from health facilities. The target of th
 
 However, the features in this project are limited to the main features. Not included in the service payment and inventory management module at the pharmacy, which should be used as another topic in the capstone project in this batch.
 
+This project implements the REST method and applies a clean architecture structure. So, it can be applied and scaled up easily at any time. Source code written with commonly used provisions will make it easier to read and maintain even without annoying comments.
+
 ## Getting Started
 
 ### Prerequisites
