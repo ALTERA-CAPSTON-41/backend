@@ -2,9 +2,16 @@ openapi: 3.0.0
 x-stoplight:
   id: 54psv4pd3ezr9
 info:
-  title: clinic-backend-api
+  title: Clinic API - API Specification
   version: '1.0'
-  description: REST API for clinic management system.
+  description: |
+    Hospital has its own business process to serve the community for healthcare. They will need data that can improve their services. Digitalization of health record will be saved a lot of time to documentate and to look up service data and the patients.
+
+    This project aims to help digitize data from health facilities. The target of this project is level 1 and 2 health facilities. It is hoped that these health facilities can improve their services without having to think about archiving patient data and medical records.
+
+    However, the features in this project are limited to the main features. Not included in the service payment and inventory management module at the pharmacy, which should be used as another topic in the capstone project in this batch.
+
+    This project implements the REST method and applies a clean architecture structure. So, it can be applied and scaled up easily at any time. Source code written with commonly used provisions will make it easier to read and maintain even without annoying comments.
   license:
     name: MIT
   contact:
