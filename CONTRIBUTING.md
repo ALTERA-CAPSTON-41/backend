@@ -64,14 +64,14 @@ The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is opti
 #### Type
 Must be one of the following:
 
-**build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)  
-**ci**: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)  
-**docs**: Documentation only changes  
-**feat**: A new feature  
-**fix**: A bug fix  
-**perf**: A code change that improves performance  
-**refactor**: A code change that neither fixes a bug nor adds a feature  
-**test**: Adding missing tests or correcting existing tests
+- **build**: Changes that affect the build system or external dependencies (example scopes: go, docker)  
+- **ci**: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)  
+- **docs**: Documentation only changes  
+- **feat**: A new feature  
+- **fix**: A bug fix  
+- **perf**: A code change that improves performance  
+- **refactor**: A code change that neither fixes a bug nor adds a feature  
+- **test**: Adding missing tests or correcting existing tests
 
 #### Scopes 
 The scopes should be a libs' child folders or src/app child folder:
@@ -109,7 +109,7 @@ Use the summary field to provide a succinct description of the change:
 Currently, changes in the codespace or in the UI is not allowed, except on PR change request, you can apply them with following the commit conventions.
 
 ### Commit a Changes 
-We're recommend you (as a contributor) to commit by context with your work in your working branch. You shouldn't create a huge changes in a commit. Create a commit message descriptively and follows the commit conventions. When you've finished to change, you can publish your working branch and open a Pull Request.
+We're recommend you (as a contributor) to commit by context with your work in your working branch. You shouldn't create a huge changes in a commit. Create a commit message descriptively and follow the commit conventions. When you've finished to change, you can publish your working branch and open a Pull Request.
 
 ### Pull Request 
 When you finished a change, create a pull request (aka. PR):
