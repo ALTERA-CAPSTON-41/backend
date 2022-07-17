@@ -120,6 +120,13 @@ func (h *Handler) AmendAdminByIDHandler(c echo.Context) error {
 func (h *Handler) RemoveAdminByIDHandler(c echo.Context) error {
 	id := c.Param("id")
 
+	token := utils.GetJwtTokenFromRequest(c)
+	if payload, _ := utils.ExtractClaims(token); payload.Id == id {
+		return utils.CreateEchoResponse(c, http.StatusForbidden, response.ErrorResponse{
+			Reason: "can't self delete",
+		})
+	}
+
 	if err := h.services.RemoveAdminByID(id); err != nil {
 		if strings.Contains(err.Error(), "not found") {
 			return utils.CreateEchoResponse(c, http.StatusNotFound, nil)
