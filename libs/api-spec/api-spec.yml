@@ -417,9 +417,9 @@ paths:
           in: header
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
-    put:
+    patch:
       summary: Update Doctor by ID
-      operationId: put-doctors-id
+      operationId: patch-doctors-id
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
@@ -546,9 +546,9 @@ paths:
           in: header
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
-    put:
+    patch:
       summary: Update Nurse by ID
-      operationId: put-nurses-id
+      operationId: patch-nurses-id
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
@@ -670,9 +670,9 @@ paths:
           in: header
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
-    put:
+    patch:
       summary: Update Admin by ID
-      operationId: put-admins-id
+      operationId: patch-admins-id
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
@@ -782,9 +782,9 @@ paths:
         name: id
         in: path
         required: true
-    put:
+    patch:
       summary: Update Queue by ID
-      operationId: put-queues-id
+      operationId: patch-queues-id
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'
@@ -932,9 +932,9 @@ paths:
           name: Authorization
           description: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTY5MTUyMjQsImp0aSI6IjhkMDFlZGY5LTcyY2EtNDBiNC1hMWRkLTIwYjYxNGQ1OTdlNyIsIm5hbWUiOiJkci4gQ2Fwc3RvbmUgWCIsIm5pcCI6IjIwMTUgMDI4MTcxIDQ1Iiwicm9sZSI6IkRPQ1RPUiJ9.Nc9UNKO4fspncl0XYEOGIXYyZMfiVenWiS4tP_lf-fo
           required: true
-    put:
+    patch:
       summary: Medical Record Update by ID Lookup
-      operationId: put-medical-records-id
+      operationId: patch-medical-records-id
       responses:
         '204':
           $ref: '#/components/responses/204_NoContent'

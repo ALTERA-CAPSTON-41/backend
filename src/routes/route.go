@@ -45,27 +45,27 @@ func New() *echo.Echo {
 	doctor.POST("", caHandler.Doctor.CreateDoctorHandler, middlewares.GrantAdmin)
 	doctor.GET("", caHandler.Doctor.ShowAllDoctorsHandler)
 	doctor.GET("/:id", caHandler.Doctor.ShowDoctorByIDHandler)
-	doctor.PUT("/:id", caHandler.Doctor.AmendDoctorByIDHandler, middlewares.GrantAdmin)
+	doctor.PATCH("/:id", caHandler.Doctor.AmendDoctorByIDHandler, middlewares.GrantAdmin)
 	doctor.DELETE("/:id", caHandler.Doctor.RemoveDoctorByIDHandler, middlewares.GrantAdmin)
 
 	nurse := authenticatedRoute.Group("/nurses")
 	nurse.POST("", caHandler.Nurse.CreateNurseHandler, middlewares.GrantAdmin)
 	nurse.GET("", caHandler.Nurse.ShowAllNursesHandler)
 	nurse.GET("/:id", caHandler.Nurse.ShowNurseByIDHandler)
-	nurse.PUT("/:id", caHandler.Nurse.AmendNurseByIDHandler, middlewares.GrantAdmin)
+	nurse.PATCH("/:id", caHandler.Nurse.AmendNurseByIDHandler, middlewares.GrantAdmin)
 	nurse.DELETE("/:id", caHandler.Nurse.RemoveNurseByIDHandler, middlewares.GrantAdmin)
 
 	admin := authenticatedRoute.Group("/admins", middlewares.GrantAdmin)
 	admin.POST("", caHandler.Admin.CreateAdminHandler)
 	admin.GET("", caHandler.Admin.ShowAllAdminsHandler)
 	admin.GET("/:id", caHandler.Admin.ShowAdminByIDHandler)
-	admin.PUT("/:id", caHandler.Admin.AmendAdminByIDHandler)
+	admin.PATCH("/:id", caHandler.Admin.AmendAdminByIDHandler)
 	admin.DELETE("/:id", caHandler.Admin.RemoveAdminByIDHandler)
 
 	queue := authenticatedRoute.Group("/queues")
 	queue.POST("", caHandler.Queue.CreateQueueHandler, middlewares.GrantAdmin)
 	queue.GET("", caHandler.Queue.ShowAllQueuesHandler)
-	queue.PUT("/:id", caHandler.Queue.AmendQueueByIDHandler)
+	queue.PATCH("/:id", caHandler.Queue.AmendQueueByIDHandler)
 	queue.DELETE("/:id", caHandler.Queue.RemoveQueueByIDHandler, middlewares.GrantAdmin)
 
 	authenticatedRoute.GET("dashboards/:feature", caHandler.Dashboard.ShowTotalHandler)
@@ -76,7 +76,7 @@ func New() *echo.Echo {
 	medicalRecord.GET("/patient/id/:id", caHandler.MedicalRecord.ShowMedicalRecordByPatientIDHandler)
 	medicalRecord.GET("/patient/nik/:nik", caHandler.MedicalRecord.ShowMedicalRecordByPatientNIKHandler)
 	medicalRecord.GET("/:id", caHandler.MedicalRecord.ShowMedicalRecordByIDHandler)
-	medicalRecord.PUT("/:id", caHandler.MedicalRecord.AmendMedicalRecordByIDHandler, middlewares.GrantDoctor)
+	medicalRecord.PATCH("/:id", caHandler.MedicalRecord.AmendMedicalRecordByIDHandler, middlewares.GrantDoctor)
 	medicalRecord.DELETE("/:id", caHandler.MedicalRecord.RemoveMedicalRecordByIDHandler, middlewares.GrantDoctor)
 
 	// prescription
